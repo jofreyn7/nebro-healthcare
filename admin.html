@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nebro Admin | Dashboard</title>
+<link rel="icon" href="logo.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tailwind.css">
+<link rel="stylesheet" href="style.css">
+<script src="vendor/supabase.js"></script>
+<script src="supabase-config.js"></script>
+<script src="vendor/chart.umd.js"></script>
+<script src="vendor/jspdf.umd.min.js"></script>
+<script src="vendor/xlsx.full.min.js"></script>
+</head>
+<body class="antialiased" style="background:var(--paper)">
+
+<div class="admin-shell flex">
+
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="admin-sidebar w-64 shrink-0 hidden lg:flex flex-col fixed inset-y-0 left-0 z-40">
+    <div class="h-20 flex items-center gap-2 px-6 border-b border-white/10">
+      <img src="logo.png" alt="Nebro" class="h-8 w-8 rounded-full object-cover" />
+      <span class="font-display font-semibold text-lg text-white">nebro</span>
+      <span class="font-mono text-[10px] px-2 py-0.5 rounded-full ml-auto" style="background:var(--lime); color:var(--navy)">Admin</span>
+    </div>
+
+    <nav class="flex-1 p-4 space-y-1 overflow-y-auto">
+      <p class="font-mono text-[10px] uppercase tracking-widest text-white/40 px-3 mt-2 mb-2">Overview</p>
+      <a href="#" data-view="dashboard" class="admin-nav-link is-active">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+        Dashboard
+      </a>
+
+      <p class="font-mono text-[10px] uppercase tracking-widest text-white/40 px-3 mt-5 mb-2">Content</p>
+      <a href="#" data-view="products" class="admin-nav-link">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M20 7 12 3 4 7v10l8 4 8-4V7Z"/><path d="M4 7l8 4 8-4M12 11v10"/></svg>
+        Products
+      </a>
+      <a href="#" data-view="case-studies" class="admin-nav-link">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg>
+        Case Studies
+      </a>
+      <a href="#" data-view="inquiries" class="admin-nav-link">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10Z"/></svg>
+        Inquiries
+        <span id="inquiry-count-badge" class="ml-auto font-mono text-[10px] px-1.5 py-0.5 rounded-full" style="background:var(--lime); color:var(--navy)">3</span>
+      </a>
+      <a href="#" data-view="reports" class="admin-nav-link">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M3 3v18h18M7 15l4-5 3 3 5-7"/></svg>
+        Reports &amp; Analytics
+      </a>
+      <a href="#" data-view="content" class="admin-nav-link">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5Z"/></svg>
+        Site Content
+      </a>
+
+      <p class="font-mono text-[10px] uppercase tracking-widest text-white/40 px-3 mt-5 mb-2">System</p>
+      <a href="#" data-view="settings" class="admin-nav-link">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
+        Settings
+      </a>
+    </nav>
+
+    <div class="p-4 border-t border-white/10">
+      <a href="index.html" class="admin-nav-link">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg>
+        View live site
+      </a>
+    </div>
+  </aside>
+
+  <!-- ================= MAIN ================= -->
+  <div class="flex-1 lg:ml-64 min-w-0">
+
+    <!-- Topbar -->
+    <header class="sticky top-0 z-30 bg-white border-b hairline">
+      <div class="h-20 px-5 sm:px-8 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <button id="admin-mobile-toggle" class="lg:hidden w-10 h-10 flex items-center justify-center rounded-full border hairline shrink-0" aria-label="Toggle menu">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+          <div>
+            <h1 id="view-title" class="font-display font-semibold text-xl md:text-2xl tracking-tight" style="color:var(--navy)">Dashboard</h1>
+            <p class="text-xs mt-0.5 hidden sm:block" style="color:var(--grey)">Welcome back — here's what's happening today.</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-3 shrink-0">
+          <div class="hidden md:flex items-center gap-2 px-4 py-2.5 rounded-full border hairline">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <input type="text" placeholder="Search..." class="text-sm outline-none w-36 bg-transparent" />
+          </div>
+          <div class="w-10 h-10 rounded-full flex items-center justify-center font-mono text-xs font-semibold" style="background:var(--navy); color:var(--lime)">JN</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Mobile sidebar drawer -->
+    <div id="admin-mobile-nav" class="hidden lg:hidden fixed inset-0 z-40">
+      <div class="absolute inset-0 bg-black/40" data-close-mobile-nav></div>
+      <div class="absolute inset-y-0 left-0 w-72 admin-sidebar flex flex-col">
+        <div class="h-20 flex items-center gap-2 px-6 border-b border-white/10">
+          <img src="logo.png" alt="Nebro" class="h-8 w-8 rounded-full object-cover" />
+          <span class="font-display font-semibold text-lg text-white">nebro</span>
+        </div>
+        <nav class="flex-1 p-4 space-y-1">
+          <a href="#" data-view="dashboard" class="admin-nav-link is-active">Dashboard</a>
+          <a href="#" data-view="products" class="admin-nav-link">Products</a>
+          <a href="#" data-view="case-studies" class="admin-nav-link">Case Studies</a>
+          <a href="#" data-view="inquiries" class="admin-nav-link">Inquiries</a>
+          <a href="#" data-view="reports" class="admin-nav-link">Reports &amp; Analytics</a>
+          <a href="#" data-view="content" class="admin-nav-link">Site Content</a>
+          <a href="#" data-view="settings" class="admin-nav-link">Settings</a>
+        </nav>
+      </div>
+    </div>
+
+    <main class="p-5 sm:p-8 max-w-7xl">
+
+      <!-- ============ DASHBOARD VIEW ============ -->
+      <section data-panel="dashboard">
+        <div class="grid sm:grid-cols-2 xl:grid-cols-4 gap-5">
+          <div class="admin-card p-6">
+            <p class="font-mono text-[11px] uppercase tracking-widest" style="color:var(--grey)">Total Products</p>
+            <p class="font-display font-semibold text-3xl mt-2" style="color:var(--navy)" id="stat-products">9</p>
+            <p class="text-xs mt-2" style="color:var(--lime-deep)">Across 3 categories</p>
+          </div>
+          <div class="admin-card p-6">
+            <p class="font-mono text-[11px] uppercase tracking-widest" style="color:var(--grey)">New Inquiries</p>
+            <p class="font-display font-semibold text-3xl mt-2" style="color:var(--navy)">3</p>
+            <p class="text-xs mt-2" style="color:var(--lime-deep)">Awaiting response</p>
+          </div>
+          <div class="admin-card p-6">
+            <p class="font-mono text-[11px] uppercase tracking-widest" style="color:var(--grey)">Case Studies</p>
+            <p class="font-display font-semibold text-3xl mt-2" style="color:var(--navy)">4</p>
+            <p class="text-xs mt-2" style="color:var(--grey)">Published</p>
+          </div>
+          <div class="admin-card p-6">
+            <p class="font-mono text-[11px] uppercase tracking-widest" style="color:var(--grey)">Avg. Response Time</p>
+            <p class="font-display font-semibold text-3xl mt-2" style="color:var(--navy)">38h</p>
+            <p class="text-xs mt-2" style="color:var(--lime-deep)">Under the 48h target</p>
+          </div>
+        </div>
+
+        <div class="grid lg:grid-cols-[1.4fr_1fr] gap-5 mt-5">
+          <div class="admin-card p-6">
+            <div class="flex items-center justify-between mb-5">
+              <h2 class="font-display font-semibold text-lg" style="color:var(--navy)">Recent Inquiries</h2>
+              <button data-view-link="inquiries" class="font-mono text-xs" style="color:var(--lime-deep)">View all →</button>
+            </div>
+            <div class="overflow-x-auto -mx-2">
+              <table class="admin-table min-w-[520px]">
+                <thead><tr><th>Name</th><th>Facility</th><th>Category</th><th>Status</th></tr></thead>
+                <tbody id="dashboard-inquiries-body"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="admin-card p-6">
+            <h2 class="font-display font-semibold text-lg mb-5" style="color:var(--navy)">Products by Category</h2>
+            <div class="space-y-4" id="category-breakdown"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ PRODUCTS VIEW ============ -->
+      <section data-panel="products" class="hidden">
+        <div class="flex items-center justify-between flex-wrap gap-3 mb-5">
+          <div class="flex items-center gap-2 flex-wrap">
+            <button class="admin-filter-btn font-mono text-xs px-4 py-2 rounded-full border hairline" data-cat="all" aria-pressed="true">All</button>
+            <button class="admin-filter-btn font-mono text-xs px-4 py-2 rounded-full border hairline" data-cat="diagnostic" aria-pressed="false">Diagnostic</button>
+            <button class="admin-filter-btn font-mono text-xs px-4 py-2 rounded-full border hairline" data-cat="laboratory" aria-pressed="false">Laboratory</button>
+            <button class="admin-filter-btn font-mono text-xs px-4 py-2 rounded-full border hairline" data-cat="surgical" aria-pressed="false">Surgical &amp; ICU</button>
+          </div>
+          <button id="open-add-product" class="font-mono text-xs font-medium px-5 py-2.5 rounded-full text-white flex items-center gap-2" style="background:var(--navy)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+            Add Product
+          </button>
+        </div>
+
+        <div class="admin-card overflow-x-auto">
+          <table class="admin-table min-w-[640px]">
+            <thead><tr><th>Product</th><th>Category</th><th>Status</th><th class="text-right">Actions</th></tr></thead>
+            <tbody id="products-table-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============ CASE STUDIES VIEW ============ -->
+      <section data-panel="case-studies" class="hidden">
+        <div class="flex items-center justify-between mb-5">
+          <p class="text-sm" style="color:var(--grey)">Success stories shown on the public Case Studies page.</p>
+          <button class="font-mono text-xs font-medium px-5 py-2.5 rounded-full text-white flex items-center gap-2" style="background:var(--navy)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+            Add Case Study
+          </button>
+        </div>
+        <div class="admin-card overflow-x-auto">
+          <table class="admin-table min-w-[560px]">
+            <thead><tr><th>Title</th><th>Facility</th><th>Published</th><th class="text-right">Actions</th></tr></thead>
+            <tbody>
+              <tr>
+                <td class="font-medium" style="color:var(--navy)">Equipping a 200-bed regional hospital</td>
+                <td style="color:var(--grey)">Mbeya Regional Referral Hospital</td>
+                <td><span class="status-dot" style="background:var(--lime-deep)"></span> <span class="ml-1">Mar 2026</span></td>
+                <td class="text-right"><button class="font-mono text-xs underline" style="color:var(--navy)">Edit</button></td>
+              </tr>
+              <tr>
+                <td class="font-medium" style="color:var(--navy)">ICU monitoring rollout</td>
+                <td style="color:var(--grey)">Aga Khan Hospital, Dar es Salaam</td>
+                <td><span class="status-dot" style="background:var(--lime-deep)"></span> <span class="ml-1">Jan 2026</span></td>
+                <td class="text-right"><button class="font-mono text-xs underline" style="color:var(--navy)">Edit</button></td>
+              </tr>
+              <tr>
+                <td class="font-medium" style="color:var(--navy)">Laboratory modernization project</td>
+                <td style="color:var(--grey)">Bugando Medical Centre</td>
+                <td><span class="status-dot" style="background:#D1D5DB"></span> <span class="ml-1 text-xs" style="color:var(--grey)">Draft</span></td>
+                <td class="text-right"><button class="font-mono text-xs underline" style="color:var(--navy)">Edit</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============ INQUIRIES VIEW ============ -->
+      <section data-panel="inquiries" class="hidden">
+        <div class="admin-card overflow-x-auto">
+          <table class="admin-table min-w-[780px]">
+            <thead><tr><th>Name</th><th>Facility</th><th>Category</th><th>Message</th><th>Status</th><th class="text-right">Actions</th></tr></thead>
+            <tbody id="inquiries-table-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============ REPORTS & ANALYTICS VIEW ============ -->
+      <section data-panel="reports" class="hidden">
+        <div class="admin-card p-5 mb-5 flex flex-wrap items-center gap-3 justify-between">
+          <div class="flex flex-wrap items-center gap-2">
+            <button class="report-range-btn font-mono text-xs px-4 py-2 rounded-full border hairline" data-range="7" aria-pressed="false">Last 7 days</button>
+            <button class="report-range-btn font-mono text-xs px-4 py-2 rounded-full border hairline" data-range="30" aria-pressed="true">Last 30 days</button>
+            <button class="report-range-btn font-mono text-xs px-4 py-2 rounded-full border hairline" data-range="90" aria-pressed="false">Last 90 days</button>
+            <div class="flex items-center gap-2 ml-1">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              <input type="date" id="report-from" class="font-mono text-xs px-3 py-2 rounded-full border hairline bg-white" />
+              <span class="text-xs" style="color:var(--grey)">to</span>
+              <input type="date" id="report-to" class="font-mono text-xs px-3 py-2 rounded-full border hairline bg-white" />
+              <button id="report-custom-apply" class="font-mono text-xs px-4 py-2 rounded-full border hairline" style="color:var(--navy)">Apply</button>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <button id="export-pdf" class="font-mono text-xs font-medium px-4 py-2.5 rounded-full border hairline flex items-center gap-2">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2"><path d="M12 15V3m0 12-4-4m4 4 4-4M3 15v4a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-4"/></svg>
+              Export PDF
+            </button>
+            <button id="export-excel" class="font-mono text-xs font-medium px-4 py-2.5 rounded-full text-white flex items-center gap-2" style="background:var(--navy)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><path d="M12 15V3m0 12-4-4m4 4 4-4M3 15v4a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-4"/></svg>
+              Export Excel
+            </button>
+          </div>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-5">
+          <div class="admin-card chart-card p-6">
+            <h3 class="font-display font-semibold text-base mb-1" style="color:var(--navy)">Inquiries Over Time</h3>
+            <p class="text-xs mb-4" style="color:var(--grey)">New inquiries received per day in the selected range</p>
+            <canvas id="chart-line" height="220"></canvas>
+          </div>
+          <div class="admin-card chart-card p-6">
+            <h3 class="font-display font-semibold text-base mb-1" style="color:var(--navy)">Products by Category</h3>
+            <p class="text-xs mb-4" style="color:var(--grey)">Distribution of catalog items</p>
+            <canvas id="chart-pie" height="220"></canvas>
+          </div>
+          <div class="admin-card chart-card p-6 lg:col-span-2">
+            <h3 class="font-display font-semibold text-base mb-1" style="color:var(--navy)">Inquiries by Category</h3>
+            <p class="text-xs mb-4" style="color:var(--grey)">Which specializations generate the most interest</p>
+            <canvas id="chart-bar" height="180"></canvas>
+          </div>
+        </div>
+        <p class="text-xs mt-4" style="color:var(--grey)">Chart data shown here is illustrative (in-memory demo data). Once connected to a backend, these will reflect real inquiry and product records for the selected date range.</p>
+      </section>
+
+      <!-- ============ SITE CONTENT VIEW ============ -->
+      <section data-panel="content" class="hidden space-y-5">
+        <div class="admin-card p-6 sm:p-8">
+          <div class="flex items-center justify-between flex-wrap gap-3 mb-2">
+            <h2 class="font-display font-semibold text-lg" style="color:var(--navy)">Page Hero</h2>
+            <span id="content-hero-status" class="text-xs" style="color:var(--grey)"></span>
+          </div>
+          <p class="text-xs mb-5" style="color:var(--grey)">Every page's hero — badge, headline, and subtext — is editable from here. Pick a page, edit, publish.</p>
+
+          <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Page</label>
+          <select id="hero-page-select" class="mt-2 w-full sm:w-64 px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2 mb-5" style="--tw-ring-color:var(--lime)">
+            <option value="hero">Homepage</option>
+            <option value="about_hero">About</option>
+            <option value="industries_hero">Industries</option>
+            <option value="products_hero">Products</option>
+            <option value="case_studies_hero">Case Studies</option>
+            <option value="resources_hero">Resources</option>
+            <option value="contact_hero">Contact</option>
+          </select>
+
+          <form id="content-hero-form" class="grid gap-5">
+            <div>
+              <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Eyebrow badge text</label>
+              <input type="text" id="hero-eyebrow" class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)" />
+            </div>
+            <div>
+              <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Headline</label>
+              <input type="text" id="hero-heading-field" class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)" />
+              <div class="flex items-center gap-2 mt-1.5">
+                <label class="text-xs" style="color:var(--grey)">Highlight last</label>
+                <input type="number" id="hero-accent-words" min="0" max="8" value="3" class="w-16 px-2 py-1 rounded-lg border hairline text-xs" />
+                <label class="text-xs" style="color:var(--grey)">words in the brand gradient</label>
+              </div>
+            </div>
+            <div>
+              <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Subtext</label>
+              <textarea id="hero-subtext-field" rows="2" class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)"></textarea>
+            </div>
+            <button type="submit" class="justify-self-start font-mono text-xs font-medium px-6 py-3 rounded-full text-white" style="background:var(--navy)">Publish Hero Changes</button>
+          </form>
+        </div>
+
+        <div class="admin-card p-6 sm:p-8">
+          <h2 class="font-display font-semibold text-lg mb-2" style="color:var(--navy)">About Page — Mission &amp; Vision</h2>
+          <form id="content-mission-form" class="grid gap-5 mt-4">
+            <div>
+              <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Heading</label>
+              <input type="text" id="mission-heading" class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)" />
+            </div>
+            <div>
+              <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Body text</label>
+              <textarea id="mission-body" rows="3" class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)"></textarea>
+            </div>
+            <button type="submit" class="justify-self-start font-mono text-xs font-medium px-6 py-3 rounded-full text-white" style="background:var(--navy)">Publish</button>
+          </form>
+        </div>
+
+        <div class="admin-card p-6 sm:p-8">
+          <h2 class="font-display font-semibold text-lg mb-2" style="color:var(--navy)">About Page — Our Story</h2>
+          <form id="content-story-form" class="grid gap-5 mt-4">
+            <div>
+              <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Heading</label>
+              <input type="text" id="story-heading" class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)" />
+            </div>
+            <div>
+              <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Paragraph 1</label>
+              <textarea id="story-para1" rows="3" class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)"></textarea>
+            </div>
+            <div>
+              <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Paragraph 2</label>
+              <textarea id="story-para2" rows="3" class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)"></textarea>
+            </div>
+            <button type="submit" class="justify-self-start font-mono text-xs font-medium px-6 py-3 rounded-full text-white" style="background:var(--navy)">Publish</button>
+          </form>
+        </div>
+
+        <div class="admin-card p-6 sm:p-8">
+          <h2 class="font-display font-semibold text-lg mb-2" style="color:var(--navy)">Footer</h2>
+          <p class="text-xs mb-6" style="color:var(--grey)">Applies to the footer on every page.</p>
+          <form id="content-footer-form" class="grid gap-5">
+            <div>
+              <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">About blurb</label>
+              <textarea id="footer-blurb" rows="2" class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)"></textarea>
+            </div>
+            <div class="grid sm:grid-cols-2 gap-5">
+              <div>
+                <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Address</label>
+                <input type="text" id="footer-address" class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)" />
+              </div>
+              <div>
+                <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Phone</label>
+                <input type="text" id="footer-phone" class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)" />
+              </div>
+            </div>
+            <button type="submit" class="justify-self-start font-mono text-xs font-medium px-6 py-3 rounded-full text-white" style="background:var(--navy)">Publish Footer Changes</button>
+          </form>
+        </div>
+
+        <div class="admin-card p-6 sm:p-8">
+          <h2 class="font-display font-semibold text-lg mb-2" style="color:var(--navy)">Site Images</h2>
+          <p class="text-xs mb-6" style="color:var(--grey)">Upload a real photo for any of these spots and it replaces the icon placeholder on the live site immediately.</p>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4" id="site-images-grid">
+            <div class="site-image-slot" data-image-key="hero_photo_1">
+              <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
+                <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
+                <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                <span class="slot-label text-xs text-center" style="color:var(--grey)">Hero photo 1</span>
+                <input type="file" accept="image/*" class="hidden slot-input" />
+              </label>
+            </div>
+            <div class="site-image-slot" data-image-key="hero_photo_2">
+              <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
+                <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
+                <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                <span class="slot-label text-xs text-center" style="color:var(--grey)">Hero photo 2</span>
+                <input type="file" accept="image/*" class="hidden slot-input" />
+              </label>
+            </div>
+            <div class="site-image-slot" data-image-key="hero_photo_3">
+              <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
+                <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
+                <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                <span class="slot-label text-xs text-center" style="color:var(--grey)">Hero photo 3</span>
+                <input type="file" accept="image/*" class="hidden slot-input" />
+              </label>
+            </div>
+            <div class="site-image-slot" data-image-key="about_mission_photo">
+              <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
+                <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
+                <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                <span class="slot-label text-xs text-center" style="color:var(--grey)">About — Mission photo</span>
+                <input type="file" accept="image/*" class="hidden slot-input" />
+              </label>
+            </div>
+            <div class="site-image-slot" data-image-key="commitment_photo">
+              <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
+                <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
+                <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                <span class="slot-label text-xs text-center" style="color:var(--grey)">Home — Commitment photo</span>
+                <input type="file" accept="image/*" class="hidden slot-input" />
+              </label>
+            </div>
+          </div>
+          <p id="site-images-status" class="text-xs mt-4" style="color:var(--grey)"></p>
+        </div>
+
+        <div class="admin-card p-6 sm:p-8">
+          <h2 class="font-display font-semibold text-lg mb-2" style="color:var(--navy)">Everything else on the page (cards, stats, FAQs...)</h2>
+          <p class="text-sm" style="color:var(--grey)">Hero (every page), Footer, About's Mission/Story, and the 8 key photos above are all live-editable. The repeating card grids — specializations text, values, team members, industries list, FAQs — aren't database-driven yet; each one is a bigger, more specific job (icons, counts, arrays of items, not just one field). The exact same pattern extends to any of them the same way: an id on the element, a form field here, a row in <code>site_content</code>.</p>
+        </div>
+      </section>
+
+      <!-- ============ SETTINGS VIEW ============ -->
+      <section data-panel="settings" class="hidden space-y-5">
+
+        <div class="admin-card p-6 sm:p-8 max-w-2xl">
+          <h2 class="font-display font-semibold text-lg mb-6" style="color:var(--navy)">Company Details</h2>
+          <div class="grid sm:grid-cols-2 gap-5">
+            <div>
+              <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Company name</label>
+              <input type="text" value="Nebro" class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)" />
+            </div>
+            <div>
+              <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Support phone</label>
+              <input type="text" value="+255 621 132 663" class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)" />
+            </div>
+            <div class="sm:col-span-2">
+              <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Support email</label>
+              <input type="email" value="info@nebro.co.tz" class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)" />
+            </div>
+          </div>
+          <button class="mt-6 font-mono text-xs font-medium px-6 py-3 rounded-full text-white" style="background:var(--navy)">Save Changes</button>
+        </div>
+
+        <!-- Social Media Links -->
+        <div class="admin-card p-6 sm:p-8 max-w-2xl">
+          <h2 class="font-display font-semibold text-lg mb-6" style="color:var(--navy)">Social Media Links</h2>
+          <div class="grid gap-5">
+            <div>
+              <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Facebook</label>
+              <input type="url" placeholder="https://facebook.com/nebro" class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)" />
+            </div>
+            <div>
+              <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">X (Twitter)</label>
+              <input type="url" placeholder="https://x.com/nebro" class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)" />
+            </div>
+            <div>
+              <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">LinkedIn</label>
+              <input type="url" placeholder="https://linkedin.com/company/nebro" class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)" />
+            </div>
+            <div>
+              <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">WhatsApp number</label>
+              <input type="text" value="+255 621 132 663" class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)" />
+            </div>
+          </div>
+          <button class="mt-6 font-mono text-xs font-medium px-6 py-3 rounded-full text-white" style="background:var(--navy)">Save Links</button>
+        </div>
+
+        <!-- Roles & Permissions -->
+        <div class="admin-card p-6 sm:p-8">
+          <div class="flex items-center justify-between mb-6 flex-wrap gap-3">
+            <div>
+              <h2 class="font-display font-semibold text-lg" style="color:var(--navy)">Roles &amp; Permissions</h2>
+              <p class="text-xs mt-1" style="color:var(--grey)">Developer and Super Admin have full access. Staff access can be limited per section.</p>
+            </div>
+            <button id="open-invite-user" class="font-mono text-xs font-medium px-5 py-2.5 rounded-full text-white flex items-center gap-2" style="background:var(--navy)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+              Invite User
+            </button>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="admin-table min-w-[560px]">
+              <thead><tr><th>Name</th><th>Email</th><th>Role</th><th class="text-right">Actions</th></tr></thead>
+              <tbody id="roles-table-body"></tbody>
+            </table>
+          </div>
+          <p class="text-xs mt-4" style="color:var(--grey)">Role changes here are a design preview. Real access control needs a backend with authentication — see the roadmap notes for how this gets wired up.</p>
+        </div>
+
+        <!-- Notification Preferences -->
+        <div class="admin-card p-6 sm:p-8 max-w-2xl">
+          <h2 class="font-display font-semibold text-lg mb-2" style="color:var(--navy)">Notification Preferences</h2>
+          <p class="text-xs mb-6" style="color:var(--grey)">Control how and when you're alerted about new or unanswered inquiries.</p>
+
+          <div class="space-y-5">
+            <div>
+              <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Alert me via</label>
+              <div class="mt-2 flex flex-wrap gap-4">
+                <label class="flex items-center gap-2 text-sm"><input type="checkbox" checked class="accent-[var(--navy)]" /> Email</label>
+                <label class="flex items-center gap-2 text-sm"><input type="checkbox" class="accent-[var(--navy)]" /> SMS</label>
+                <label class="flex items-center gap-2 text-sm"><input type="checkbox" checked class="accent-[var(--navy)]" /> WhatsApp</label>
+                <label class="flex items-center gap-2 text-sm"><input type="checkbox" class="accent-[var(--navy)]" /> In-app only</label>
+              </div>
+            </div>
+            <div>
+              <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">New inquiry alerts</label>
+              <select class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)">
+                <option>Immediately</option>
+                <option>Hourly digest</option>
+                <option>Once daily (morning)</option>
+              </select>
+            </div>
+            <div>
+              <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Remind me about unanswered inquiries after</label>
+              <div class="mt-2 flex items-center gap-3">
+                <input type="number" min="1" max="14" value="1" class="w-24 px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)" />
+                <span class="text-sm" style="color:var(--grey)">day(s) with no response</span>
+              </div>
+            </div>
+          </div>
+          <button class="mt-6 font-mono text-xs font-medium px-6 py-3 rounded-full text-white" style="background:var(--navy)">Save Preferences</button>
+          <p class="text-xs mt-4" style="color:var(--grey)">This is a design preview — connect it to a backend (e.g. Supabase + a scheduled email job) to make these alerts actually fire.</p>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<!-- ================= REPLY TO INQUIRY MODAL ================= -->
+<div id="reply-modal" class="modal-overlay">
+  <div class="modal-panel">
+    <div class="p-6 border-b hairline flex items-center justify-between">
+      <div>
+        <h3 class="font-display font-semibold text-lg" style="color:var(--navy)">Reply to Inquiry</h3>
+        <p id="reply-to-label" class="text-xs mt-1" style="color:var(--grey)"></p>
+      </div>
+      <button data-close-modal class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-black/5">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <form id="reply-form" class="p-6 grid gap-4">
+      <div class="rounded-xl p-4 text-sm" style="background:var(--paper); color:var(--grey)">
+        <span class="font-mono text-[11px] uppercase tracking-widest block mb-1" style="color:var(--lime-deep)">Original message</span>
+        <p id="reply-original-message"></p>
+      </div>
+      <div>
+        <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Your reply</label>
+        <textarea required id="reply-message" rows="5" placeholder="Thanks for reaching out — here's what we can offer..." class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)"></textarea>
+      </div>
+      <div class="flex items-center gap-3 pt-2">
+        <button type="submit" class="font-mono text-xs font-medium px-6 py-3 rounded-full text-white" style="background:var(--navy)">Send Reply</button>
+        <button type="button" data-close-modal class="font-mono text-xs font-medium px-6 py-3 rounded-full border hairline">Cancel</button>
+      </div>
+      <p class="text-xs" style="color:var(--grey)">Sends via the send-reply Edge Function (Resend) and marks this inquiry as Responded.</p>
+    </form>
+  </div>
+</div>
+
+<!-- ================= INVITE USER MODAL ================= -->
+<div id="invite-user-modal" class="modal-overlay">
+  <div class="modal-panel">
+    <div class="p-6 border-b hairline flex items-center justify-between">
+      <h3 class="font-display font-semibold text-lg" style="color:var(--navy)">Invite User</h3>
+      <button data-close-modal class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-black/5">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <form id="invite-user-form" class="p-6 grid gap-4">
+      <div>
+        <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Full name</label>
+        <input required type="text" id="new-user-name" class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)" />
+      </div>
+      <div>
+        <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Email</label>
+        <input required type="email" id="new-user-email" class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)" />
+      </div>
+      <div>
+        <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Role</label>
+        <select id="new-user-role" class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)">
+          <option value="staff">Staff</option>
+          <option value="super_admin">Super Admin</option>
+          <option value="developer">Developer</option>
+        </select>
+      </div>
+      <div class="flex items-center gap-3 pt-2">
+        <button type="submit" class="font-mono text-xs font-medium px-6 py-3 rounded-full text-white" style="background:var(--navy)">Send Invite</button>
+        <button type="button" data-close-modal class="font-mono text-xs font-medium px-6 py-3 rounded-full border hairline">Cancel</button>
+      </div>
+      <p class="text-xs" style="color:var(--grey)">Preview only — a real invite needs a backend to create the account and send the email.</p>
+    </form>
+  </div>
+</div>
+
+<!-- ================= ADD PRODUCT MODAL ================= -->
+<div id="add-product-modal" class="modal-overlay">
+  <div class="modal-panel">
+    <div class="p-6 border-b hairline flex items-center justify-between">
+      <h3 class="font-display font-semibold text-lg" style="color:var(--navy)">Add Product</h3>
+      <button data-close-modal class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-black/5">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <form id="add-product-form" class="p-6 grid gap-4">
+      <div>
+        <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Product photo</label>
+        <label id="upload-dropzone" for="new-product-image" class="upload-dropzone mt-2 flex flex-col items-center justify-center gap-2 relative overflow-hidden">
+          <img id="upload-preview" class="hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
+          <svg id="upload-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+          <span id="upload-label" class="text-xs" style="color:var(--grey)">Click to upload a photo (session preview only)</span>
+          <input id="new-product-image" type="file" accept="image/*" class="hidden" />
+        </label>
+      </div>
+      <div>
+        <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Product name</label>
+        <input required type="text" id="new-product-name" class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)" />
+      </div>
+      <div>
+        <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Category</label>
+        <select id="new-product-category" class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)">
+          <option value="diagnostic">Diagnostic Devices</option>
+          <option value="laboratory">Laboratory Equipment</option>
+          <option value="surgical">Surgical &amp; ICU</option>
+        </select>
+      </div>
+      <div>
+        <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Short description</label>
+        <textarea id="new-product-desc" rows="3" class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)"></textarea>
+      </div>
+      <div class="flex items-center gap-3 pt-2">
+        <button type="submit" class="font-mono text-xs font-medium px-6 py-3 rounded-full text-white" style="background:var(--navy)">Add Product</button>
+        <button type="button" data-close-modal class="font-mono text-xs font-medium px-6 py-3 rounded-full border hairline">Cancel</button>
+      </div>
+      <p class="text-xs" style="color:var(--grey)">Preview only — added products live in this session and reset on refresh until connected to a backend.</p>
+    </form>
+  </div>
+</div>
+
+<script src="admin.js"></script>
+</body>
+</html>

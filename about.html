@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Nebro | Precision Medical Equipment, Delivered With Trust</title>
+<meta name="description" content="Nebro supplies certified diagnostic, laboratory, and surgical equipment to hospitals and clinics across Tanzania and East Africa.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" href="logo.png" type="image/png">
+<link rel="stylesheet" href="tailwind.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="antialiased">
+
+<!-- ================= HEADER ================= -->
+<header id="site-header" class="fixed top-0 left-0 right-0 z-50">
+  <div class="text-white" style="background:var(--ink)">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 h-9 flex items-center justify-between text-xs font-mono">
+      <div class="flex items-center gap-4 sm:gap-5">
+        <a href="tel:+255621132663" class="flex items-center gap-1.5 hover:text-[var(--lime-bright)] transition">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>
+          <span>+255 621 132 663</span>
+        </a>
+        <a href="mailto:info@nebro.co.tz" class="hidden sm:flex items-center gap-1.5 hover:text-[var(--lime-bright)] transition">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4h16v16H4V4Z"/><path d="m4 6 8 7 8-7"/></svg>
+          <span>info@nebro.co.tz</span>
+        </a>
+      </div>
+      <span class="hidden md:inline text-white/50">Excellence in Equipping Medical Equipment — Tanzania</span>
+    </div>
+  </div>
+  <div class="bg-[#F7F9F2]/95 backdrop-blur border-b hairline">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 h-20 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2 shrink-0">
+        <img src="logo.png" alt="Nebro" class="h-9 w-9 rounded-full object-cover" />
+        <span class="font-display font-semibold text-xl tracking-tight" style="color:var(--navy)">nebro</span>
+      </a>
+      <nav class="hidden lg:flex items-center gap-7 font-medium text-sm" style="color:var(--navy)">
+      <a href="index.html" class="hover:opacity-70 transition">Home</a>
+      <a href="about.html" class="nav-active hover:opacity-70 transition">About</a>
+      <a href="products.html" class="hover:opacity-70 transition">Products</a>
+      <a href="industries.html" class="hover:opacity-70 transition">Industries</a>
+      <a href="case-studies.html" class="hover:opacity-70 transition">Case Studies</a>
+      <a href="resources.html" class="hover:opacity-70 transition">Resources</a>
+      <a href="contact.html" class="hover:opacity-70 transition">Contact</a>
+      </nav>
+      <div class="flex items-center gap-3">
+        <button id="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme"></button>
+        <a href="contact.html" class="hidden sm:inline-flex font-mono text-xs font-medium px-5 py-2.5 rounded-full text-[var(--navy)] transition hover:brightness-95 btn-glow" style="background:var(--lime)">
+          Request a Quote
+        </a>
+        <button id="mobile-menu-toggle" aria-expanded="false" aria-controls="mobile-nav" class="lg:hidden w-10 h-10 flex items-center justify-center rounded-full border hairline" aria-label="Toggle menu">
+          <svg id="icon-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+          <svg id="icon-close" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2" stroke-linecap="round" class="hidden"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+    </div>
+    <nav id="mobile-nav" class="hidden lg:hidden flex-col gap-1 px-6 pb-5 font-medium text-sm border-t hairline" style="color:var(--navy)">
+    <a href="index.html" class="py-3">Home</a>
+    <a href="about.html" class="py-3">About</a>
+    <a href="products.html" class="py-3">Products</a>
+    <a href="industries.html" class="py-3">Industries</a>
+    <a href="case-studies.html" class="py-3">Case Studies</a>
+    <a href="resources.html" class="py-3">Resources</a>
+    <a href="contact.html" class="py-3">Contact</a>
+      <a href="contact.html" class="mt-2 text-center font-mono text-xs px-5 py-3 rounded-full" style="background:var(--lime); color:var(--navy)">Request a Quote</a>
+    </nav>
+  </div>
+</header>
+
+<main class="pt-[7.25rem]">
+
+  <!-- ================= PAGE HERO ================= -->
+  <section class="py-20 md:py-24 text-center" style="background:var(--paper)">
+    <div class="max-w-3xl mx-auto px-6 reveal">
+      <span class="pill" style="color:var(--lime-deep)">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span id="hero-eyebrow-text">About Nebro</span>
+      </span>
+      <h1 id="hero-heading" class="animate-words font-display font-semibold text-4xl md:text-5xl xl:text-6xl tracking-tight mt-6" style="color:var(--navy)">
+        <span class="word" style="transition-delay:0ms">Built</span> <span class="word" style="transition-delay:60ms">on</span> <span class="word" style="transition-delay:120ms">equipment,</span> <span class="word text-gradient" style="transition-delay:180ms">run</span> <span class="word text-gradient" style="transition-delay:240ms">on</span> <span class="word text-gradient" style="transition-delay:300ms">relationships.</span>
+      </h1>
+      <p id="hero-subtext" class="mt-6 text-lg" style="color:var(--grey)">We're a small team that supplies medical equipment the way we'd want to be supplied to — clearly, quickly, and with someone accountable at the other end.</p>
+    </div>
+  </section>
+
+  <!-- ================= STATS BAR ================= -->
+  <section class="py-16" style="background:#FFFFFF">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 grid grid-cols-2 md:grid-cols-4 gap-6 reveal">
+      <div class="text-center">
+        <div class="w-11 h-11 rounded-xl flex items-center justify-center mx-auto mb-3" style="background:var(--paper)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--lime-deep)" stroke-width="2"><path d="M12 2 3 6v6c0 5 4 9 9 10 5-1 9-5 9-10V6l-9-4Z"/></svg>
+        </div>
+        <p class="font-mono text-2xl sm:text-3xl font-semibold" style="color:var(--navy)"><span data-count-to="3" data-count-suffix="+">0+</span></p>
+        <p class="text-xs mt-1" style="color:var(--grey)">Years of Expertise</p>
+      </div>
+      <div class="text-center">
+        <div class="w-11 h-11 rounded-xl flex items-center justify-center mx-auto mb-3" style="background:var(--paper)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--lime-deep)" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14"/></svg>
+        </div>
+        <p class="font-mono text-2xl sm:text-3xl font-semibold" style="color:var(--navy)"><span data-count-to="200" data-count-suffix="+">0+</span></p>
+        <p class="text-xs mt-1" style="color:var(--grey)">Healthcare Partners</p>
+      </div>
+      <div class="text-center">
+        <div class="w-11 h-11 rounded-xl flex items-center justify-center mx-auto mb-3" style="background:var(--paper)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--lime-deep)" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18Z"/></svg>
+        </div>
+        <p class="font-mono text-2xl sm:text-3xl font-semibold" style="color:var(--navy)"><span data-count-to="6" data-count-suffix="+">0+</span></p>
+        <p class="text-xs mt-1" style="color:var(--grey)">Countries Served</p>
+      </div>
+      <div class="text-center">
+        <div class="w-11 h-11 rounded-xl flex items-center justify-center mx-auto mb-3" style="background:var(--paper)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--lime-deep)" stroke-width="2"><path d="m9 12 2 2 4-4M12 2 3 6v6c0 5 4 9 9 10 5-1 9-5 9-10V6l-9-4Z"/></svg>
+        </div>
+        <p class="font-mono text-2xl sm:text-3xl font-semibold" style="color:var(--navy)"><span data-count-to="5000" data-count-suffix="+">0+</span></p>
+        <p class="text-xs mt-1" style="color:var(--grey)">Equipment Delivered</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= MISSION & VISION ================= -->
+  <section class="py-20" style="background:var(--paper)">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 grid lg:grid-cols-2 gap-14 items-center">
+      <div class="reveal relative">
+        <div id="about-mission-photo" class="rounded-2xl overflow-hidden aspect-[4/3]" style="background:linear-gradient(150deg,var(--navy),var(--mint))">
+          <img class="site-photo-img hidden w-full h-full object-cover" alt="" />
+          <div class="site-photo-fallback w-full h-full flex items-center justify-center">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="1.2"><path d="M6 3v6a4 4 0 0 0 4 4h0a4 4 0 0 0 4-4V3M14 13v3a5 5 0 0 1-10 0v-1"/></svg>
+          </div>
+        </div>
+        <div class="hidden sm:flex absolute -bottom-5 -right-5 items-center gap-3 bg-white rounded-2xl px-5 py-4 shadow-xl border hairline">
+          <span class="w-9 h-9 rounded-lg flex items-center justify-center" style="background:var(--lime)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="m9 12 2 2 4-4"/></svg>
+          </span>
+          <div>
+            <p class="font-mono text-sm font-semibold" style="color:var(--navy)">Precision in Practice</p>
+            <p class="text-[11px]" style="color:var(--grey)">Improving patient outcomes</p>
+          </div>
+        </div>
+      </div>
+      <div class="reveal" style="transition-delay:.1s">
+        <p class="font-mono text-xs tracking-widest uppercase mb-4" style="color:var(--lime-deep)">— Our Mission &amp; Vision</p>
+        <h2 id="about-mission-heading" class="font-display font-semibold text-3xl md:text-4xl tracking-tight">Guiding everything we do</h2>
+        <p id="about-mission-body" class="mt-5" style="color:var(--grey)">To empower healthcare providers with access to premium medical equipment that enhances patient care and improves health outcomes. We envision a world where every healthcare facility, regardless of size or location, has the tools to provide world-class care.</p>
+        <div class="mt-6 space-y-3">
+          <div class="flex items-start gap-3">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--lime-deep)" stroke-width="2.5" class="mt-0.5 shrink-0"><path d="m5 12 5 5L20 7"/></svg>
+            <p class="text-sm"><span class="font-semibold" style="color:var(--navy)">Global Access:</span> <span style="color:var(--grey)">Breaking barriers to ensure every facility has access to top-tier equipment.</span></p>
+          </div>
+          <div class="flex items-start gap-3">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--lime-deep)" stroke-width="2.5" class="mt-0.5 shrink-0"><path d="m5 12 5 5L20 7"/></svg>
+            <p class="text-sm"><span class="font-semibold" style="color:var(--navy)">Unwavering Quality:</span> <span style="color:var(--grey)">Committing to the highest standards of product selection and service.</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= STORY ================= -->
+  <section class="py-24" style="background:#FFFFFF">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 max-w-3xl">
+      <div class="reveal">
+        <p class="font-mono text-xs tracking-widest uppercase mb-4" style="color:var(--lime-deep)">— How we started</p>
+        <h2 id="about-story-heading" class="font-display font-semibold text-3xl md:text-4xl tracking-tight">Your partner in healthcare excellence</h2>
+        <p class="mt-5" style="color:var(--grey)">
+          <span id="about-story-para1">Nebro was founded to close a simple gap: hospitals and clinics in Tanzania and East Africa needed a supplier who treated equipment procurement as a relationship, not a transaction. We are more than a supplier — we're a dedicated partner committed to elevating healthcare standards.</span>
+        </p>
+        <p class="mt-4" style="color:var(--grey)">
+          <span id="about-story-para2">By providing internationally certified equipment and robust local support, we empower medical professionals to deliver the best possible care, without the usual back-and-forth of sourcing equipment from overseas.</span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= VALUES ================= -->
+
+  <section class="py-24" style="background:var(--paper)">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+      <div class="max-w-xl reveal">
+        <p class="font-mono text-xs tracking-widest uppercase mb-4" style="color:var(--lime-deep)">— What guides us</p>
+        <h2 class="font-display font-semibold text-3xl md:text-4xl tracking-tight">Three things we don't compromise on</h2>
+      </div>
+
+      <div class="mt-14 grid md:grid-cols-3 gap-6">
+        <div class="reveal card-hover rounded-2xl border hairline p-8 bg-white">
+          <div class="w-12 h-12 rounded-full flex items-center justify-center mb-6" style="background:var(--navy)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><path d="M12 2 3 6v6c0 5 4 9 9 10 5-1 9-5 9-10V6l-9-4Z"/><path d="m9 12 2 2 4-4"/></svg>
+          </div>
+          <h3 class="font-display font-semibold text-lg">Certified quality</h3>
+          <p class="mt-2 text-sm" style="color:var(--grey)">Every device we ship meets recognized international standards — no exceptions, no shortcuts.</p>
+        </div>
+        <div class="reveal card-hover rounded-2xl border hairline p-8 bg-white" style="transition-delay:.1s">
+          <div class="w-12 h-12 rounded-full flex items-center justify-center mb-6" style="background:var(--navy)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><path d="M3 12h4l2-7 4 14 2-7h6"/></svg>
+          </div>
+          <h3 class="font-display font-semibold text-lg">Straight answers</h3>
+          <p class="mt-2 text-sm" style="color:var(--grey)">Realistic delivery timelines and honest pricing, communicated before you place an order, not after.</p>
+        </div>
+        <div class="reveal card-hover rounded-2xl border hairline p-8 bg-white" style="transition-delay:.2s">
+          <div class="w-12 h-12 rounded-full flex items-center justify-center mb-6" style="background:var(--navy)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h3 class="font-display font-semibold text-lg">Support that stays</h3>
+          <p class="mt-2 text-sm" style="color:var(--grey)">Installation, staff training, and maintenance don't stop once the invoice is paid.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TEAM ================= -->
+  <section class="py-24" style="background:var(--paper)">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+      <div class="max-w-xl mx-auto text-center reveal">
+        <p class="font-mono text-xs tracking-widest uppercase mb-4" style="color:var(--lime-deep)">— Our Leadership Team</p>
+        <h2 class="font-display font-semibold text-3xl md:text-4xl tracking-tight">Experienced Professionals</h2>
+      </div>
+      <div class="mt-12 grid sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
+        <div class="reveal rounded-2xl border hairline bg-white p-7 text-center card-hover">
+          <div class="w-16 h-16 rounded-full mx-auto flex items-center justify-center font-display font-semibold text-lg" style="background:var(--navy); color:var(--lime)">AJ</div>
+          <p class="font-display font-semibold mt-4" style="color:var(--navy)">Amani Joseph</p>
+          <p class="text-xs mt-1" style="color:var(--lime-deep)">Managing Director</p>
+        </div>
+        <div class="reveal rounded-2xl border hairline bg-white p-7 text-center card-hover" style="transition-delay:.05s">
+          <div class="w-16 h-16 rounded-full mx-auto flex items-center justify-center font-display font-semibold text-lg" style="background:var(--navy); color:var(--lime)">FR</div>
+          <p class="font-display font-semibold mt-4" style="color:var(--navy)">Fatuma Rashidi</p>
+          <p class="text-xs mt-1" style="color:var(--lime-deep)">General Manager</p>
+        </div>
+        <div class="reveal rounded-2xl border hairline bg-white p-7 text-center card-hover" style="transition-delay:.1s">
+          <div class="w-16 h-16 rounded-full mx-auto flex items-center justify-center font-display font-semibold text-lg" style="background:var(--navy); color:var(--lime)">BM</div>
+          <p class="font-display font-semibold mt-4" style="color:var(--navy)">Baraka Mwakalinga</p>
+          <p class="text-xs mt-1" style="color:var(--lime-deep)">Chief Technology Officer</p>
+        </div>
+      </div>
+      <p class="text-center text-xs mt-8" style="color:var(--grey)">Placeholder team — swap in your real team's names, titles, and photos.</p>
+    </div>
+  </section>
+
+  <!-- ================= SEAL BAND ================= -->
+  <section class="py-24" style="background:var(--navy)">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 grid lg:grid-cols-2 gap-16 items-center">
+      <div class="reveal order-2 lg:order-1 flex justify-center">
+        <div class="seal w-64 h-64 md:w-72 md:h-72">
+          <svg viewBox="0 0 420 420">
+            <circle cx="210" cy="210" r="205" fill="none" stroke="#A3C23955" stroke-width="1.5"/>
+            <g class="ring-text">
+              <defs>
+                <path id="circlePath2" d="M 210,210 m -175,0 a 175,175 0 1,1 350,0 a 175,175 0 1,1 -350,0"/>
+              </defs>
+              <text font-family="IBM Plex Mono" font-size="13" letter-spacing="4" fill="#A3C239">
+                <textPath href="#circlePath2">CERTIFIED · PRECISE · DELIVERED WITH TRUST · CERTIFIED · PRECISE ·</textPath>
+              </text>
+            </g>
+            <g transform="translate(210,210)">
+              <circle r="92" fill="var(--lime)"/>
+              <path d="M -46 8 C -30 -14, -8 -18, 6 -4 L 40 30 C 46 36, 46 46, 38 52 C 31 58, 22 56, 16 50 L -6 28"
+                    fill="none" stroke="var(--navy)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M -46 8 L -60 22 C -66 28, -66 38, -58 44 C -50 50, -40 48, -34 42 L 16 50"
+                    fill="none" stroke="var(--navy)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <div class="reveal order-1 lg:order-2" style="transition-delay:.1s">
+        <p class="font-mono text-xs tracking-widest uppercase mb-4" style="color:var(--lime)">— The name</p>
+        <h2 class="font-display font-semibold text-3xl md:text-4xl text-white tracking-tight">Why the handshake?</h2>
+        <p class="mt-4 text-white/70 max-w-md">
+          Procurement in healthcare shouldn't feel like a cold transaction. The handshake in our mark is a reminder that behind every order is a facility trying to care for real patients — and a supplier who takes that seriously.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CTA ================= -->
+  <section class="px-6 lg:px-10 py-24">
+    <div class="max-w-7xl mx-auto rounded-3xl p-12 md:p-16 reveal relative overflow-hidden" style="background:linear-gradient(120deg,var(--navy),#0E1A2C)">
+      <div class="relative z-10 max-w-xl">
+        <h2 class="font-display font-semibold text-3xl md:text-4xl text-white tracking-tight">Want to work with us?</h2>
+        <p class="mt-4 text-white/70">Tell us what your facility needs — we'll put together a quote built around your budget and timeline.</p>
+        <div class="mt-8 flex flex-wrap gap-4">
+          <a href="contact.html" class="font-medium px-7 py-3.5 rounded-full transition hover:brightness-95" style="background:var(--lime); color:var(--navy)">Request a Quote</a>
+          <a href="products.html" class="font-medium px-7 py-3.5 rounded-full border-2 border-white/30 text-white transition hover:bg-white/10">Browse Catalog</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="border-t hairline" style="background:var(--navy)">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 py-16 grid sm:grid-cols-2 md:grid-cols-4 gap-10">
+    <div class="sm:col-span-2 md:col-span-1">
+      <div class="flex items-center gap-2 mb-4">
+        <img src="logo.png" alt="Nebro" class="h-8 w-8 rounded-full object-cover" />
+        <span class="font-display font-semibold text-lg text-white">nebro</span>
+      </div>
+      <p id="footer-blurb-text" class="text-sm text-white/60 max-w-xs">Trusted supplier of high-quality medical equipment, serving hospitals, clinics, and healthcare facilities across Tanzania and East Africa.</p>
+      <div class="flex items-center gap-3 mt-5">
+        <a href="#" aria-label="Facebook" class="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center hover:border-[var(--lime)] transition"><svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12Z"/></svg></a>
+        <a href="#" aria-label="Instagram" class="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center hover:border-[var(--lime)] transition"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+        <a href="#" aria-label="Twitter / X" class="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center hover:border-[var(--lime)] transition"><svg width="13" height="13" viewBox="0 0 24 24" fill="#fff"><path d="M18.9 2H22l-7.6 8.6L23 22h-6.9l-5.4-6.7L4.5 22H1.4l8.2-9.3L1 2h7l4.9 6.1L18.9 2Z"/></svg></a>
+        <a href="#" aria-label="LinkedIn" class="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center hover:border-[var(--lime)] transition"><svg width="13" height="13" viewBox="0 0 24 24" fill="#fff"><path d="M4.98 3.5C4.98 4.9 3.9 6 2.5 6S0 4.9 0 3.5 1.1 1 2.5 1s2.48 1.1 2.48 2.5ZM.24 8.75h4.5V23H.24V8.75ZM8.5 8.75h4.3v1.95h.06c.6-1.1 2.06-2.26 4.24-2.26 4.53 0 5.37 2.98 5.37 6.86V23h-4.5v-6.9c0-1.65-.03-3.77-2.3-3.77-2.3 0-2.66 1.8-2.66 3.65V23H8.5V8.75Z"/></svg></a>
+      </div>
+    </div>
+    <div>
+      <p class="font-mono text-xs uppercase tracking-widest mb-4" style="color:var(--lime)">Company</p>
+      <ul class="space-y-2 text-sm text-white/70">
+        <li><a href="about.html" class="hover:text-white transition">About Us</a></li>
+        <li><a href="industries.html" class="hover:text-white transition">Industries</a></li>
+        <li><a href="case-studies.html" class="hover:text-white transition">Case Studies</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-mono text-xs uppercase tracking-widest mb-4" style="color:var(--lime)">Resources</p>
+      <ul class="space-y-2 text-sm text-white/70">
+        <li><a href="products.html" class="hover:text-white transition">Products</a></li>
+        <li><a href="resources.html" class="hover:text-white transition">Resources</a></li>
+        <li><a href="contact.html" class="hover:text-white transition">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-mono text-xs uppercase tracking-widest mb-4" style="color:var(--lime)">Contact Info</p>
+      <div class="flex flex-col gap-2.5">
+        <a href="tel:+255621132663" class="flex items-center gap-2.5 text-sm text-white/70 hover:text-white transition group">
+          <span class="w-8 h-8 rounded-full flex items-center justify-center shrink-0 bg-white/10 group-hover:bg-[var(--lime)] transition">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>
+          </span>
+          <span class="font-mono" id="footer-phone-text">+255 621 132 663</span>
+        </a>
+        <a href="mailto:info@nebro.co.tz" class="flex items-center gap-2.5 text-sm text-white/70 hover:text-white transition group">
+          <span class="w-8 h-8 rounded-full flex items-center justify-center shrink-0 bg-white/10 group-hover:bg-[var(--lime)] transition">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4V4Z"/><path d="m4 6 8 7 8-7"/></svg>
+          </span>
+          <span class="font-mono">info@nebro.co.tz</span>
+        </a>
+        <a href="https://maps.google.com/?q=Katalabo+Lumumba+Complex+Dar+es+Salaam" target="_blank" rel="noopener" class="flex items-center gap-2.5 text-sm text-white/70 hover:text-white transition group">
+          <span class="w-8 h-8 rounded-full flex items-center justify-center shrink-0 bg-white/10 group-hover:bg-[var(--lime)] transition">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+          </span>
+          <span class="font-mono" id="footer-address-text">Katalabo, Lumumba Complex</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="border-t border-white/10 py-6 px-6 lg:px-10 max-w-7xl mx-auto text-xs text-white/40 flex justify-between flex-wrap gap-2">
+    <span>© 2026 Nebro Tanzania. All rights reserved.</span>
+    <span class="flex gap-4"><a href="#" class="hover:text-white/70">Privacy Policy</a><a href="#" class="hover:text-white/70">Terms of Service</a><a href="#" class="hover:text-white/70">Sitemap</a></span>
+  </div>
+</footer>
+
+<!-- ================= WHATSAPP BUTTON ================= -->
+<a id="whatsapp-button" href="https://wa.me/255621132663?text=Hi%20Nebro%2C%20I%27d%20like%20to%20ask%20about%20your%20equipment" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="#fff"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.6-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.3-.4.1-.2 0-.4 0-.5C10 9 9.5 7.8 9.3 7.3c-.2-.5-.4-.4-.5-.4h-.5c-.2 0-.5.1-.7.3-.2.3-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3 4.8 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3Z"/><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm0 18.2c-1.6 0-3.2-.4-4.5-1.2l-.3-.2-3.1.8.8-3-.2-.3a8.2 8.2 0 1 1 7.3 3.9Z"/></svg>
+</a>
+
+<!-- ================= AI ASSISTANT WIDGET ================= -->
+<button id="ai-widget-button" aria-label="Open Nebro assistant">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10Z"/><circle cx="9" cy="10" r="1" fill="var(--navy)"/><circle cx="12" cy="10" r="1" fill="var(--navy)"/><circle cx="15" cy="10" r="1" fill="var(--navy)"/></svg>
+</button>
+
+<div id="ai-widget-panel">
+  <div class="px-5 py-4 flex items-center justify-between" style="background:var(--navy)">
+    <div class="flex items-center gap-2">
+      <span class="w-8 h-8 rounded-full flex items-center justify-center" style="background:var(--lime)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2.2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10Z"/></svg>
+      </span>
+      <div>
+        <p class="font-display font-semibold text-sm text-white leading-tight">Nebro Assistant</p>
+        <p class="text-[11px] text-white/50 leading-tight">Ask about products or a quote</p>
+      </div>
+    </div>
+    <button id="ai-widget-close" aria-label="Close" class="w-7 h-7 rounded-full flex items-center justify-center hover:bg-white/10">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <div id="ai-widget-messages" class="flex-1 p-4 flex flex-col gap-3 overflow-y-auto" style="min-height:220px">
+    <div class="ai-msg bot">Hi, I'm the Nebro assistant (front-end preview). Ask me about diagnostic, laboratory, or surgical &amp; ICU equipment.</div>
+  </div>
+  <form id="ai-widget-form" class="p-3 border-t hairline flex items-center gap-2">
+    <input id="ai-widget-input" type="text" placeholder="Type a question..." class="flex-1 px-4 py-2.5 rounded-full border hairline text-sm focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)" autocomplete="off" />
+    <button type="submit" aria-label="Send" class="w-9 h-9 rounded-full flex items-center justify-center shrink-0" style="background:var(--navy)">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2.2"><path d="m22 2-7 20-4-9-9-4Z"/></svg>
+    </button>
+  </form>
+</div>
+
+<script src="vendor/supabase.js"></script>
+<script src="supabase-config.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>

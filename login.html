@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign In | Nebro Admin</title>
+<link rel="icon" href="logo.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tailwind.css">
+<link rel="stylesheet" href="style.css">
+<script src="vendor/supabase.js"></script>
+<script src="supabase-config.js"></script>
+</head>
+<body class="antialiased" style="background:var(--navy-darker)">
+
+<div class="min-h-screen flex items-center justify-center px-6">
+  <div class="w-full max-w-sm">
+    <div class="flex items-center justify-center gap-2 mb-8">
+      <img src="logo.png" alt="Nebro" class="h-10 w-10 rounded-full object-cover" />
+      <span class="font-display font-semibold text-2xl text-white">nebro</span>
+    </div>
+
+    <div class="admin-card p-8">
+      <h1 class="font-display font-semibold text-xl mb-1" style="color:var(--navy)">Admin Sign In</h1>
+      <p class="text-sm mb-6" style="color:var(--grey)">Developer, Super Admin, and Staff accounts all sign in here.</p>
+
+      <form id="login-form" class="grid gap-4">
+        <div>
+          <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Email</label>
+          <input required type="email" id="login-email" class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)" />
+        </div>
+        <div>
+          <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Password</label>
+          <input required type="password" id="login-password" class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)" />
+        </div>
+        <p id="login-error" class="hidden text-xs px-3 py-2 rounded-lg" style="background:#FEE2E2; color:#B91C1C"></p>
+        <button type="submit" id="login-submit" class="font-mono text-sm font-medium px-6 py-3 rounded-full text-white btn-glow-navy" style="background:var(--navy)">Sign In</button>
+      </form>
+    </div>
+
+    <p class="text-center text-xs text-white/40 mt-6">
+      No account yet? Ask a Developer or Super Admin to invite you from Settings → Roles &amp; Permissions.
+    </p>
+  </div>
+</div>
+
+<script>
+  document.getElementById('login-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('login-email').value.trim();
+    const password = document.getElementById('login-password').value;
+    const errorEl = document.getElementById('login-error');
+    const submitBtn = document.getElementById('login-submit');
+    errorEl.classList.add('hidden');
+    submitBtn.textContent = 'Signing in...';
+
+    const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+
+    if (error) {
+      errorEl.textContent = error.message;
+      errorEl.classList.remove('hidden');
+      submitBtn.textContent = 'Sign In';
+      return;
+    }
+    window.location.href = 'admin.html';
+  });
+
+  // If already signed in, skip straight to the dashboard.
+  supabaseClient.auth.getSession().then(({ data }) => {
+    if (data.session) window.location.href = 'admin.html';
+  });
+</script>
+</body>
+</html>

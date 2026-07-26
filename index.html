@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nebro | Precision Medical Equipment, Delivered With Trust</title>
+<meta name="description" content="Nebro supplies certified diagnostic, laboratory, and surgical equipment to hospitals and clinics across Tanzania and East Africa.">
+<link rel="icon" href="logo.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tailwind.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="antialiased">
+
+<!-- ================= HEADER ================= -->
+<header id="site-header" class="fixed top-0 left-0 right-0 z-50">
+  <div class="text-white" style="background:var(--ink)">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 h-9 flex items-center justify-between text-xs font-mono">
+      <div class="flex items-center gap-4 sm:gap-5">
+        <a href="tel:+255621132663" class="flex items-center gap-1.5 hover:text-[var(--lime-bright)] transition">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>
+          <span>+255 621 132 663</span>
+        </a>
+        <a href="mailto:info@nebro.co.tz" class="hidden sm:flex items-center gap-1.5 hover:text-[var(--lime-bright)] transition">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4h16v16H4V4Z"/><path d="m4 6 8 7 8-7"/></svg>
+          <span>info@nebro.co.tz</span>
+        </a>
+      </div>
+      <span class="hidden md:inline text-white/50">Excellence in Equipping Medical Equipment — Tanzania</span>
+    </div>
+  </div>
+  <div class="bg-[#F7F9F2]/95 backdrop-blur border-b hairline">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 h-20 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2 shrink-0">
+        <img src="logo.png" alt="Nebro" class="h-9 w-9 rounded-full object-cover" />
+        <span class="font-display font-semibold text-xl tracking-tight" style="color:var(--navy)">nebro</span>
+      </a>
+      <nav class="hidden lg:flex items-center gap-7 font-medium text-sm" style="color:var(--navy)">
+      <a href="index.html" class="nav-active hover:opacity-70 transition">Home</a>
+      <a href="about.html" class="hover:opacity-70 transition">About</a>
+      <a href="products.html" class="hover:opacity-70 transition">Products</a>
+      <a href="industries.html" class="hover:opacity-70 transition">Industries</a>
+      <a href="case-studies.html" class="hover:opacity-70 transition">Case Studies</a>
+      <a href="resources.html" class="hover:opacity-70 transition">Resources</a>
+      <a href="contact.html" class="hover:opacity-70 transition">Contact</a>
+      </nav>
+      <div class="flex items-center gap-3">
+        <button id="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme"></button>
+        <a href="contact.html" class="hidden sm:inline-flex font-mono text-xs font-medium px-5 py-2.5 rounded-full text-[var(--navy)] transition hover:brightness-95 btn-glow" style="background:var(--lime)">
+          Request a Quote
+        </a>
+        <button id="mobile-menu-toggle" aria-expanded="false" aria-controls="mobile-nav" class="lg:hidden w-10 h-10 flex items-center justify-center rounded-full border hairline" aria-label="Toggle menu">
+          <svg id="icon-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+          <svg id="icon-close" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2" stroke-linecap="round" class="hidden"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+    </div>
+    <nav id="mobile-nav" class="hidden lg:hidden flex-col gap-1 px-6 pb-5 font-medium text-sm border-t hairline" style="color:var(--navy)">
+    <a href="index.html" class="py-3">Home</a>
+    <a href="about.html" class="py-3">About</a>
+    <a href="products.html" class="py-3">Products</a>
+    <a href="industries.html" class="py-3">Industries</a>
+    <a href="case-studies.html" class="py-3">Case Studies</a>
+    <a href="resources.html" class="py-3">Resources</a>
+    <a href="contact.html" class="py-3">Contact</a>
+      <a href="contact.html" class="mt-2 text-center font-mono text-xs px-5 py-3 rounded-full" style="background:var(--lime); color:var(--navy)">Request a Quote</a>
+    </nav>
+  </div>
+</header>
+
+<main class="pt-[7.25rem]">
+
+  <!-- ================= HERO ================= -->
+  <section class="relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 pt-16 md:pt-20 pb-24 md:pb-28 grid lg:grid-cols-[1fr_1fr] gap-14 lg:gap-16 items-center">
+      <div class="reveal">
+        <span class="pill" style="color:var(--lime-deep)">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span id="hero-eyebrow-text">Serving Tanzania &amp; East Africa</span>
+        </span>
+        <h1 id="hero-heading" class="animate-words font-display font-semibold leading-[1.05] text-4xl sm:text-5xl md:text-6xl xl:text-[4.4rem] tracking-tight mt-6" style="color:var(--navy)">
+          <span class="word" style="transition-delay:0ms">Equipping</span> <span class="word" style="transition-delay:70ms">Healthcare</span> <span class="word" style="transition-delay:140ms">with</span>
+          <span class="word text-gradient" style="transition-delay:210ms">Precision</span> <span class="word text-gradient" style="transition-delay:280ms">&amp;</span> <span class="word text-gradient" style="transition-delay:350ms">Trust</span>
+        </h1>
+        <p id="hero-subtext" class="mt-6 text-lg max-w-md" style="color:var(--grey)">
+          The premier supplier of certified medical equipment for hospitals, clinics, and laboratories across the region.
+        </p>
+        <div class="mt-9 flex flex-wrap items-center gap-4">
+          <a href="products.html" class="font-medium px-7 py-3.5 rounded-full text-white transition hover:brightness-110 shadow-lg shadow-[var(--navy)]/20" style="background:var(--navy)">
+            Explore Catalog
+          </a>
+          <a href="contact.html" class="font-medium px-7 py-3.5 rounded-full border-2 transition hover:bg-[var(--navy)] hover:text-white" style="border-color:var(--navy)">
+            Request a Quote
+          </a>
+        </div>
+
+        <div class="mt-14 md:mt-16 grid grid-cols-3 gap-4 sm:gap-6 max-w-lg border-t hairline pt-7">
+          <div>
+            <p class="font-mono text-2xl sm:text-3xl font-medium" style="color:var(--navy)"><span data-count-to="120" data-count-suffix="+">0+</span></p>
+            <p class="text-xs mt-1" style="color:var(--grey)">Facilities equipped</p>
+          </div>
+          <div>
+            <p class="font-mono text-2xl sm:text-3xl font-medium" style="color:var(--navy)"><span data-count-to="48" data-count-suffix="h">0h</span></p>
+            <p class="text-xs mt-1" style="color:var(--grey)">Avg. quote turnaround</p>
+          </div>
+          <div>
+            <p class="font-mono text-2xl sm:text-3xl font-medium" style="color:var(--navy)">ISO</p>
+            <p class="text-xs mt-1" style="color:var(--grey)">Certified suppliers only</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Overlapping animated photo composition -->
+      <div class="reveal" style="transition-delay:.15s">
+        <div class="hero-photo-stack relative w-full h-[300px] sm:h-[360px] md:h-[420px]">
+          <div id="hero-photo-1" class="stack-item d1 absolute top-0 left-[8%] w-[42%] aspect-square" style="background:linear-gradient(150deg,var(--mint),var(--navy))">
+            <img class="site-photo-img hidden w-full h-full object-cover" alt="" />
+            <div class="site-photo-fallback w-full h-full flex items-center justify-center">
+              <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.4"><path d="M6 3v6a4 4 0 0 0 4 4h0a4 4 0 0 0 4-4V3M14 13v3a5 5 0 0 1-10 0v-1M18 6a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/></svg>
+            </div>
+          </div>
+          <div id="hero-photo-2" class="stack-item d2 absolute top-[12%] right-0 w-[62%] aspect-[4/3]" style="background:linear-gradient(150deg,var(--navy),#17314f 60%,var(--mint))">
+            <img class="site-photo-img hidden w-full h-full object-cover" alt="" />
+            <div class="site-photo-fallback w-full h-full flex items-center justify-center">
+              <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="1.3"><path d="M3 12h4l2-7 4 14 2-7h6"/></svg>
+            </div>
+          </div>
+          <div id="hero-photo-3" class="stack-item d3 absolute bottom-0 left-[18%] w-[52%] aspect-[4/3]" style="background:linear-gradient(150deg,#123049,var(--navy) 55%,var(--lime-deep))">
+            <img class="site-photo-img hidden w-full h-full object-cover" alt="" />
+            <div class="site-photo-fallback w-full h-full flex items-center justify-center">
+              <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="1.3"><path d="M9 2v6.5L4 20a1 1 0 0 0 1 2h14a1 1 0 0 0 1-2l-5-11.5V2M9 2h6"/></svg>
+            </div>
+          </div>
+          <div class="hidden sm:flex absolute -bottom-4 right-2 rounded-2xl px-5 py-4 bg-white shadow-xl border hairline items-center gap-3 z-10">
+            <span class="w-9 h-9 rounded-full flex items-center justify-center" style="background:var(--lime)">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2.2"><path d="M12 2 3 6v6c0 5 4 9 9 10 5-1 9-5 9-10V6l-9-4Z"/><path d="m9 12 2 2 4-4"/></svg>
+            </span>
+            <div>
+              <p class="font-mono text-sm font-semibold" style="color:var(--navy)">ISO-aligned</p>
+              <p class="text-[11px]" style="color:var(--grey)">Certified equipment only</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SPECIALIZATIONS SWITCHER ================= -->
+  <section id="specializations" class="py-20 md:py-24 border-t hairline" style="background:#FFFFFF">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+      <div class="max-w-xl reveal">
+        <p class="font-mono text-xs tracking-widest uppercase mb-4" style="color:var(--lime-deep)">— What we supply</p>
+        <h2 class="font-display font-semibold text-3xl md:text-4xl tracking-tight">A solution for every specialization</h2>
+        <p class="mt-4" style="color:var(--grey)">Hover a category to see what's inside. One point of contact, three specializations covered.</p>
+      </div>
+
+      <div class="mt-12 grid lg:grid-cols-[1.15fr_0.85fr] gap-6 reveal items-center" data-switcher style="transition-delay:.05s">
+
+        <!-- Preview panel -->
+        <div class="admin-card rounded-2xl p-3 order-2 lg:order-1">
+          <div data-switch-panel="diagnostic" class="is-active">
+            <div id="spec-diagnostic-photo" class="grid grid-cols-2 gap-3">
+              <div class="site-photo-thumb rounded-xl overflow-hidden border hairline">
+                <div class="aspect-[4/3] site-photo-fallback flex items-center justify-center" style="background:linear-gradient(135deg,#cdeaea,#a9d9e0)">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="1.5"><path d="M6 3v6a4 4 0 0 0 4 4h0a4 4 0 0 0 4-4V3M14 13v3a5 5 0 0 1-10 0v-1M18 6a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/></svg>
+                </div>
+                <img class="site-photo-img hidden w-full aspect-[4/3] object-cover" alt="" />
+                <p class="text-center text-xs py-2" style="color:var(--grey)">Stethoscope</p>
+              </div>
+              <div class="site-photo-thumb rounded-xl overflow-hidden border hairline">
+                <div class="aspect-[4/3] site-photo-fallback flex items-center justify-center" style="background:linear-gradient(135deg,#1a2440,#2b3a5c)">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="1.5"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z"/><path d="M12 7v5l3 3"/></svg>
+                </div>
+                <img class="site-photo-img hidden w-full aspect-[4/3] object-cover" alt="" />
+                <p class="text-center text-xs py-2" style="color:var(--grey)">Oximeter</p>
+              </div>
+              <div class="site-photo-thumb rounded-xl overflow-hidden border hairline">
+                <div class="aspect-[4/3] site-photo-fallback flex items-center justify-center" style="background:#e8ecef">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="1.5"><path d="M4 4h16v16H4V4Z"/><path d="m4 6 8 7 8-7"/></svg>
+                </div>
+                <img class="site-photo-img hidden w-full aspect-[4/3] object-cover" alt="" />
+                <p class="text-center text-xs py-2" style="color:var(--grey)">BP Monitor</p>
+              </div>
+              <div class="site-photo-thumb rounded-xl overflow-hidden border hairline">
+                <div class="aspect-[4/3] site-photo-fallback flex items-center justify-center" style="background:#e0e3e6">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="m9 12 2 2 4-4"/></svg>
+                </div>
+                <img class="site-photo-img hidden w-full aspect-[4/3] object-cover" alt="" />
+                <p class="text-center text-xs py-2" style="color:var(--grey)">Thermometer</p>
+              </div>
+            </div>
+            <a href="products.html" class="mt-3 flex items-center justify-center gap-2 font-mono text-xs font-medium px-5 py-3.5 rounded-xl text-white" style="background:var(--navy)">
+              View All Diagnostic Devices
+            </a>
+          </div>
+
+          <div data-switch-panel="laboratory">
+            <div id="spec-laboratory-photo" class="grid grid-cols-2 gap-3">
+              <div class="site-photo-thumb rounded-xl overflow-hidden border hairline">
+                <div class="aspect-[4/3] site-photo-fallback flex items-center justify-center" style="background:#e8ecef">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="1.5"><path d="M9 2v6.5L4 20a1 1 0 0 0 1 2h14a1 1 0 0 0 1-2l-5-11.5V2M9 2h6"/></svg>
+                </div>
+                <img class="site-photo-img hidden w-full aspect-[4/3] object-cover" alt="" />
+                <p class="text-center text-xs py-2" style="color:var(--grey)">Hematology Analyzer</p>
+              </div>
+              <div class="site-photo-thumb rounded-xl overflow-hidden border hairline">
+                <div class="aspect-[4/3] site-photo-fallback flex items-center justify-center" style="background:linear-gradient(135deg,#cdeaea,#a9d9e0)">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="1.5"><path d="M4 4h16M6 4v13a3 3 0 0 0 3 3h6a3 3 0 0 0 3-3V4M10 9v6M14 9v6"/></svg>
+                </div>
+                <img class="site-photo-img hidden w-full aspect-[4/3] object-cover" alt="" />
+                <p class="text-center text-xs py-2" style="color:var(--grey)">Centrifuge</p>
+              </div>
+              <div class="site-photo-thumb rounded-xl overflow-hidden border hairline">
+                <div class="aspect-[4/3] site-photo-fallback flex items-center justify-center" style="background:#e0e3e6">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="1.5"><path d="M3 3v18h18M7 15l4-5 3 3 5-7"/></svg>
+                </div>
+                <img class="site-photo-img hidden w-full aspect-[4/3] object-cover" alt="" />
+                <p class="text-center text-xs py-2" style="color:var(--grey)">Biochemistry Analyzer</p>
+              </div>
+              <div class="site-photo-thumb rounded-xl overflow-hidden border hairline">
+                <div class="aspect-[4/3] site-photo-fallback flex items-center justify-center" style="background:linear-gradient(135deg,#1a2440,#2b3a5c)">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="m9 12 2 2 4-4"/></svg>
+                </div>
+                <img class="site-photo-img hidden w-full aspect-[4/3] object-cover" alt="" />
+                <p class="text-center text-xs py-2" style="color:var(--grey)">Sample Prep</p>
+              </div>
+            </div>
+            <a href="products.html" class="mt-3 flex items-center justify-center gap-2 font-mono text-xs font-medium px-5 py-3.5 rounded-xl text-white" style="background:var(--navy)">
+              View All Laboratory Equipment
+            </a>
+          </div>
+
+          <div data-switch-panel="surgical">
+            <div id="spec-surgical-photo" class="grid grid-cols-2 gap-3">
+              <div class="site-photo-thumb rounded-xl overflow-hidden border hairline">
+                <div class="aspect-[4/3] site-photo-fallback flex items-center justify-center" style="background:linear-gradient(135deg,#1a2440,#2b3a5c)">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="1.5"><path d="M3 12h4l2-7 4 14 2-7h6"/></svg>
+                </div>
+                <img class="site-photo-img hidden w-full aspect-[4/3] object-cover" alt="" />
+                <p class="text-center text-xs py-2" style="color:var(--grey)">Patient Monitor</p>
+              </div>
+              <div class="site-photo-thumb rounded-xl overflow-hidden border hairline">
+                <div class="aspect-[4/3] site-photo-fallback flex items-center justify-center" style="background:#e8ecef">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="1.5"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                </div>
+                <img class="site-photo-img hidden w-full aspect-[4/3] object-cover" alt="" />
+                <p class="text-center text-xs py-2" style="color:var(--grey)">Ventilator</p>
+              </div>
+              <div class="site-photo-thumb rounded-xl overflow-hidden border hairline">
+                <div class="aspect-[4/3] site-photo-fallback flex items-center justify-center" style="background:#e0e3e6">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/></svg>
+                </div>
+                <img class="site-photo-img hidden w-full aspect-[4/3] object-cover" alt="" />
+                <p class="text-center text-xs py-2" style="color:var(--grey)">Instrument Set</p>
+              </div>
+              <div class="site-photo-thumb rounded-xl overflow-hidden border hairline">
+                <div class="aspect-[4/3] site-photo-fallback flex items-center justify-center" style="background:linear-gradient(135deg,#cdeaea,#a9d9e0)">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="m9 12 2 2 4-4"/></svg>
+                </div>
+                <img class="site-photo-img hidden w-full aspect-[4/3] object-cover" alt="" />
+                <p class="text-center text-xs py-2" style="color:var(--grey)">ICU Cart</p>
+              </div>
+            </div>
+            <a href="products.html" class="mt-3 flex items-center justify-center gap-2 font-mono text-xs font-medium px-5 py-3.5 rounded-xl text-white" style="background:var(--navy)">
+              View All Surgical &amp; ICU
+            </a>
+          </div>
+        </div>
+
+        <!-- Trigger list -->
+        <div class="order-1 lg:order-2 flex flex-col gap-3">
+          <button type="button" data-switch-trigger="diagnostic" class="is-active text-left rounded-2xl border hairline p-5 flex items-center gap-4">
+            <span class="switch-icon w-11 h-11 rounded-full flex items-center justify-center shrink-0">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2"><path d="M6 3v6a4 4 0 0 0 4 4h0a4 4 0 0 0 4-4V3"/></svg>
+            </span>
+            <span>
+              <span class="switch-title font-display font-semibold block" style="color:var(--navy)">Diagnostic Devices</span>
+              <span class="switch-sub text-sm block mt-0.5" style="color:var(--grey)">Superior tools for accurate diagnosis</span>
+            </span>
+          </button>
+          <button type="button" data-switch-trigger="laboratory" class="text-left rounded-2xl border hairline p-5 flex items-center gap-4">
+            <span class="switch-icon w-11 h-11 rounded-full flex items-center justify-center shrink-0">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2"><path d="M9 2v6.5L4 20a1 1 0 0 0 1 2h14a1 1 0 0 0 1-2l-5-11.5V2"/></svg>
+            </span>
+            <span>
+              <span class="switch-title font-display font-semibold block" style="color:var(--navy)">Laboratory Equipment</span>
+              <span class="switch-sub text-sm block mt-0.5" style="color:var(--grey)">Precision instruments for analysis</span>
+            </span>
+          </button>
+          <button type="button" data-switch-trigger="surgical" class="text-left rounded-2xl border hairline p-5 flex items-center gap-4">
+            <span class="switch-icon w-11 h-11 rounded-full flex items-center justify-center shrink-0">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2"><path d="M3 12h4l2-7 4 14 2-7h6"/></svg>
+            </span>
+            <span>
+              <span class="switch-title font-display font-semibold block" style="color:var(--navy)">Surgical &amp; ICU</span>
+              <span class="switch-sub text-sm block mt-0.5" style="color:var(--grey)">Critical care and surgical solutions</span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TRUSTED BY PROFESSIONALS ================= -->
+  <section class="py-20 md:py-24" style="background:#FFFFFF">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+      <div class="max-w-xl mx-auto text-center reveal">
+        <p class="font-mono text-xs tracking-widest uppercase mb-4" style="color:var(--lime-deep)">— Trusted by professionals</p>
+        <h2 class="font-display font-semibold text-3xl md:text-4xl tracking-tight" style="color:var(--navy)">Trusted By Professionals</h2>
+        <p class="mt-4" style="color:var(--grey)">Explore our flagship equipment, renowned for reliability and precision.</p>
+      </div>
+
+      <div class="mt-12 grid lg:grid-cols-[1.15fr_0.85fr] gap-6 reveal items-start" data-switcher style="transition-delay:.05s">
+
+        <!-- Photo + caption -->
+        <div class="order-2 lg:order-1">
+          <div data-switch-panel="tools" class="is-active">
+            <div id="trusted-photo-tools" class="rounded-2xl overflow-hidden border hairline">
+              <div class="site-photo-fallback aspect-[16/10] flex items-center justify-center" style="background:linear-gradient(150deg,#1a2440,#2b3a5c)">
+                <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="1.3"><path d="M6 3v6a4 4 0 0 0 4 4h0a4 4 0 0 0 4-4V3M14 13v3a5 5 0 0 1-10 0v-1M18 6a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/></svg>
+              </div>
+              <img class="site-photo-img hidden w-full aspect-[16/10] object-cover" alt="" />
+            </div>
+            <h3 class="font-display font-semibold text-lg mt-5" style="color:var(--navy)">Advanced Diagnostic Tools</h3>
+            <p class="text-sm mt-2 max-w-md" style="color:var(--grey)">A collection of high-precision stethoscopes, BP monitors, and oximeters trusted in clinical settings across the region.</p>
+          </div>
+          <div data-switch-panel="analyzers">
+            <div id="trusted-photo-analyzers" class="rounded-2xl overflow-hidden border hairline">
+              <div class="site-photo-fallback aspect-[16/10] flex items-center justify-center" style="background:linear-gradient(150deg,#1a2440,#2b3a5c)">
+                <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="1.3"><path d="M9 2v6.5L4 20a1 1 0 0 0 1 2h14a1 1 0 0 0 1-2l-5-11.5V2M9 2h6"/></svg>
+              </div>
+              <img class="site-photo-img hidden w-full aspect-[16/10] object-cover" alt="" />
+            </div>
+            <h3 class="font-display font-semibold text-lg mt-5" style="color:var(--navy)">Modern Laboratory Analyzers</h3>
+            <p class="text-sm mt-2 max-w-md" style="color:var(--grey)">Fast, consistent results with minimal calibration overhead — built for high-throughput labs.</p>
+          </div>
+          <div data-switch-panel="icu">
+            <div id="trusted-photo-icu" class="rounded-2xl overflow-hidden border hairline">
+              <div class="site-photo-fallback aspect-[16/10] flex items-center justify-center" style="background:linear-gradient(150deg,#1a2440,#2b3a5c)">
+                <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="1.3"><path d="M3 12h4l2-7 4 14 2-7h6"/></svg>
+              </div>
+              <img class="site-photo-img hidden w-full aspect-[16/10] object-cover" alt="" />
+            </div>
+            <h3 class="font-display font-semibold text-lg mt-5" style="color:var(--navy)">Life-Support &amp; ICU Systems</h3>
+            <p class="text-sm mt-2 max-w-md" style="color:var(--grey)">Monitoring and ventilation systems designed for round-the-clock critical care.</p>
+          </div>
+        </div>
+
+        <!-- Trigger list -->
+        <div class="order-1 lg:order-2 flex flex-col gap-3">
+          <button type="button" data-switch-trigger="tools" class="is-active text-left rounded-2xl border hairline p-5 flex items-center gap-4">
+            <span class="switch-icon w-11 h-11 rounded-full flex items-center justify-center shrink-0">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2"><path d="M6 3v6a4 4 0 0 0 4 4h0a4 4 0 0 0 4-4V3"/></svg>
+            </span>
+            <span>
+              <span class="switch-title font-display font-semibold block" style="color:var(--navy)">Advanced Diagnostic Tools</span>
+              <span class="switch-sub text-sm block mt-0.5" style="color:var(--grey)">Diagnostics</span>
+            </span>
+          </button>
+          <button type="button" data-switch-trigger="analyzers" class="text-left rounded-2xl border hairline p-5 flex items-center gap-4">
+            <span class="switch-icon w-11 h-11 rounded-full flex items-center justify-center shrink-0">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2"><path d="M9 2v6.5L4 20a1 1 0 0 0 1 2h14a1 1 0 0 0 1-2l-5-11.5V2"/></svg>
+            </span>
+            <span>
+              <span class="switch-title font-display font-semibold block" style="color:var(--navy)">Modern Laboratory Analyzers</span>
+              <span class="switch-sub text-sm block mt-0.5" style="color:var(--grey)">Laboratory</span>
+            </span>
+          </button>
+          <button type="button" data-switch-trigger="icu" class="text-left rounded-2xl border hairline p-5 flex items-center gap-4">
+            <span class="switch-icon w-11 h-11 rounded-full flex items-center justify-center shrink-0">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2"><path d="M3 12h4l2-7 4 14 2-7h6"/></svg>
+            </span>
+            <span>
+              <span class="switch-title font-display font-semibold block" style="color:var(--navy)">Life-Support &amp; ICU Systems</span>
+              <span class="switch-sub text-sm block mt-0.5" style="color:var(--grey)">Monitoring</span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TRUST / COMMITMENT ================= -->
+  <section id="trust" class="py-20 md:py-24" style="background:#FFFFFF">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 grid lg:grid-cols-2 gap-14 lg:gap-16 items-center">
+      <div class="reveal">
+        <p class="font-mono text-xs tracking-widest uppercase mb-4" style="color:var(--lime-deep)">— Our commitment</p>
+        <h2 class="font-display font-semibold text-3xl md:text-4xl tracking-tight" style="color:var(--navy)">Confirmed by the partners we serve</h2>
+        <p class="mt-4 max-w-md" style="color:var(--grey)">Every device we ship is backed by documentation, and every relationship is backed by a person who picks up the phone.</p>
+
+        <div class="mt-10 space-y-4" data-commitment-accordion>
+          <button type="button" data-commitment-trigger="quality" class="is-active w-full text-left flex items-start gap-4 p-5 rounded-xl transition" style="background:var(--lime)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2.2" class="mt-1 shrink-0"><path d="M12 2 3 6v6c0 5 4 9 9 10 5-1 9-5 9-10V6l-9-4Z"/><path d="m9 12 2 2 4-4"/></svg>
+            <div>
+              <p class="font-medium" style="color:var(--navy)">Certified Quality</p>
+              <div class="commitment-detail">
+                <p class="text-sm mt-1.5 italic" style="color:var(--navy)">"Their equipment meets the highest international standards. We trust Nebro for all our critical care needs."</p>
+                <p class="text-xs mt-2 font-mono" style="color:var(--navy)">— ICU Director, referral hospital partner</p>
+              </div>
+            </div>
+          </button>
+          <button type="button" data-commitment-trigger="logistics" class="w-full text-left flex items-start gap-4 p-5 rounded-xl border hairline transition">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2.2" class="mt-1 shrink-0"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8Z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            <div>
+              <p class="font-medium" style="color:var(--navy)">Reliable Logistics</p>
+              <div class="commitment-detail hidden">
+                <p class="text-sm mt-1.5" style="color:var(--grey)">Clear delivery timelines, tracked from order to installation.</p>
+              </div>
+            </div>
+          </button>
+          <button type="button" data-commitment-trigger="support" class="w-full text-left flex items-start gap-4 p-5 rounded-xl border hairline transition">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2.2" class="mt-1 shrink-0"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <div>
+              <p class="font-medium" style="color:var(--navy)">Expert Support</p>
+              <div class="commitment-detail hidden">
+                <p class="text-sm mt-1.5" style="color:var(--grey)">Installation, training, and maintenance from people who know the equipment.</p>
+              </div>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Photo placeholder -->
+      <div id="commitment-photo" class="reveal rounded-2xl overflow-hidden aspect-[4/5] lg:aspect-auto lg:h-[460px] flex items-center justify-center relative" style="transition-delay:.1s; background:linear-gradient(150deg,var(--paper),#eef2e6)">
+        <img class="site-photo-img hidden w-full h-full object-cover absolute inset-0" alt="" />
+        <div class="site-photo-fallback text-center px-8">
+          <div class="w-16 h-16 rounded-full mx-auto flex items-center justify-center" style="background:var(--navy)">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="1.6"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <p class="font-display font-semibold mt-4" style="color:var(--navy)">Our team, on-site</p>
+          <p class="text-xs mt-1 max-w-[220px] mx-auto" style="color:var(--grey)">Photo placeholder — swap for a real installation/training photo.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CTA BANNER ================= -->
+  <section class="px-6 lg:px-10 py-20 md:py-24">
+    <div class="max-w-7xl mx-auto rounded-3xl p-10 sm:p-12 md:p-16 reveal relative overflow-hidden grid lg:grid-cols-[1.2fr_0.8fr] gap-10 items-center" style="background:linear-gradient(120deg,var(--navy),#0E1A2C)">
+      <div class="relative z-10">
+        <h2 class="font-display font-semibold text-3xl md:text-4xl text-white tracking-tight">Ready to equip your facility?</h2>
+        <p class="mt-4 text-white/70">Tell us what you need — we'll put together a quote built around your budget and timeline.</p>
+        <div class="mt-8 flex flex-wrap gap-4">
+          <a href="contact.html" class="font-medium px-7 py-3.5 rounded-full transition hover:brightness-95" style="background:var(--lime); color:var(--navy)">Request a Quote</a>
+          <a href="products.html" class="font-medium px-7 py-3.5 rounded-full border-2 border-white/30 text-white transition hover:bg-white/10">Browse Catalog</a>
+        </div>
+      </div>
+      <div class="hidden lg:flex justify-center relative z-10">
+        <div class="seal w-52 h-52">
+          <svg viewBox="0 0 420 420">
+            <circle cx="210" cy="210" r="206" fill="none" stroke="#A3C23940" stroke-width="10"/>
+            <circle cx="210" cy="210" r="206" fill="none" stroke="var(--lime)" stroke-width="1.5"/>
+            <g class="ring-text">
+              <defs>
+                <path id="ctaCirclePath" d="M 210,210 m -178,0 a 178,178 0 1,1 356,0 a 178,178 0 1,1 -356,0"/>
+              </defs>
+              <text font-family="IBM Plex Mono" font-size="14.5" font-weight="500" letter-spacing="4.5" fill="var(--lime-bright)">
+                <textPath href="#ctaCirclePath">TRUSTED PARTNER · TANZANIA &amp; EAST AFRICA · TRUSTED PARTNER · TANZANIA &amp; EAST AFRICA ·</textPath>
+              </text>
+            </g>
+            <g transform="translate(210,210)">
+              <circle r="95" fill="var(--lime)"/>
+              <path d="M -46 8 C -30 -14, -8 -18, 6 -4 L 40 30 C 46 36, 46 46, 38 52 C 31 58, 22 56, 16 50 L -6 28"
+                    fill="none" stroke="var(--navy)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M -46 8 L -60 22 C -66 28, -66 38, -58 44 C -50 50, -40 48, -34 42 L 16 50"
+                    fill="none" stroke="var(--navy)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="border-t hairline" style="background:var(--navy)">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 py-16 grid sm:grid-cols-2 md:grid-cols-4 gap-10">
+    <div class="sm:col-span-2 md:col-span-1">
+      <div class="flex items-center gap-2 mb-4">
+        <img src="logo.png" alt="Nebro" class="h-8 w-8 rounded-full object-cover" />
+        <span class="font-display font-semibold text-lg text-white">nebro</span>
+      </div>
+      <p id="footer-blurb-text" class="text-sm text-white/60 max-w-xs">Trusted supplier of high-quality medical equipment, serving hospitals, clinics, and healthcare facilities across Tanzania and East Africa.</p>
+      <div class="flex items-center gap-3 mt-5">
+        <a href="#" aria-label="Facebook" class="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center hover:border-[var(--lime)] transition"><svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12Z"/></svg></a>
+        <a href="#" aria-label="Instagram" class="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center hover:border-[var(--lime)] transition"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+        <a href="#" aria-label="Twitter / X" class="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center hover:border-[var(--lime)] transition"><svg width="13" height="13" viewBox="0 0 24 24" fill="#fff"><path d="M18.9 2H22l-7.6 8.6L23 22h-6.9l-5.4-6.7L4.5 22H1.4l8.2-9.3L1 2h7l4.9 6.1L18.9 2Z"/></svg></a>
+        <a href="#" aria-label="LinkedIn" class="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center hover:border-[var(--lime)] transition"><svg width="13" height="13" viewBox="0 0 24 24" fill="#fff"><path d="M4.98 3.5C4.98 4.9 3.9 6 2.5 6S0 4.9 0 3.5 1.1 1 2.5 1s2.48 1.1 2.48 2.5ZM.24 8.75h4.5V23H.24V8.75ZM8.5 8.75h4.3v1.95h.06c.6-1.1 2.06-2.26 4.24-2.26 4.53 0 5.37 2.98 5.37 6.86V23h-4.5v-6.9c0-1.65-.03-3.77-2.3-3.77-2.3 0-2.66 1.8-2.66 3.65V23H8.5V8.75Z"/></svg></a>
+      </div>
+    </div>
+    <div>
+      <p class="font-mono text-xs uppercase tracking-widest mb-4" style="color:var(--lime)">Company</p>
+      <ul class="space-y-2 text-sm text-white/70">
+        <li><a href="about.html" class="hover:text-white transition">About Us</a></li>
+        <li><a href="industries.html" class="hover:text-white transition">Industries</a></li>
+        <li><a href="case-studies.html" class="hover:text-white transition">Case Studies</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-mono text-xs uppercase tracking-widest mb-4" style="color:var(--lime)">Resources</p>
+      <ul class="space-y-2 text-sm text-white/70">
+        <li><a href="products.html" class="hover:text-white transition">Products</a></li>
+        <li><a href="resources.html" class="hover:text-white transition">Resources</a></li>
+        <li><a href="contact.html" class="hover:text-white transition">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-mono text-xs uppercase tracking-widest mb-4" style="color:var(--lime)">Contact Info</p>
+      <div class="flex flex-col gap-2.5">
+        <a href="tel:+255621132663" class="flex items-center gap-2.5 text-sm text-white/70 hover:text-white transition group">
+          <span class="w-8 h-8 rounded-full flex items-center justify-center shrink-0 bg-white/10 group-hover:bg-[var(--lime)] transition">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>
+          </span>
+          <span class="font-mono" id="footer-phone-text">+255 621 132 663</span>
+        </a>
+        <a href="mailto:info@nebro.co.tz" class="flex items-center gap-2.5 text-sm text-white/70 hover:text-white transition group">
+          <span class="w-8 h-8 rounded-full flex items-center justify-center shrink-0 bg-white/10 group-hover:bg-[var(--lime)] transition">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4V4Z"/><path d="m4 6 8 7 8-7"/></svg>
+          </span>
+          <span class="font-mono">info@nebro.co.tz</span>
+        </a>
+        <a href="https://maps.google.com/?q=Katalabo+Lumumba+Complex+Dar+es+Salaam" target="_blank" rel="noopener" class="flex items-center gap-2.5 text-sm text-white/70 hover:text-white transition group">
+          <span class="w-8 h-8 rounded-full flex items-center justify-center shrink-0 bg-white/10 group-hover:bg-[var(--lime)] transition">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+          </span>
+          <span class="font-mono" id="footer-address-text">Katalabo, Lumumba Complex</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="border-t border-white/10 py-6 px-6 lg:px-10 max-w-7xl mx-auto text-xs text-white/40 flex justify-between flex-wrap gap-2">
+    <span>© 2026 Nebro Tanzania. All rights reserved.</span>
+    <span class="flex gap-4"><a href="#" class="hover:text-white/70">Privacy Policy</a><a href="#" class="hover:text-white/70">Terms of Service</a><a href="#" class="hover:text-white/70">Sitemap</a></span>
+  </div>
+</footer>
+
+<!-- ================= WHATSAPP BUTTON ================= -->
+<a id="whatsapp-button" href="https://wa.me/255621132663?text=Hi%20Nebro%2C%20I%27d%20like%20to%20ask%20about%20your%20equipment" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="#fff"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.6-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.3-.4.1-.2 0-.4 0-.5C10 9 9.5 7.8 9.3 7.3c-.2-.5-.4-.4-.5-.4h-.5c-.2 0-.5.1-.7.3-.2.3-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3 4.8 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3Z"/><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm0 18.2c-1.6 0-3.2-.4-4.5-1.2l-.3-.2-3.1.8.8-3-.2-.3a8.2 8.2 0 1 1 7.3 3.9Z"/></svg>
+</a>
+
+<!-- ================= AI ASSISTANT WIDGET ================= -->
+<button id="ai-widget-button" aria-label="Open Nebro assistant">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10Z"/><circle cx="9" cy="10" r="1" fill="var(--navy)"/><circle cx="12" cy="10" r="1" fill="var(--navy)"/><circle cx="15" cy="10" r="1" fill="var(--navy)"/></svg>
+</button>
+
+<div id="ai-widget-panel">
+  <div class="px-5 py-4 flex items-center justify-between" style="background:var(--navy)">
+    <div class="flex items-center gap-2">
+      <span class="w-8 h-8 rounded-full flex items-center justify-center" style="background:var(--lime)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2.2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10Z"/></svg>
+      </span>
+      <div>
+        <p class="font-display font-semibold text-sm text-white leading-tight">Nebro Assistant</p>
+        <p class="text-[11px] text-white/50 leading-tight">Ask about products or a quote</p>
+      </div>
+    </div>
+    <button id="ai-widget-close" aria-label="Close" class="w-7 h-7 rounded-full flex items-center justify-center hover:bg-white/10">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <div id="ai-widget-messages" class="flex-1 p-4 flex flex-col gap-3 overflow-y-auto" style="min-height:220px">
+    <div class="ai-msg bot">Hi, I'm the Nebro assistant (front-end preview). Ask me about diagnostic, laboratory, or surgical &amp; ICU equipment.</div>
+  </div>
+  <form id="ai-widget-form" class="p-3 border-t hairline flex items-center gap-2">
+    <input id="ai-widget-input" type="text" placeholder="Type a question..." class="flex-1 px-4 py-2.5 rounded-full border hairline text-sm focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)" autocomplete="off" />
+    <button type="submit" aria-label="Send" class="w-9 h-9 rounded-full flex items-center justify-center shrink-0" style="background:var(--navy)">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2.2"><path d="m22 2-7 20-4-9-9-4Z"/></svg>
+    </button>
+  </form>
+</div>
+
+<script src="vendor/supabase.js"></script>
+<script src="supabase-config.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
