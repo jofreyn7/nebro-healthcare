@@ -5,7 +5,7 @@
 // works within the RLS policies defined in supabase/migrations/0001_init.sql.
 // NEVER put your service_role key in any frontend file.
 // ============================================================
-const SUPABASE_URL = 'https://YOUR-PROJECT-REF.supabase.co';
-const SUPABASE_ANON_KEY = 'YOUR-ANON-PUBLIC-KEY';
+const SUPABASE_URL = 'https://gzllstqjqvhamphiwnml.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_6h7q9HIcaNgJL_lakPgZdg_nUVcL9It';
 
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const supabaseClient = window.supabase.createClient(https://gzllstqjqvhamphiwnml.supabase.co,sb_publishable_6h7q9HIcaNgJL_lakPgZdg_nUVcL9It);
