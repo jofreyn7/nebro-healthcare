@@ -68,6 +68,140 @@ AI assistant widget (canned front-end responses only).
   breakpoint) and re-verified every page at 390px width — zero horizontal
   overflow, zero JS errors, at both mobile and desktop viewports.
 
+## This round: real company data + two real bugs fixed
+
+**Bug #1 — the spinning seal wasn't showing on phones at all.** The CTA
+banner's seal was set to `hidden` below desktop width (`hidden lg:flex`),
+so on mobile it wasn't just failing to animate — it wasn't rendering at
+all. Fixed: now shows at every screen size (smaller on phones), and I
+verified via the browser's Animation API that it's actually running,
+not just visually appearing to.
+
+**Bug #2 — SVG rotation cross-browser fix.** Added `transform-box:
+fill-box` to the rotating ring text, which is required for consistent
+rotation behavior on mobile Safari/Chrome (the default `transform-box`
+for SVG differs from HTML elements and can cause animations to rotate
+around the wrong point or appear invisible).
+
+**Handshake icon redesigned** to better resemble your actual logo — a
+solid leaf-shaped hand with distinct finger-gap lines, replacing the
+looser hand-drawn line art from before.
+
+**Real company data applied**, pulled from your Company Profile PDF:
+- Phone: `+255 746 448 226` (was a placeholder) — updated in every tel:
+  link, WhatsApp link, and displayed number sitewide
+- Address: `Darhomey Street, Ada Estate, P.O. Box 11566` (was placeholder)
+  — updated everywhere including Google Maps links
+- About page: real Mission & Vision text, all 8 real core values
+  (was 3 invented placeholders), real "Who We Are" story including your
+  actual registration numbers (BRELA No. 181607947, TIN 181-607-947,
+  Business License No. BL01396912024-2500025470)
+- About page stats: replaced inflated/unsubstantiated numbers (200+
+  partners, 6+ countries, 5000+ equipment) with real, defensible ones
+  from your profile: Established 2024, 21+ Active Supply Contracts,
+  15 Medical Representatives, TFDA Registered & Licensed
+
+**To push this live**, since your Supabase database already has the
+*old* placeholder footer/hero text seeded (editing the migration file
+doesn't retroactively change already-existing rows), run this once in
+the SQL Editor to fix your live footer:
+```sql
+update public.site_content
+set value = '{"blurb":"Fast-growing pharmaceutical and medical goods supplier, serving hospitals, clinics, and healthcare facilities across Tanzania and East Africa.","address":"Darhomey Street, Ada Estate","phone":"+255 746 448 226"}'
+where key = 'footer';
+```
+(Or just use Admin → Site Content → Footer form — same result, no SQL needed.)
+
+**Team members — update via the admin panel, not code.** Your profile
+lists real management (Brown Kaswela – Managing Director, Hellen Kaswela
+– Director, Kiteto Abdurhaman – Operations Manager, Emmanuel Mfinanga –
+Marketing Manager, and more). Go to Admin → Team and replace the 3
+placeholder entries with real names/titles — this is exactly what that
+feature is for, no code change needed.
+
+## This round: real domain + brand name update
+- All SEO references (`robots.txt`, `sitemap.xml`, canonical/OG/Twitter
+  tags on every page) now point to **https://www.nebro.co.tz** instead
+  of the placeholder Vercel URL.
+- Brand name updated to **"Nebro Company"** everywhere it appears —
+  header/footer logo text, page titles, meta descriptions, About page
+  copy, footer copyright, email templates in the Edge Functions, and the
+  AI assistant's own name and system prompt. Checked at both 1440px and
+  down to 375px width — the longer name doesn't overflow the header.
+- **Supabase Auth Site URL**: go to Supabase dashboard → Authentication
+  → URL Configuration → update **Site URL** to `https://www.nebro.co.tz`
+  (currently likely still your `.vercel.app` URL) — otherwise future
+  auth emails (invites, password resets) will link to the old address.
+
+## This round: Industries + Case Studies CMS, and SEO
+
+**Run this new incremental migration** (SQL Editor, after your previous two):
+```
+supabase/migrations/0003_case_studies_and_industries.sql
+```
+This adds a `photo_url` column to the existing `case_studies` table and
+creates a new `industries` table, seeded with the current 6 industries.
+
+**Case Studies is now real** — Admin → Case Studies: add/edit/delete,
+upload a photo, toggle Published/Draft. The public Case Studies page
+fetches published ones and shows **newest first** — so the moment you
+add one in admin, it appears at the top of the live page. No more static
+sample cards (those only remain as a fallback if the table is empty or
+the backend isn't connected).
+
+**Industries is now real** — same pattern: Admin → Industries, with
+title/description/photo/display order/published toggle. Public Industries
+page renders them in your chosen order.
+
+**SEO basics added:**
+- `robots.txt` — allows all pages to be indexed, blocks `/admin.html`
+  and `/login.html` from search engines, points to the sitemap
+- `sitemap.xml` — lists all 7 public pages
+- Every public page now has a canonical URL, Open Graph tags (title,
+  description, image, url), and Twitter Card tags — these are what
+  make links look good when shared on WhatsApp/Facebook/X/LinkedIn,
+  and help Google understand each page
+
+**One thing to update yourself:** both `robots.txt`, `sitemap.xml`, and
+every page's canonical/OG tags currently point to
+`https://nebrohealthcare.vercel.app` — if you connect a custom domain
+later, find-and-replace that URL across these files with your real
+domain (a quick job, just search for `nebrohealthcare.vercel.app` in
+the project folder and replace it).
+
+## This round: real alerts, real AI, full team + photo management
+
+**Run this first** — a new incremental migration (your first one is already
+applied, so use this smaller one, not the full `0001_init.sql` again):
+```
+supabase/migrations/0002_team_members.sql
+```
+Paste its contents into the Supabase SQL Editor and run it.
+
+**New Edge Function to deploy:**
+```bash
+supabase functions deploy ai-assistant --no-verify-jwt
+supabase secrets set ANTHROPIC_API_KEY=sk-ant-your-key-here
+```
+`--no-verify-jwt` is required here specifically — unlike the other three
+functions, this one is called by anonymous website visitors (no login),
+so it can't require an auth token.
+
+**What's now real:**
+- **Notification Preferences** (Settings) actually saves to the database
+  and is what `inquiry-alerts` reads — previously this form didn't save
+  anywhere.
+- **AI Assistant widget** now calls Claude (via the new `ai-assistant`
+  function) instead of canned keyword-matched replies. Needs an
+  Anthropic API key (get one at console.anthropic.com).
+- **Team members** (About page) are fully CRUD-managed from a new "Team"
+  section in the admin sidebar — add, edit, delete, upload/replace/remove
+  each person's photo. About page fetches and renders them live.
+- **All 20 site photo slots** are now uploadable from Admin → Site
+  Content → Site Images: the 3 hero photos, About Mission photo,
+  Commitment photo, all 12 "What We Supply" category thumbnails
+  (4 per category), and all 3 "Trusted By Professionals" photos.
+
 ## Contact form now actually saves submissions (important fix)
 Previously the Contact page form was front-end only — it never reached
 the database, which meant Reply-to-Inquiry and the alert function had
