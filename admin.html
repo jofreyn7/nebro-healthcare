@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nebro Admin | Dashboard</title>
+<title>Nebro Company Admin | Dashboard</title>
 <link rel="icon" href="logo.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -22,8 +22,8 @@
   <!-- ================= SIDEBAR ================= -->
   <aside class="admin-sidebar w-64 shrink-0 hidden lg:flex flex-col fixed inset-y-0 left-0 z-40">
     <div class="h-20 flex items-center gap-2 px-6 border-b border-white/10">
-      <img src="logo.png" alt="Nebro" class="h-8 w-8 rounded-full object-cover" />
-      <span class="font-display font-semibold text-lg text-white">nebro</span>
+      <img src="logo.png" alt="Nebro Company" class="h-8 w-8 rounded-full object-cover" />
+      <span class="font-display font-semibold text-lg text-white">Nebro Company</span>
       <span class="font-mono text-[10px] px-2 py-0.5 rounded-full ml-auto" style="background:var(--lime); color:var(--navy)">Admin</span>
     </div>
 
@@ -42,6 +42,14 @@
       <a href="#" data-view="case-studies" class="admin-nav-link">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg>
         Case Studies
+      </a>
+      <a href="#" data-view="team" class="admin-nav-link">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Team
+      </a>
+      <a href="#" data-view="industries" class="admin-nav-link">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h1M9 13h1M14 9h1M14 13h1M9 21v-4h6v4"/></svg>
+        Industries
       </a>
       <a href="#" data-view="inquiries" class="admin-nav-link">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10Z"/></svg>
@@ -102,13 +110,15 @@
       <div class="absolute inset-0 bg-black/40" data-close-mobile-nav></div>
       <div class="absolute inset-y-0 left-0 w-72 admin-sidebar flex flex-col">
         <div class="h-20 flex items-center gap-2 px-6 border-b border-white/10">
-          <img src="logo.png" alt="Nebro" class="h-8 w-8 rounded-full object-cover" />
-          <span class="font-display font-semibold text-lg text-white">nebro</span>
+          <img src="logo.png" alt="Nebro Company" class="h-8 w-8 rounded-full object-cover" />
+          <span class="font-display font-semibold text-lg text-white">Nebro Company</span>
         </div>
         <nav class="flex-1 p-4 space-y-1">
           <a href="#" data-view="dashboard" class="admin-nav-link is-active">Dashboard</a>
           <a href="#" data-view="products" class="admin-nav-link">Products</a>
           <a href="#" data-view="case-studies" class="admin-nav-link">Case Studies</a>
+          <a href="#" data-view="team" class="admin-nav-link">Team</a>
+          <a href="#" data-view="industries" class="admin-nav-link">Industries</a>
           <a href="#" data-view="inquiries" class="admin-nav-link">Inquiries</a>
           <a href="#" data-view="reports" class="admin-nav-link">Reports &amp; Analytics</a>
           <a href="#" data-view="content" class="admin-nav-link">Site Content</a>
@@ -191,35 +201,50 @@
       <!-- ============ CASE STUDIES VIEW ============ -->
       <section data-panel="case-studies" class="hidden">
         <div class="flex items-center justify-between mb-5">
-          <p class="text-sm" style="color:var(--grey)">Success stories shown on the public Case Studies page.</p>
-          <button class="font-mono text-xs font-medium px-5 py-2.5 rounded-full text-white flex items-center gap-2" style="background:var(--navy)">
+          <p class="text-sm" style="color:var(--grey)">Newest published case study appears first on the public page.</p>
+          <button id="open-add-case-study" class="font-mono text-xs font-medium px-5 py-2.5 rounded-full text-white flex items-center gap-2" style="background:var(--navy)">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
             Add Case Study
           </button>
         </div>
         <div class="admin-card overflow-x-auto">
+          <table class="admin-table min-w-[620px]">
+            <thead><tr><th>Photo</th><th>Title</th><th>Facility</th><th>Status</th><th class="text-right">Actions</th></tr></thead>
+            <tbody id="case-studies-table-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============ TEAM VIEW ============ -->
+      <section data-panel="team" class="hidden">
+        <div class="flex items-center justify-between mb-5">
+          <p class="text-sm" style="color:var(--grey)">Shown on the About page, in this order.</p>
+          <button id="open-add-team-member" class="font-mono text-xs font-medium px-5 py-2.5 rounded-full text-white flex items-center gap-2" style="background:var(--navy)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+            Add Team Member
+          </button>
+        </div>
+        <div class="admin-card overflow-x-auto">
           <table class="admin-table min-w-[560px]">
-            <thead><tr><th>Title</th><th>Facility</th><th>Published</th><th class="text-right">Actions</th></tr></thead>
-            <tbody>
-              <tr>
-                <td class="font-medium" style="color:var(--navy)">Equipping a 200-bed regional hospital</td>
-                <td style="color:var(--grey)">Mbeya Regional Referral Hospital</td>
-                <td><span class="status-dot" style="background:var(--lime-deep)"></span> <span class="ml-1">Mar 2026</span></td>
-                <td class="text-right"><button class="font-mono text-xs underline" style="color:var(--navy)">Edit</button></td>
-              </tr>
-              <tr>
-                <td class="font-medium" style="color:var(--navy)">ICU monitoring rollout</td>
-                <td style="color:var(--grey)">Aga Khan Hospital, Dar es Salaam</td>
-                <td><span class="status-dot" style="background:var(--lime-deep)"></span> <span class="ml-1">Jan 2026</span></td>
-                <td class="text-right"><button class="font-mono text-xs underline" style="color:var(--navy)">Edit</button></td>
-              </tr>
-              <tr>
-                <td class="font-medium" style="color:var(--navy)">Laboratory modernization project</td>
-                <td style="color:var(--grey)">Bugando Medical Centre</td>
-                <td><span class="status-dot" style="background:#D1D5DB"></span> <span class="ml-1 text-xs" style="color:var(--grey)">Draft</span></td>
-                <td class="text-right"><button class="font-mono text-xs underline" style="color:var(--navy)">Edit</button></td>
-              </tr>
-            </tbody>
+            <thead><tr><th>Photo</th><th>Name</th><th>Title</th><th>Order</th><th class="text-right">Actions</th></tr></thead>
+            <tbody id="team-table-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============ INDUSTRIES VIEW ============ -->
+      <section data-panel="industries" class="hidden">
+        <div class="flex items-center justify-between mb-5">
+          <p class="text-sm" style="color:var(--grey)">Shown on the Industries page, in this order.</p>
+          <button id="open-add-industry" class="font-mono text-xs font-medium px-5 py-2.5 rounded-full text-white flex items-center gap-2" style="background:var(--navy)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+            Add Industry
+          </button>
+        </div>
+        <div class="admin-card overflow-x-auto">
+          <table class="admin-table min-w-[620px]">
+            <thead><tr><th>Photo</th><th>Title</th><th>Status</th><th>Order</th><th class="text-right">Actions</th></tr></thead>
+            <tbody id="industries-table-body"></tbody>
           </table>
         </div>
       </section>
@@ -424,6 +449,130 @@
               </label>
             </div>
           </div>
+<p class="col-span-full font-mono text-xs uppercase tracking-widest mt-2" style="color:var(--lime-deep)">What We Supply — Diagnostic</p>
+            <div class="site-image-slot" data-image-key="spec_diagnostic_1">
+              <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
+                <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
+                <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                <span class="slot-label text-xs text-center" style="color:var(--grey)">Stethoscope photo</span>
+                <input type="file" accept="image/*" class="hidden slot-input" />
+              </label>
+            </div>
+            <div class="site-image-slot" data-image-key="spec_diagnostic_2">
+              <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
+                <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
+                <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                <span class="slot-label text-xs text-center" style="color:var(--grey)">Oximeter photo</span>
+                <input type="file" accept="image/*" class="hidden slot-input" />
+              </label>
+            </div>
+            <div class="site-image-slot" data-image-key="spec_diagnostic_3">
+              <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
+                <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
+                <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                <span class="slot-label text-xs text-center" style="color:var(--grey)">BP Monitor photo</span>
+                <input type="file" accept="image/*" class="hidden slot-input" />
+              </label>
+            </div>
+            <div class="site-image-slot" data-image-key="spec_diagnostic_4">
+              <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
+                <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
+                <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                <span class="slot-label text-xs text-center" style="color:var(--grey)">Thermometer photo</span>
+                <input type="file" accept="image/*" class="hidden slot-input" />
+              </label>
+            </div>
+<p class="col-span-full font-mono text-xs uppercase tracking-widest mt-2" style="color:var(--lime-deep)">What We Supply — Laboratory</p>
+            <div class="site-image-slot" data-image-key="spec_laboratory_1">
+              <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
+                <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
+                <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                <span class="slot-label text-xs text-center" style="color:var(--grey)">Laboratory photo 1</span>
+                <input type="file" accept="image/*" class="hidden slot-input" />
+              </label>
+            </div>
+            <div class="site-image-slot" data-image-key="spec_laboratory_2">
+              <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
+                <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
+                <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                <span class="slot-label text-xs text-center" style="color:var(--grey)">Laboratory photo 2</span>
+                <input type="file" accept="image/*" class="hidden slot-input" />
+              </label>
+            </div>
+            <div class="site-image-slot" data-image-key="spec_laboratory_3">
+              <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
+                <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
+                <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                <span class="slot-label text-xs text-center" style="color:var(--grey)">Laboratory photo 3</span>
+                <input type="file" accept="image/*" class="hidden slot-input" />
+              </label>
+            </div>
+            <div class="site-image-slot" data-image-key="spec_laboratory_4">
+              <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
+                <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
+                <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                <span class="slot-label text-xs text-center" style="color:var(--grey)">Laboratory photo 4</span>
+                <input type="file" accept="image/*" class="hidden slot-input" />
+              </label>
+            </div>
+<p class="col-span-full font-mono text-xs uppercase tracking-widest mt-2" style="color:var(--lime-deep)">What We Supply — Surgical &amp; ICU</p>
+            <div class="site-image-slot" data-image-key="spec_surgical_1">
+              <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
+                <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
+                <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                <span class="slot-label text-xs text-center" style="color:var(--grey)">Surgical photo 1</span>
+                <input type="file" accept="image/*" class="hidden slot-input" />
+              </label>
+            </div>
+            <div class="site-image-slot" data-image-key="spec_surgical_2">
+              <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
+                <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
+                <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                <span class="slot-label text-xs text-center" style="color:var(--grey)">Surgical photo 2</span>
+                <input type="file" accept="image/*" class="hidden slot-input" />
+              </label>
+            </div>
+            <div class="site-image-slot" data-image-key="spec_surgical_3">
+              <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
+                <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
+                <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                <span class="slot-label text-xs text-center" style="color:var(--grey)">Surgical photo 3</span>
+                <input type="file" accept="image/*" class="hidden slot-input" />
+              </label>
+            </div>
+            <div class="site-image-slot" data-image-key="spec_surgical_4">
+              <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
+                <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
+                <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                <span class="slot-label text-xs text-center" style="color:var(--grey)">Surgical photo 4</span>
+                <input type="file" accept="image/*" class="hidden slot-input" />
+              </label>
+            </div>
+<p class="col-span-full font-mono text-xs uppercase tracking-widest mt-2" style="color:var(--lime-deep)">Trusted By Professionals</p>
+            <div class="site-image-slot" data-image-key="trusted_tools">
+              <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
+                <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
+                <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                <span class="slot-label text-xs text-center" style="color:var(--grey)">Diagnostic Tools photo</span>
+                <input type="file" accept="image/*" class="hidden slot-input" />
+              </label>
+            </div>
+            <div class="site-image-slot" data-image-key="trusted_analyzers">
+              <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
+                <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
+                <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                <span class="slot-label text-xs text-center" style="color:var(--grey)">Laboratory Analyzers photo</span>
+                <input type="file" accept="image/*" class="hidden slot-input" />
+              </label>
+            </div>
+            <div class="site-image-slot" data-image-key="trusted_icu">
+              <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
+                <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
+                <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                <span class="slot-label text-xs text-center" style="color:var(--grey)">ICU Systems photo</span>
+                <input type="file" accept="image/*" class="hidden slot-input" />
+              </label>
+            </div>
           <p id="site-images-status" class="text-xs mt-4" style="color:var(--grey)"></p>
         </div>
 
@@ -441,11 +590,11 @@
           <div class="grid sm:grid-cols-2 gap-5">
             <div>
               <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Company name</label>
-              <input type="text" value="Nebro" class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)" />
+              <input type="text" value="Nebro Company" class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)" />
             </div>
             <div>
               <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Support phone</label>
-              <input type="text" value="+255 621 132 663" class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)" />
+              <input type="text" value="+255 746 448 226" class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)" />
             </div>
             <div class="sm:col-span-2">
               <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Support email</label>
@@ -473,7 +622,7 @@
             </div>
             <div>
               <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">WhatsApp number</label>
-              <input type="text" value="+255 621 132 663" class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)" />
+              <input type="text" value="+255 746 448 226" class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)" />
             </div>
           </div>
           <button class="mt-6 font-mono text-xs font-medium px-6 py-3 rounded-full text-white" style="background:var(--navy)">Save Links</button>
@@ -503,36 +652,31 @@
         <!-- Notification Preferences -->
         <div class="admin-card p-6 sm:p-8 max-w-2xl">
           <h2 class="font-display font-semibold text-lg mb-2" style="color:var(--navy)">Notification Preferences</h2>
-          <p class="text-xs mb-6" style="color:var(--grey)">Control how and when you're alerted about new or unanswered inquiries.</p>
+          <p class="text-xs mb-6" style="color:var(--grey)">Controls the alerts you personally receive — each admin/staff account sets their own.</p>
 
-          <div class="space-y-5">
+          <form id="notification-form" class="space-y-5">
             <div>
-              <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Alert me via</label>
-              <div class="mt-2 flex flex-wrap gap-4">
-                <label class="flex items-center gap-2 text-sm"><input type="checkbox" checked class="accent-[var(--navy)]" /> Email</label>
-                <label class="flex items-center gap-2 text-sm"><input type="checkbox" class="accent-[var(--navy)]" /> SMS</label>
-                <label class="flex items-center gap-2 text-sm"><input type="checkbox" checked class="accent-[var(--navy)]" /> WhatsApp</label>
-                <label class="flex items-center gap-2 text-sm"><input type="checkbox" class="accent-[var(--navy)]" /> In-app only</label>
-              </div>
+              <label class="flex items-center gap-2 text-sm"><input type="checkbox" id="notif-email-enabled" checked class="accent-[var(--navy)]" /> Email me about inquiries</label>
             </div>
             <div>
               <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">New inquiry alerts</label>
-              <select class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)">
-                <option>Immediately</option>
-                <option>Hourly digest</option>
-                <option>Once daily (morning)</option>
+              <select id="notif-frequency" class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)">
+                <option value="immediately">Immediately</option>
+                <option value="hourly">Hourly digest</option>
+                <option value="daily">Once daily</option>
               </select>
             </div>
             <div>
               <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Remind me about unanswered inquiries after</label>
               <div class="mt-2 flex items-center gap-3">
-                <input type="number" min="1" max="14" value="1" class="w-24 px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)" />
+                <input type="number" id="notif-stale-days" min="1" max="14" value="1" class="w-24 px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)" />
                 <span class="text-sm" style="color:var(--grey)">day(s) with no response</span>
               </div>
             </div>
-          </div>
-          <button class="mt-6 font-mono text-xs font-medium px-6 py-3 rounded-full text-white" style="background:var(--navy)">Save Preferences</button>
-          <p class="text-xs mt-4" style="color:var(--grey)">This is a design preview — connect it to a backend (e.g. Supabase + a scheduled email job) to make these alerts actually fire.</p>
+            <button type="submit" class="font-mono text-xs font-medium px-6 py-3 rounded-full text-white" style="background:var(--navy)">Save Preferences</button>
+            <span id="notif-status" class="text-xs ml-3" style="color:var(--grey)"></span>
+          </form>
+          <p class="text-xs mt-4" style="color:var(--grey)">Requires <code>inquiry-alerts</code> to be deployed and scheduled (pg_cron) to actually fire — see the README.</p>
         </div>
       </section>
 
@@ -601,6 +745,131 @@
         <button type="button" data-close-modal class="font-mono text-xs font-medium px-6 py-3 rounded-full border hairline">Cancel</button>
       </div>
       <p class="text-xs" style="color:var(--grey)">Preview only — a real invite needs a backend to create the account and send the email.</p>
+    </form>
+  </div>
+</div>
+
+<!-- ================= ADD/EDIT CASE STUDY MODAL ================= -->
+<div id="case-study-modal" class="modal-overlay">
+  <div class="modal-panel">
+    <div class="p-6 border-b hairline flex items-center justify-between">
+      <h3 id="case-study-modal-title" class="font-display font-semibold text-lg" style="color:var(--navy)">Add Case Study</h3>
+      <button data-close-modal class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-black/5">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <form id="case-study-form" class="p-6 grid gap-4">
+      <input type="hidden" id="case-study-id" />
+      <div>
+        <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Photo</label>
+        <label id="case-study-upload-dropzone" for="case-study-photo" class="upload-dropzone mt-2 flex flex-col items-center justify-center gap-2 relative overflow-hidden">
+          <img id="case-study-upload-preview" class="hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
+          <svg id="case-study-upload-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+          <span id="case-study-upload-label" class="text-xs" style="color:var(--grey)">Click to upload a photo</span>
+          <input id="case-study-photo" type="file" accept="image/*" class="hidden" />
+        </label>
+        <button type="button" id="case-study-remove-photo" class="hidden mt-2 font-mono text-xs underline" style="color:#B91C1C">Remove photo</button>
+      </div>
+      <div>
+        <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Title</label>
+        <input required type="text" id="case-study-title" class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)" />
+      </div>
+      <div>
+        <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Facility</label>
+        <input required type="text" id="case-study-facility" class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)" />
+      </div>
+      <div>
+        <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Summary</label>
+        <textarea id="case-study-summary" rows="3" class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)"></textarea>
+      </div>
+      <label class="flex items-center gap-2 text-sm"><input type="checkbox" id="case-study-published" class="accent-[var(--navy)]" /> Published (visible on the live site)</label>
+      <div class="flex items-center gap-3 pt-2">
+        <button type="submit" id="case-study-submit" class="font-mono text-xs font-medium px-6 py-3 rounded-full text-white" style="background:var(--navy)">Add Case Study</button>
+        <button type="button" data-close-modal class="font-mono text-xs font-medium px-6 py-3 rounded-full border hairline">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ================= ADD/EDIT INDUSTRY MODAL ================= -->
+<div id="industry-modal" class="modal-overlay">
+  <div class="modal-panel">
+    <div class="p-6 border-b hairline flex items-center justify-between">
+      <h3 id="industry-modal-title" class="font-display font-semibold text-lg" style="color:var(--navy)">Add Industry</h3>
+      <button data-close-modal class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-black/5">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <form id="industry-form" class="p-6 grid gap-4">
+      <input type="hidden" id="industry-id" />
+      <div>
+        <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Photo</label>
+        <label id="industry-upload-dropzone" for="industry-photo" class="upload-dropzone mt-2 flex flex-col items-center justify-center gap-2 relative overflow-hidden">
+          <img id="industry-upload-preview" class="hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
+          <svg id="industry-upload-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+          <span id="industry-upload-label" class="text-xs" style="color:var(--grey)">Click to upload a photo</span>
+          <input id="industry-photo" type="file" accept="image/*" class="hidden" />
+        </label>
+        <button type="button" id="industry-remove-photo" class="hidden mt-2 font-mono text-xs underline" style="color:#B91C1C">Remove photo</button>
+      </div>
+      <div>
+        <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Title</label>
+        <input required type="text" id="industry-title" class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)" />
+      </div>
+      <div>
+        <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Description</label>
+        <textarea id="industry-description" rows="3" class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)"></textarea>
+      </div>
+      <div>
+        <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Display order</label>
+        <input type="number" id="industry-order" min="0" value="0" class="mt-2 w-32 px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)" />
+      </div>
+      <label class="flex items-center gap-2 text-sm"><input type="checkbox" id="industry-published" checked class="accent-[var(--navy)]" /> Published (visible on the live site)</label>
+      <div class="flex items-center gap-3 pt-2">
+        <button type="submit" id="industry-submit" class="font-mono text-xs font-medium px-6 py-3 rounded-full text-white" style="background:var(--navy)">Add Industry</button>
+        <button type="button" data-close-modal class="font-mono text-xs font-medium px-6 py-3 rounded-full border hairline">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ================= ADD/EDIT TEAM MEMBER MODAL ================= -->
+<div id="team-member-modal" class="modal-overlay">
+  <div class="modal-panel">
+    <div class="p-6 border-b hairline flex items-center justify-between">
+      <h3 id="team-modal-title" class="font-display font-semibold text-lg" style="color:var(--navy)">Add Team Member</h3>
+      <button data-close-modal class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-black/5">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <form id="team-member-form" class="p-6 grid gap-4">
+      <input type="hidden" id="team-member-id" />
+      <div>
+        <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Photo</label>
+        <label id="team-upload-dropzone" for="team-member-photo" class="upload-dropzone mt-2 flex flex-col items-center justify-center gap-2 relative overflow-hidden">
+          <img id="team-upload-preview" class="hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
+          <svg id="team-upload-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+          <span id="team-upload-label" class="text-xs" style="color:var(--grey)">Click to upload a photo</span>
+          <input id="team-member-photo" type="file" accept="image/*" class="hidden" />
+        </label>
+        <button type="button" id="team-remove-photo" class="hidden mt-2 font-mono text-xs underline" style="color:#B91C1C">Remove photo</button>
+      </div>
+      <div>
+        <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Full name</label>
+        <input required type="text" id="team-member-name" class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)" />
+      </div>
+      <div>
+        <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Title</label>
+        <input required type="text" id="team-member-title" class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)" />
+      </div>
+      <div>
+        <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Display order</label>
+        <input type="number" id="team-member-order" min="0" value="0" class="mt-2 w-32 px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)" />
+      </div>
+      <div class="flex items-center gap-3 pt-2">
+        <button type="submit" id="team-member-submit" class="font-mono text-xs font-medium px-6 py-3 rounded-full text-white" style="background:var(--navy)">Add Team Member</button>
+        <button type="button" data-close-modal class="font-mono text-xs font-medium px-6 py-3 rounded-full border hairline">Cancel</button>
+      </div>
     </form>
   </div>
 </div>
