@@ -107,6 +107,21 @@ body{
   .reveal h1, .reveal h2, .reveal h3, .reveal > p.font-mono{ filter:none; transition:none; }
 }
 
+/* ============================================================
+   FIX: Override blur for Mission & Vision headings
+   ============================================================ */
+#about-mission-heading,
+.reveal h2.mission-vision-heading,
+.no-blur-heading {
+  filter: blur(0) !important;
+}
+
+/* Alternatively, you can target headings inside the Mission section */
+#about-mission-heading,
+.about-mission-section h2 {
+  filter: blur(0) !important;
+}
+
 /* ---- Animated word-by-word heading reveal ---- */
 .animate-words .word{
   display:inline-block; opacity:0; transform:translateY(100%) rotate(2deg);
@@ -328,7 +343,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .hero-photo-stack .stack-item{ position:absolute; }
 .stack-item{
   border-radius:1.25rem; overflow:hidden; box-shadow:0 20px 45px -18px rgba(29,48,78,0.4);
-  animation: float-soft 6s ease-in-out infinite;
+  animation:float-soft 6s ease-in-out infinite;
 }
 .stack-item.d2{ animation-delay:.4s; }
 .stack-item.d3{ animation-delay:.8s; }
@@ -339,8 +354,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 /* ---- Contact page form tabs ---- */
 .form-tab-btn{ transition: background .2s ease, color .2s ease, border-color .2s ease; color:var(--grey); }
 .form-tab-btn[aria-pressed="true"]{ background:var(--navy); color:#fff; }
-
-
 
 /* ---- Chart card ---- */
 .chart-card canvas{ max-width:100%; }
