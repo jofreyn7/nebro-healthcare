@@ -108,7 +108,18 @@ function renderProductsTable() {
 function renderCategoryBreakdown() {
   const el = document.getElementById('category-breakdown');
   if (!el) return;
-  const counts = { diagnostic: 0, laboratory: 0, surgical: 0 };
+  const counts = {
+    diagnostic: 0,
+    laboratory: 0,
+    hospital_furniture: 0,
+    surgical_sterilization: 0,
+    biomedical_accessories: 0,
+    imaging: 0,
+    dental: 0,
+    orthopaedic_rehabilitation: 0,
+    consumables: 0,
+    miscellaneous: 0
+  };
   products.forEach(p => { counts[p.category] = (counts[p.category] || 0) + 1; });
   const max = Math.max(...Object.values(counts), 1);
   el.innerHTML = Object.entries(counts).map(([cat, count]) => `
