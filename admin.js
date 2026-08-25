@@ -821,148 +821,111 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('export-excel')?.addEventListener('click', exportReportExcel);
 
   // ============================================================
-  // CASE STUDIES
-  // ============================================================
+ // ============================================================
+// CASE STUDIES - COMPLETE FIXED VERSION
+// ============================================================
+
+// Add Case Study modal
+const caseStudyModal = document.getElementById('case-study-modal');
+const openCaseStudyBtn = document.getElementById('open-add-case-study');
+
+console.log('Case Study Button found:', openCaseStudyBtn);
+console.log('Case Study Modal found:', caseStudyModal);
+
+if (openCaseStudyBtn && caseStudyModal) {
+  openCaseStudyBtn.addEventListener('click', () => {
+    console.log('Case Study button clicked!');
+    // Reset form
+    document.getElementById('case-study-form').reset();
+    document.getElementById('case-study-id').value = '';
+    document.getElementById('case-study-modal-title').textContent = 'Add Case Study';
+    document.getElementById('case-study-submit').textContent = 'Add Case Study';
+    // Hide preview
+    document.getElementById('case-study-upload-preview').classList.add('hidden');
+    document.getElementById('case-study-upload-icon').classList.remove('hidden');
+    document.getElementById('case-study-upload-label').textContent = 'Click to upload a photo';
+    document.getElementById('case-study-remove-photo').classList.add('hidden');
+    caseStudyModal.classList.add('is-open');
+  });
   
-  // Add Case Study modal
-  const caseStudyModal = document.getElementById('case-study-modal');
-  const openCaseStudyBtn = document.getElementById('open-add-case-study');
+  caseStudyModal.querySelectorAll('[data-close-modal]').forEach(el => 
+    el.addEventListener('click', () => caseStudyModal.classList.remove('is-open'))
+  );
+  caseStudyModal.addEventListener('click', (e) => { 
+    if (e.target === caseStudyModal) caseStudyModal.classList.remove('is-open'); 
+  });
+}
+
+// Case Study photo upload
+const caseStudyPhotoInput = document.getElementById('case-study-photo');
+const caseStudyUploadPreview = document.getElementById('case-study-upload-preview');
+const caseStudyUploadIcon = document.getElementById('case-study-upload-icon');
+const caseStudyUploadLabel = document.getElementById('case-study-upload-label');
+const caseStudyRemovePhoto = document.getElementById('case-study-remove-photo');
+
+caseStudyPhotoInput?.addEventListener('change', () => {
+  const file = caseStudyPhotoInput.files?.[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    caseStudyUploadPreview.src = reader.result;
+    caseStudyUploadPreview.classList.remove('hidden');
+    caseStudyUploadIcon.classList.add('hidden');
+    caseStudyUploadLabel.textContent = file.name;
+    caseStudyRemovePhoto.classList.remove('hidden');
+  };
+  reader.readAsDataURL(file);
+});
+
+caseStudyRemovePhoto?.addEventListener('click', () => {
+  caseStudyPhotoInput.value = '';
+  caseStudyUploadPreview.classList.add('hidden');
+  caseStudyUploadIcon.classList.remove('hidden');
+  caseStudyUploadLabel.textContent = 'Click to upload a photo';
+  caseStudyRemovePhoto.classList.add('hidden');
+});
+
+// ============================================================
+// Function to render case studies table (DEFINED FIRST)
+// ============================================================
+async function renderCaseStudiesTable() {
+  console.log('Rendering case studies table...');
   
-  console.log('Case Study Button found:', openCaseStudyBtn);
-  console.log('Case Study Modal found:', caseStudyModal);
-  
-  if (openCaseStudyBtn && caseStudyModal) {
-    openCaseStudyBtn.addEventListener('click', () => {
-      console.log('Case Study button clicked!');
-      // Reset form
-      document.getElementById('case-study-form').reset();
-      document.getElementById('case-study-id').value = '';
-      document.getElementById('case-study-modal-title').textContent = 'Add Case Study';
-      document.getElementById('case-study-submit').textContent = 'Add Case Study';
-      // Hide preview
-      document.getElementById('case-study-upload-preview').classList.add('hidden');
-      document.getElementById('case-study-upload-icon').classList.remove('hidden');
-      document.getElementById('case-study-upload-label').textContent = 'Click to upload a photo';
-      document.getElementById('case-study-remove-photo').classList.add('hidden');
-      caseStudyModal.classList.add('is-open');
-    });
-    
-    caseStudyModal.querySelectorAll('[data-close-modal]').forEach(el => 
-      el.addEventListener('click', () => caseStudyModal.classList.remove('is-open'))
-    );
-    caseStudyModal.addEventListener('click', (e) => { 
-      if (e.target === caseStudyModal) caseStudyModal.classList.remove('is-open'); 
-    });
+  const body = document.getElementById('case-studies-table-body');
+  if (!body) {
+    console.error('Case studies table body not found!');
+    return;
   }
-
-  // Case Study photo upload
-  const caseStudyPhotoInput = document.getElementById('case-study-photo');
-  const caseStudyUploadPreview = document.getElementById('case-study-upload-preview');
-  const caseStudyUploadIcon = document.getElementById('case-study-upload-icon');
-  const caseStudyUploadLabel = document.getElementById('case-study-upload-label');
-  const caseStudyRemovePhoto = document.getElementById('case-study-remove-photo');
   
-  caseStudyPhotoInput?.addEventListener('change', () => {
-    const file = caseStudyPhotoInput.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      caseStudyUploadPreview.src = reader.result;
-      caseStudyUploadPreview.classList.remove('hidden');
-      caseStudyUploadIcon.classList.add('hidden');
-      caseStudyUploadLabel.textContent = file.name;
-      caseStudyRemovePhoto.classList.remove('hidden');
-    };
-    reader.readAsDataURL(file);
-  });
-  
-  caseStudyRemovePhoto?.addEventListener('click', () => {
-    caseStudyPhotoInput.value = '';
-    caseStudyUploadPreview.classList.add('hidden');
-    caseStudyUploadIcon.classList.remove('hidden');
-    caseStudyUploadLabel.textContent = 'Click to upload a photo';
-    caseStudyRemovePhoto.classList.add('hidden');
-  });
-
-  // Case Study form submit
-  document.getElementById('case-study-form')?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const id = document.getElementById('case-study-id').value;
-    const title = document.getElementById('case-study-title').value.trim();
-    const facility = document.getElementById('case-study-facility').value.trim();
-    const summary = document.getElementById('case-study-summary').value.trim();
-    const published = document.getElementById('case-study-published').checked;
-    
-    if (!title || !facility) {
-      alert('Please fill in Title and Facility.');
-      return;
-    }
-
-    let photo_url = null;
-    const photoFile = caseStudyPhotoInput.files?.[0];
-    if (photoFile) {
-      const ext = photoFile.name.split('.').pop();
-      const path = `case-studies/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-      const { error: uploadError } = await supabaseClient.storage.from('case-study-photos').upload(path, photoFile);
-      if (!uploadError) {
-        photo_url = supabaseClient.storage.from('case-study-photos').getPublicUrl(path).data.publicUrl;
-      } else {
-        console.error('Upload error:', uploadError);
-      }
-    }
-
-    const data = { title, facility, summary, published, photo_url };
-    
-    let error;
-    if (id) {
-      // Update existing
-      const result = await supabaseClient
-        .from('case_studies')
-        .update(data)
-        .eq('id', id);
-      error = result.error;
-    } else {
-      // Insert new
-      const result = await supabaseClient
-        .from('case_studies')
-        .insert({ ...data, created_by: currentUser.id });
-      error = result.error;
-    }
-
-    if (error) {
-      alert('Could not save case study: ' + error.message);
-      return;
-    }
-
-    caseStudyModal.classList.remove('is-open');
-    // Refresh the case studies table
-    await renderCaseStudiesTable();
-  });
-
-  // Function to render case studies
-  async function renderCaseStudiesTable() {
+  try {
     const { data, error } = await supabaseClient
       .from('case_studies')
       .select('*')
       .order('created_at', { ascending: false });
     
-    const body = document.getElementById('case-studies-table-body');
-    if (!body) return;
-    
     if (error) {
+      console.error('Error loading case studies:', error);
       body.innerHTML = `<tr><td colspan="5" class="text-center text-sm py-8" style="color:var(--grey)">Error loading case studies.</td></tr>`;
       return;
     }
+    
+    console.log('Case studies loaded:', data);
     
     if (data.length === 0) {
       body.innerHTML = `<tr><td colspan="5" class="text-center text-sm py-8" style="color:var(--grey)">No case studies yet.</td></tr>`;
       return;
     }
     
-    body.innerHTML = data.map(cs => `
+    body.innerHTML = data.map(cs => {
+      // Debug: Check if photo_url exists
+      if (cs.photo_url) {
+        console.log('Case study has photo:', cs.title, cs.photo_url);
+      }
+      
+      return `
       <tr data-id="${cs.id}">
         <td>
-          ${cs.photo_url ? `<img src="${cs.photo_url}" class="admin-thumb" alt="" />` : `<span class="admin-thumb"></span>`}
+          ${cs.photo_url ? `<img src="${cs.photo_url}" class="admin-thumb" alt="${escapeHtml(cs.title)}" onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\\'admin-thumb bg-gray-200 flex items-center justify-center text-xs text-gray-400\\'>No image</span>'" />` : `<span class="admin-thumb bg-gray-200 flex items-center justify-center text-xs text-gray-400">No image</span>`}
         </td>
         <td class="font-medium" style="color:var(--navy)">${escapeHtml(cs.title)}</td>
         <td style="color:var(--grey)">${escapeHtml(cs.facility)}</td>
@@ -975,60 +938,167 @@ document.addEventListener('DOMContentLoaded', async () => {
           <button class="font-mono text-xs underline" style="color:#B91C1C" data-delete-case-study="${cs.id}">Delete</button>
         </td>
       </tr>
-    `).join('');
+    `}).join('');
+    
+  } catch (err) {
+    console.error('Unexpected error:', err);
+    body.innerHTML = `<tr><td colspan="5" class="text-center text-sm py-8" style="color:var(--grey)">Error loading case studies.</td></tr>`;
+  }
+}
+
+// ============================================================
+// Case Study form submit
+// ============================================================
+document.getElementById('case-study-form')?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  console.log('Submitting case study form...');
+  
+  const id = document.getElementById('case-study-id').value;
+  const title = document.getElementById('case-study-title').value.trim();
+  const facility = document.getElementById('case-study-facility').value.trim();
+  const summary = document.getElementById('case-study-summary').value.trim();
+  const published = document.getElementById('case-study-published').checked;
+  
+  if (!title || !facility) {
+    alert('Please fill in Title and Facility.');
+    return;
   }
 
-  // Case Study table actions (Edit/Delete)
-  document.getElementById('case-studies-table-body')?.addEventListener('click', async (e) => {
-    const editId = e.target.closest('[data-edit-case-study]')?.dataset.editCaseStudy;
-    const deleteId = e.target.closest('[data-delete-case-study]')?.dataset.deleteCaseStudy;
-    
-    if (editId) {
-      const { data, error } = await supabaseClient
-        .from('case_studies')
-        .select('*')
-        .eq('id', editId)
-        .single();
-      
-      if (error) {
-        alert('Could not load case study: ' + error.message);
-        return;
-      }
-      
-      document.getElementById('case-study-id').value = data.id;
-      document.getElementById('case-study-title').value = data.title;
-      document.getElementById('case-study-facility').value = data.facility;
-      document.getElementById('case-study-summary').value = data.summary || '';
-      document.getElementById('case-study-published').checked = data.published;
-      document.getElementById('case-study-modal-title').textContent = 'Edit Case Study';
-      document.getElementById('case-study-submit').textContent = 'Update Case Study';
-      
-      if (data.photo_url) {
-        caseStudyUploadPreview.src = data.photo_url;
-        caseStudyUploadPreview.classList.remove('hidden');
-        caseStudyUploadIcon.classList.add('hidden');
-        caseStudyUploadLabel.textContent = 'Current photo';
-        caseStudyRemovePhoto.classList.remove('hidden');
-      }
-      
-      caseStudyModal.classList.add('is-open');
-    }
-    
-    if (deleteId) {
-      if (!confirm('Are you sure you want to delete this case study?')) return;
-      const { error } = await supabaseClient
-        .from('case_studies')
-        .delete()
-        .eq('id', deleteId);
-      
-      if (error) {
-        alert('Could not delete case study: ' + error.message);
-      } else {
-        await renderCaseStudiesTable();
-      }
-    }
-  });
+  let photo_url = null;
+  const photoFile = caseStudyPhotoInput.files?.[0];
   
-  // Initial load of case studies
+  if (photoFile) {
+    console.log('Uploading photo:', photoFile.name);
+    const ext = photoFile.name.split('.').pop();
+    const path = `case-studies/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+    const { error: uploadError } = await supabaseClient.storage
+      .from('case-study-photos')
+      .upload(path, photoFile);
+    
+    if (!uploadError) {
+      photo_url = supabaseClient.storage
+        .from('case-study-photos')
+        .getPublicUrl(path)
+        .data.publicUrl;
+      console.log('Photo uploaded successfully:', photo_url);
+    } else {
+      console.error('Upload error:', uploadError);
+      alert('Failed to upload image. Please check that the storage bucket "case-study-photos" exists and is public.');
+      return;
+    }
+  }
+
+  const data = { 
+    title, 
+    facility, 
+    summary, 
+    published, 
+    photo_url,
+    updated_at: new Date().toISOString()
+  };
+  
+  let result;
+  if (id) {
+    // Update existing
+    console.log('Updating case study:', id);
+    result = await supabaseClient
+      .from('case_studies')
+      .update(data)
+      .eq('id', id);
+  } else {
+    // Insert new
+    console.log('Creating new case study');
+    result = await supabaseClient
+      .from('case_studies')
+      .insert({ ...data, created_by: currentUser.id });
+  }
+
+  if (result.error) {
+    console.error('Save error:', result.error);
+    alert('Could not save case study: ' + result.error.message);
+    return;
+  }
+
+  console.log('Case study saved successfully!');
+  
+  // Close modal
+  caseStudyModal.classList.remove('is-open');
+  
+  // Reset form
+  document.getElementById('case-study-form').reset();
+  document.getElementById('case-study-id').value = '';
+  caseStudyUploadPreview.classList.add('hidden');
+  caseStudyUploadIcon.classList.remove('hidden');
+  caseStudyUploadLabel.textContent = 'Click to upload a photo';
+  caseStudyRemovePhoto.classList.add('hidden');
+  caseStudyPhotoInput.value = '';
+  
+  // Refresh the case studies table
   await renderCaseStudiesTable();
 });
+
+// ============================================================
+// Case Study table actions (Edit/Delete)
+// ============================================================
+document.getElementById('case-studies-table-body')?.addEventListener('click', async (e) => {
+  const editId = e.target.closest('[data-edit-case-study]')?.dataset.editCaseStudy;
+  const deleteId = e.target.closest('[data-delete-case-study]')?.dataset.deleteCaseStudy;
+  
+  if (editId) {
+    console.log('Editing case study:', editId);
+    const { data, error } = await supabaseClient
+      .from('case_studies')
+      .select('*')
+      .eq('id', editId)
+      .single();
+    
+    if (error) {
+      console.error('Load error:', error);
+      alert('Could not load case study: ' + error.message);
+      return;
+    }
+    
+    document.getElementById('case-study-id').value = data.id;
+    document.getElementById('case-study-title').value = data.title;
+    document.getElementById('case-study-facility').value = data.facility;
+    document.getElementById('case-study-summary').value = data.summary || '';
+    document.getElementById('case-study-published').checked = data.published;
+    document.getElementById('case-study-modal-title').textContent = 'Edit Case Study';
+    document.getElementById('case-study-submit').textContent = 'Update Case Study';
+    
+    if (data.photo_url) {
+      caseStudyUploadPreview.src = data.photo_url;
+      caseStudyUploadPreview.classList.remove('hidden');
+      caseStudyUploadIcon.classList.add('hidden');
+      caseStudyUploadLabel.textContent = 'Current photo';
+      caseStudyRemovePhoto.classList.remove('hidden');
+    }
+    
+    caseStudyModal.classList.add('is-open');
+  }
+  
+  if (deleteId) {
+    if (!confirm('Are you sure you want to delete this case study?')) return;
+    
+    console.log('Deleting case study:', deleteId);
+    const { error } = await supabaseClient
+      .from('case_studies')
+      .delete()
+      .eq('id', deleteId);
+    
+    if (error) {
+      console.error('Delete error:', error);
+      alert('Could not delete case study: ' + error.message);
+    } else {
+      console.log('Case study deleted successfully');
+      await renderCaseStudiesTable();
+    }
+  }
+});
+
+// ============================================================
+// Initial load of case studies
+// ============================================================
+console.log('Loading case studies on page load...');
+await renderCaseStudiesTable();
+console.log('Case studies loaded successfully!');
