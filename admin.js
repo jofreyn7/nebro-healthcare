@@ -12,7 +12,18 @@ let users = [];
 let activeProductFilter = 'all';
 let pendingImageFile = null;
 
-const categoryLabels = { diagnostic: 'Diagnostic', laboratory: 'Laboratory', surgical: 'Surgical & ICU' };
+const categoryLabels = {
+  'diagnostic': 'Diagnostic',
+  'laboratory': 'Laboratory',
+  'hospital_furniture': 'Hospital Furniture',
+  'surgical_sterilization': 'Surgical & Sterilization Equipment',
+  'biomedical_accessories': 'Biomedical Accessories',
+  'imaging': 'Imaging Equipment',
+  'dental': 'Dental',
+  'orthopaedic_rehabilitation': 'Orthopaedic & Rehabilitation',
+  'consumables': 'Consumables',
+  'miscellaneous': 'Miscellaneous'
+};
 const roleLabels = { developer: 'Developer', super_admin: 'Super Admin', staff: 'Staff' };
 
 // ============================================================
