@@ -338,10 +338,45 @@ function exportReportPDF() {
 function exportReportExcel() {
   if (typeof XLSX === 'undefined') { alert('Excel library did not load.'); return; }
   const wb = XLSX.utils.book_new();
-  const productSheet = XLSX.utils.json_to_sheet(products.map(p => ({ Name: p.name, Category: categoryLabels[p.category] || p.category, Status: p.status })));
+  
+  // Products sheet - dynamically map categories
+  const productSheet = XLSX.utils.json_to_sheet(
+    products.map(p => ({ 
+      Name: p.name, 
+      Category: categoryLabels[p.category] || p.category || 'Uncategorized', 
+      Status: p.status 
+    }))
+  );
   XLSX.utils.book_append_sheet(wb, productSheet, 'Products');
-  const inquirySheet = XLSX.utils.json_to_sheet(inquiries.map(i => ({ Name: i.name, Email: i.email, Facility: i.facility, Category: i.category, Message: i.message, Status: i.status, Date: i.created_at })));
+  
+  // Inquiries sheet - dynamically map categories
+  const inquirySheet = XLSX.utils.json_to_sheet(
+    inquiries.map(i => ({ 
+      Name: i.name, 
+      Email: i.email, 
+      Facility: i.facility, 
+      Category: categoryLabels[i.category] || i.category || 'Uncategorized',
+      Message: i.message, 
+      Status: i.status, 
+      Date: i.created_at 
+    }))
+  );
   XLSX.utils.book_append_sheet(wb, inquirySheet, 'Inquiries');
+  
+  // Optional: Add a summary sheet with category counts
+  const counts = {};
+  products.forEach(p => {
+    counts[p.category] = (counts[p.category] || 0) + 1;
+  });
+  const summaryData = Object.keys(counts).sort().map(cat => ({
+    Category: categoryLabels[cat] || cat,
+    'Product Count': counts[cat]
+  }));
+  if (summaryData.length > 0) {
+    const summarySheet = XLSX.utils.json_to_sheet(summaryData);
+    XLSX.utils.book_append_sheet(wb, summarySheet, 'Category Summary');
+  }
+  
   XLSX.writeFile(wb, 'nebro-report.xlsx');
 }
 
