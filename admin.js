@@ -314,11 +314,33 @@ function exportReportPDF() {
   doc.setFontSize(12);
   doc.text('Products by Category', 14, 38);
   let y = 45;
-  const counts = { diagnostic: 0, laboratory: 0, surgical: 0 };
-  products.forEach(p => { counts[p.category] = (counts[p.category] || 0) + 1; });
-  Object.entries(counts).forEach(([cat, count]) => {
+  
+  // Define all 10 categories (to show even zeros)
+  const allCategories = [
+    'diagnostic',
+    'laboratory',
+    'hospital_furniture',
+    'surgical_sterilization',
+    'biomedical_accessories',
+    'imaging',
+    'dental',
+    'orthopaedic_rehabilitation',
+    'consumables',
+    'miscellaneous'
+  ];
+  
+  // Count products by category
+  const counts = {};
+  products.forEach(p => {
+    counts[p.category] = (counts[p.category] || 0) + 1;
+  });
+  
+  // Show all categories with counts (including zeros)
+  allCategories.forEach(cat => {
     doc.setFontSize(10);
-    doc.text(`${categoryLabels[cat]}: ${count}`, 14, y);
+    const label = categoryLabels[cat] || cat;
+    const count = counts[cat] || 0;
+    doc.text(`${label}: ${count}`, 14, y);
     y += 6;
   });
 
@@ -326,15 +348,23 @@ function exportReportPDF() {
   doc.setFontSize(12);
   doc.text('Recent Inquiries', 14, y);
   y += 7;
-  inquiries.slice(0, 25).forEach(i => {
+  
+  // Show inquiries with proper category labels
+  if (inquiries.length > 0) {
+    inquiries.slice(0, 25).forEach(i => {
+      doc.setFontSize(9);
+      const categoryLabel = categoryLabels[i.category] || i.category || 'N/A';
+      doc.text(`${i.name} — ${i.facility || 'N/A'} — ${categoryLabel} — ${i.status}`, 14, y);
+      y += 6;
+    });
+  } else {
     doc.setFontSize(9);
-    doc.text(`${i.name} — ${i.facility || 'N/A'} — ${i.category || 'N/A'} — ${i.status}`, 14, y);
+    doc.text('No inquiries found', 14, y);
     y += 6;
-  });
+  }
 
   doc.save('nebro-report.pdf');
 }
-
 function exportReportExcel() {
   if (typeof XLSX === 'undefined') { alert('Excel library did not load.'); return; }
   const wb = XLSX.utils.book_new();
