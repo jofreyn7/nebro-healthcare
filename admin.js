@@ -108,31 +108,50 @@ function renderProductsTable() {
 function renderCategoryBreakdown() {
   const el = document.getElementById('category-breakdown');
   if (!el) return;
-  const counts = {
-    diagnostic: 0,
-    laboratory: 0,
-    hospital_furniture: 0,
-    surgical_sterilization: 0,
-    biomedical_accessories: 0,
-    imaging: 0,
-    dental: 0,
-    orthopaedic_rehabilitation: 0,
-    consumables: 0,
-    miscellaneous: 0
-  };
-  products.forEach(p => { counts[p.category] = (counts[p.category] || 0) + 1; });
+  
+  // Count ALL categories dynamically from products
+  const counts = {};
+  products.forEach(p => {
+    counts[p.category] = (counts[p.category] || 0) + 1;
+  });
+  
+  // If no products exist
+  if (Object.keys(counts).length === 0) {
+    el.innerHTML = `<div class="text-sm" style="color:var(--grey)">No products available</div>`;
+    // Update the dashboard label
+    const label = document.getElementById('category-count-label');
+    if (label) label.textContent = 'Across 0 categories';
+    return;
+  }
+  
   const max = Math.max(...Object.values(counts), 1);
-  el.innerHTML = Object.entries(counts).map(([cat, count]) => `
-    <div>
-      <div class="flex items-center justify-between text-sm mb-1.5">
-        <span style="color:var(--navy)" class="font-medium">${categoryLabels[cat]}</span>
-        <span class="font-mono text-xs" style="color:var(--grey)">${count}</span>
+  
+  // Sort categories by count (descending) for better visualization
+  const sortedCats = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
+  
+  el.innerHTML = sortedCats.map(cat => {
+    const count = counts[cat];
+    const label = categoryLabels[cat] || cat; // Fallback to slug if label not found
+    const percentage = (count / max) * 100;
+    return `
+      <div>
+        <div class="flex items-center justify-between text-sm mb-1.5">
+          <span style="color:var(--navy)" class="font-medium">${label}</span>
+          <span class="font-mono text-xs" style="color:var(--grey)">${count}</span>
+        </div>
+        <div class="h-2 rounded-full bg-[var(--paper)] overflow-hidden">
+          <div class="h-full rounded-full" style="width:${percentage}%; background:var(--lime)"></div>
+        </div>
       </div>
-      <div class="h-2 rounded-full bg-[var(--paper)] overflow-hidden">
-        <div class="h-full rounded-full" style="width:${(count / max) * 100}%; background:var(--lime)"></div>
-      </div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
+  
+  // Update the dashboard "Across X categories" text
+  const label = document.getElementById('category-count-label');
+  if (label) {
+    const categoryCount = Object.keys(counts).length;
+    label.textContent = `Across ${categoryCount} categories`;
+  }
 }
 
 function renderInquiriesTable() {
