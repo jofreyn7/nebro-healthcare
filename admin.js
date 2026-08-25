@@ -230,18 +230,60 @@ async function renderReportsCharts(days) {
     });
   }
 
-  // ---- Products by category ----
-  const pieCtx = document.getElementById('chart-pie');
-  if (pieCtx) {
-    const catCounts = { diagnostic: 0, laboratory: 0, surgical: 0 };
-    products.forEach(p => { catCounts[p.category] = (catCounts[p.category] || 0) + 1; });
-    chartPie?.destroy();
-    chartPie = new Chart(pieCtx, {
-      type: 'pie',
-      data: { labels: ['Diagnostic', 'Laboratory', 'Surgical & ICU'], datasets: [{ data: [catCounts.diagnostic, catCounts.laboratory, catCounts.surgical], backgroundColor: [lime, navy, mint] }] },
-      options: { responsive: true, plugins: { legend: { position: 'bottom' } } },
-    });
-  }
+// ---- Products by category ----
+const pieCtx = document.getElementById('chart-pie');
+if (pieCtx) {
+  // Count products by category dynamically
+  const catCounts = {};
+  products.forEach(p => {
+    catCounts[p.category] = (catCounts[p.category] || 0) + 1;
+  });
+  
+  // Get labels and data arrays
+  const labels = Object.keys(catCounts).map(cat => categoryLabels[cat] || cat);
+  const data = Object.values(catCounts);
+  
+  // Generate colors for all categories
+  const colorPalette = [
+    lime,           // diagnostic
+    navy,           // laboratory
+    mint,           // hospital_furniture
+    '#EF4444',      // surgical_sterilization
+    '#F59E0B',      // biomedical_accessories
+    '#06B6D4',      // imaging
+    '#EC4899',      // dental
+    '#14B8A6',      // orthopaedic_rehabilitation
+    '#F97316',      // consumables
+    '#6B7280'       // miscellaneous
+  ];
+  
+  const backgroundColor = labels.map((_, i) => colorPalette[i % colorPalette.length]);
+  
+  chartPie?.destroy();
+  chartPie = new Chart(pieCtx, {
+    type: 'pie',
+    data: { 
+      labels: labels, 
+      datasets: [{ 
+        data: data, 
+        backgroundColor: backgroundColor 
+      }] 
+    },
+    options: { 
+      responsive: true, 
+      plugins: { 
+        legend: { 
+          position: 'bottom',
+          labels: {
+            font: {
+              size: 11
+            }
+          }
+        } 
+      } 
+    },
+  });
+}
 
   // ---- Inquiries by category ----
   const barCtx = document.getElementById('chart-bar');
