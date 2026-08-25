@@ -819,29 +819,41 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
   document.getElementById('export-pdf')?.addEventListener('click', exportReportPDF);
   document.getElementById('export-excel')?.addEventListener('click', exportReportExcel);
-});
+
+  // ============================================================
+  // CASE STUDIES
+  // ============================================================
+  
   // Add Case Study modal
   const caseStudyModal = document.getElementById('case-study-modal');
-  document.getElementById('open-add-case-study')?.addEventListener('click', () => {
-    // Reset form
-    document.getElementById('case-study-form').reset();
-    document.getElementById('case-study-id').value = '';
-    document.getElementById('case-study-modal-title').textContent = 'Add Case Study';
-    document.getElementById('case-study-submit').textContent = 'Add Case Study';
-    // Hide preview
-    document.getElementById('case-study-upload-preview').classList.add('hidden');
-    document.getElementById('case-study-upload-icon').classList.remove('hidden');
-    document.getElementById('case-study-upload-label').textContent = 'Click to upload a photo';
-    document.getElementById('case-study-remove-photo').classList.add('hidden');
-    caseStudyModal.classList.add('is-open');
-  });
+  const openCaseStudyBtn = document.getElementById('open-add-case-study');
   
-  caseStudyModal?.querySelectorAll('[data-close-modal]').forEach(el => 
-    el.addEventListener('click', () => caseStudyModal.classList.remove('is-open'))
-  );
-  caseStudyModal?.addEventListener('click', (e) => { 
-    if (e.target === caseStudyModal) caseStudyModal.classList.remove('is-open'); 
-  });
+  console.log('Case Study Button found:', openCaseStudyBtn);
+  console.log('Case Study Modal found:', caseStudyModal);
+  
+  if (openCaseStudyBtn && caseStudyModal) {
+    openCaseStudyBtn.addEventListener('click', () => {
+      console.log('Case Study button clicked!');
+      // Reset form
+      document.getElementById('case-study-form').reset();
+      document.getElementById('case-study-id').value = '';
+      document.getElementById('case-study-modal-title').textContent = 'Add Case Study';
+      document.getElementById('case-study-submit').textContent = 'Add Case Study';
+      // Hide preview
+      document.getElementById('case-study-upload-preview').classList.add('hidden');
+      document.getElementById('case-study-upload-icon').classList.remove('hidden');
+      document.getElementById('case-study-upload-label').textContent = 'Click to upload a photo';
+      document.getElementById('case-study-remove-photo').classList.add('hidden');
+      caseStudyModal.classList.add('is-open');
+    });
+    
+    caseStudyModal.querySelectorAll('[data-close-modal]').forEach(el => 
+      el.addEventListener('click', () => caseStudyModal.classList.remove('is-open'))
+    );
+    caseStudyModal.addEventListener('click', (e) => { 
+      if (e.target === caseStudyModal) caseStudyModal.classList.remove('is-open'); 
+    });
+  }
 
   // Case Study photo upload
   const caseStudyPhotoInput = document.getElementById('case-study-photo');
@@ -927,7 +939,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     await renderCaseStudiesTable();
   });
 
-  // Function to render case studies (you need to implement this)
+  // Function to render case studies
   async function renderCaseStudiesTable() {
     const { data, error } = await supabaseClient
       .from('case_studies')
@@ -1016,5 +1028,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     }
   });
+  
   // Initial load of case studies
   await renderCaseStudiesTable();
+});
