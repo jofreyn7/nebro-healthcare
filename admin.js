@@ -82,11 +82,14 @@ function renderProductsTable() {
   const rows = products.filter(p => activeProductFilter === 'all' || p.category === activeProductFilter);
   body.innerHTML = rows.map(p => `
     <tr data-id="${p.id}">
+      <td style="width:80px; min-width:80px;">
+        ${p.photo_url 
+          ? `<img src="${p.photo_url}" style="width:60px; height:60px; object-fit:contain; border-radius:8px; background:#f8f9fa; padding:4px;" alt="${escapeHtml(p.name)}" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\\'display:flex;align-items:center;justify-content:center;width:60px;height:60px;background:#f3f4f6;border-radius:8px;font-size:10px;color:#999;\\'>No img</span>'" />` 
+          : `<span style="display:flex;align-items:center;justify-content:center;width:60px;height:60px;background:#f3f4f6;border-radius:8px;font-size:10px;color:#999;">No img</span>`
+        }
+      </td>
       <td class="font-medium" style="color:var(--navy)">
-        <div class="flex items-center gap-3">
-          ${p.photo_url ? `<img src="${p.photo_url}" class="admin-thumb" alt="" />` : `<span class="admin-thumb"></span>`}
-          <span>${escapeHtml(p.name)}</span>
-        </div>
+        <span>${escapeHtml(p.name)}</span>
       </td>
       <td style="color:var(--grey)">${categoryLabels[p.category] || p.category}</td>
       <td>
@@ -100,7 +103,7 @@ function renderProductsTable() {
         <button class="font-mono text-xs underline" style="color:#B91C1C" data-delete-product="${p.id}">Delete</button>
       </td>
     </tr>
-  `).join('') || `<tr><td colspan="4" class="text-center text-sm py-8" style="color:var(--grey)">No products in this category yet.</td></tr>`;
+  `).join('') || `<tr><td colspan="5" class="text-center text-sm py-8" style="color:var(--grey)">No products in this category yet.</td></tr>`;
 
   document.getElementById('stat-products') && (document.getElementById('stat-products').textContent = products.length);
 }
