@@ -18,7 +18,21 @@ let pendingTeamPhotoFile = null;
 let pendingCaseStudyPhotoFile = null;
 let pendingIndustryPhotoFile = null;
 
-const categoryLabels = { diagnostic: 'Diagnostic', laboratory: 'Laboratory', surgical: 'Surgical & ICU' };
+// ============================================================
+// UPDATED: 10 CATEGORIES
+// ============================================================
+const categoryLabels = {
+  'diagnostic': 'Diagnostic',
+  'laboratory': 'Laboratory',
+  'hospital_furniture': 'Hospital Furniture',
+  'surgical_sterilization': 'Surgical & Sterilization Equipment',
+  'biomedical_accessories': 'Biomedical Accessories',
+  'imaging': 'Imaging Equipment',
+  'dental': 'Dental',
+  'orthopaedic_rehabilitation': 'Orthopaedic & Rehabilitation',
+  'consumables': 'Consumables',
+  'miscellaneous': 'Miscellaneous'
+};
 const roleLabels = { developer: 'Developer', super_admin: 'Super Admin', staff: 'Staff' };
 
 // ============================================================
@@ -123,23 +137,53 @@ function renderProductsTable() {
   document.getElementById('stat-products') && (document.getElementById('stat-products').textContent = products.length);
 }
 
+// ============================================================
+// UPDATED: Dynamic Category Breakdown (10 categories)
+// ============================================================
 function renderCategoryBreakdown() {
   const el = document.getElementById('category-breakdown');
   if (!el) return;
-  const counts = { diagnostic: 0, laboratory: 0, surgical: 0 };
-  products.forEach(p => { counts[p.category] = (counts[p.category] || 0) + 1; });
+  
+  // Count ALL categories dynamically from products
+  const counts = {};
+  products.forEach(p => {
+    counts[p.category] = (counts[p.category] || 0) + 1;
+  });
+  
+  // If no products exist
+  if (Object.keys(counts).length === 0) {
+    el.innerHTML = `<div class="text-sm" style="color:var(--grey)">No products available</div>`;
+    const label = document.getElementById('category-count-label');
+    if (label) label.textContent = 'Across 0 categories';
+    return;
+  }
+  
   const max = Math.max(...Object.values(counts), 1);
-  el.innerHTML = Object.entries(counts).map(([cat, count]) => `
-    <div>
-      <div class="flex items-center justify-between text-sm mb-1.5">
-        <span style="color:var(--navy)" class="font-medium">${categoryLabels[cat]}</span>
-        <span class="font-mono text-xs" style="color:var(--grey)">${count}</span>
+  const sortedCats = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
+  
+  el.innerHTML = sortedCats.map(cat => {
+    const count = counts[cat];
+    const label = categoryLabels[cat] || cat;
+    const percentage = (count / max) * 100;
+    return `
+      <div>
+        <div class="flex items-center justify-between text-sm mb-1.5">
+          <span style="color:var(--navy)" class="font-medium">${label}</span>
+          <span class="font-mono text-xs" style="color:var(--grey)">${count}</span>
+        </div>
+        <div class="h-2 rounded-full bg-[var(--paper)] overflow-hidden">
+          <div class="h-full rounded-full" style="width:${percentage}%; background:var(--lime)"></div>
+        </div>
       </div>
-      <div class="h-2 rounded-full bg-[var(--paper)] overflow-hidden">
-        <div class="h-full rounded-full" style="width:${(count / max) * 100}%; background:var(--lime)"></div>
-      </div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
+  
+  // Update the dashboard "Across X categories" text
+  const label = document.getElementById('category-count-label');
+  if (label) {
+    const categoryCount = Object.keys(counts).length;
+    label.textContent = `Across ${categoryCount} categories`;
+  }
 }
 
 function renderInquiriesTable() {
@@ -263,6 +307,9 @@ function escapeHtml(str) {
 // ============================================================
 let chartLine, chartPie, chartBar;
 
+// ============================================================
+// UPDATED: Dynamic Pie Chart with 10 categories
+// ============================================================
 async function renderReportsCharts(days) {
   if (typeof Chart === 'undefined') return;
   const navy = getComputedStyle(document.documentElement).getPropertyValue('--navy').trim() || '#1D304E';
@@ -298,16 +345,58 @@ async function renderReportsCharts(days) {
     });
   }
 
-  // ---- Products by category ----
+  // ---- Products by category (DYNAMIC - 10 categories) ----
   const pieCtx = document.getElementById('chart-pie');
   if (pieCtx) {
-    const catCounts = { diagnostic: 0, laboratory: 0, surgical: 0 };
-    products.forEach(p => { catCounts[p.category] = (catCounts[p.category] || 0) + 1; });
+    // Count products by category dynamically
+    const catCounts = {};
+    products.forEach(p => {
+      catCounts[p.category] = (catCounts[p.category] || 0) + 1;
+    });
+    
+    // Get labels and data arrays
+    const chartLabels = Object.keys(catCounts).map(cat => categoryLabels[cat] || cat);
+    const chartData = Object.values(catCounts);
+    
+    // Generate colors for all categories
+    const colorPalette = [
+      lime,           // diagnostic
+      navy,           // laboratory
+      mint,           // hospital_furniture
+      '#EF4444',      // surgical_sterilization
+      '#F59E0B',      // biomedical_accessories
+      '#06B6D4',      // imaging
+      '#EC4899',      // dental
+      '#14B8A6',      // orthopaedic_rehabilitation
+      '#F97316',      // consumables
+      '#6B7280'       // miscellaneous
+    ];
+    
+    const backgroundColor = chartLabels.map((_, i) => colorPalette[i % colorPalette.length]);
+    
     chartPie?.destroy();
     chartPie = new Chart(pieCtx, {
       type: 'pie',
-      data: { labels: ['Diagnostic', 'Laboratory', 'Surgical & ICU'], datasets: [{ data: [catCounts.diagnostic, catCounts.laboratory, catCounts.surgical], backgroundColor: [lime, navy, mint] }] },
-      options: { responsive: true, plugins: { legend: { position: 'bottom' } } },
+      data: { 
+        labels: chartLabels, 
+        datasets: [{ 
+          data: chartData, 
+          backgroundColor: backgroundColor 
+        }] 
+      },
+      options: { 
+        responsive: true, 
+        plugins: { 
+          legend: { 
+            position: 'bottom',
+            labels: {
+              font: {
+                size: 11
+              }
+            }
+          } 
+        } 
+      },
     });
   }
 
@@ -328,6 +417,9 @@ async function renderReportsCharts(days) {
   }
 }
 
+// ============================================================
+// UPDATED: PDF Export with 10 categories
+// ============================================================
 function exportReportPDF() {
   if (typeof window.jspdf === 'undefined') { alert('PDF library did not load.'); return; }
   const { jsPDF } = window.jspdf;
@@ -340,11 +432,33 @@ function exportReportPDF() {
   doc.setFontSize(12);
   doc.text('Products by Category', 14, 38);
   let y = 45;
-  const counts = { diagnostic: 0, laboratory: 0, surgical: 0 };
-  products.forEach(p => { counts[p.category] = (counts[p.category] || 0) + 1; });
-  Object.entries(counts).forEach(([cat, count]) => {
+  
+  // Define all 10 categories (to show even zeros)
+  const allCategories = [
+    'diagnostic',
+    'laboratory',
+    'hospital_furniture',
+    'surgical_sterilization',
+    'biomedical_accessories',
+    'imaging',
+    'dental',
+    'orthopaedic_rehabilitation',
+    'consumables',
+    'miscellaneous'
+  ];
+  
+  // Count products by category
+  const counts = {};
+  products.forEach(p => {
+    counts[p.category] = (counts[p.category] || 0) + 1;
+  });
+  
+  // Show all categories with counts (including zeros)
+  allCategories.forEach(cat => {
     doc.setFontSize(10);
-    doc.text(`${categoryLabels[cat]}: ${count}`, 14, y);
+    const label = categoryLabels[cat] || cat;
+    const count = counts[cat] || 0;
+    doc.text(`${label}: ${count}`, 14, y);
     y += 6;
   });
 
@@ -354,20 +468,59 @@ function exportReportPDF() {
   y += 7;
   inquiries.slice(0, 25).forEach(i => {
     doc.setFontSize(9);
-    doc.text(`${i.name} — ${i.facility || 'N/A'} — ${i.category || 'N/A'} — ${i.status}`, 14, y);
+    const categoryLabel = categoryLabels[i.category] || i.category || 'N/A';
+    doc.text(`${i.name} — ${i.facility || 'N/A'} — ${categoryLabel} — ${i.status}`, 14, y);
     y += 6;
   });
 
   doc.save('nebro-report.pdf');
 }
 
+// ============================================================
+// UPDATED: Excel Export with 10 categories
+// ============================================================
 function exportReportExcel() {
   if (typeof XLSX === 'undefined') { alert('Excel library did not load.'); return; }
   const wb = XLSX.utils.book_new();
-  const productSheet = XLSX.utils.json_to_sheet(products.map(p => ({ Name: p.name, Category: categoryLabels[p.category] || p.category, Status: p.status })));
+  
+  // Products sheet - dynamically map categories
+  const productSheet = XLSX.utils.json_to_sheet(
+    products.map(p => ({ 
+      Name: p.name, 
+      Category: categoryLabels[p.category] || p.category || 'Uncategorized', 
+      Status: p.status 
+    }))
+  );
   XLSX.utils.book_append_sheet(wb, productSheet, 'Products');
-  const inquirySheet = XLSX.utils.json_to_sheet(inquiries.map(i => ({ Name: i.name, Email: i.email, Facility: i.facility, Category: i.category, Message: i.message, Status: i.status, Date: i.created_at })));
+  
+  // Inquiries sheet - dynamically map categories
+  const inquirySheet = XLSX.utils.json_to_sheet(
+    inquiries.map(i => ({ 
+      Name: i.name, 
+      Email: i.email, 
+      Facility: i.facility, 
+      Category: categoryLabels[i.category] || i.category || 'Uncategorized',
+      Message: i.message, 
+      Status: i.status, 
+      Date: i.created_at 
+    }))
+  );
   XLSX.utils.book_append_sheet(wb, inquirySheet, 'Inquiries');
+  
+  // Optional: Add a summary sheet with category counts
+  const counts = {};
+  products.forEach(p => {
+    counts[p.category] = (counts[p.category] || 0) + 1;
+  });
+  const summaryData = Object.keys(counts).sort().map(cat => ({
+    Category: categoryLabels[cat] || cat,
+    'Product Count': counts[cat]
+  }));
+  if (summaryData.length > 0) {
+    const summarySheet = XLSX.utils.json_to_sheet(summaryData);
+    XLSX.utils.book_append_sheet(wb, summarySheet, 'Category Summary');
+  }
+  
   XLSX.writeFile(wb, 'nebro-report.xlsx');
 }
 
