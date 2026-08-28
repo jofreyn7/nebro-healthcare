@@ -79,28 +79,14 @@ async function refreshAll() {
 function renderProductsTable() {
   const body = document.getElementById('products-table-body');
   if (!body) return;
-  
-  // If activeProductFilter is 'all' or undefined, show all products
-  const rows = (activeProductFilter === 'all' || !activeProductFilter) 
-    ? products 
-    : products.filter(p => p.category === activeProductFilter);
-  
-  if (rows.length === 0) {
-    body.innerHTML = `<tr><td colspan="5" class="text-center text-sm py-8" style="color:var(--grey)">No products found. ${activeProductFilter !== 'all' ? 'Try selecting "All" to see all products.' : ''}</td></tr>`;
-    document.getElementById('stat-products') && (document.getElementById('stat-products').textContent = products.length);
-    return;
-  }
-  
+  const rows = products.filter(p => activeProductFilter === 'all' || p.category === activeProductFilter);
   body.innerHTML = rows.map(p => `
     <tr data-id="${p.id}">
-      <td style="width:80px; min-width:80px;">
-        ${p.photo_url 
-          ? `<img src="${p.photo_url}" style="width:60px; height:60px; object-fit:contain; border-radius:8px; background:#f8f9fa; padding:4px;" alt="${escapeHtml(p.name)}" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\\'display:flex;align-items:center;justify-content:center;width:60px;height:60px;background:#f3f4f6;border-radius:8px;font-size:10px;color:#999;\\'>No img</span>'" />` 
-          : `<span style="display:flex;align-items:center;justify-content:center;width:60px;height:60px;background:#f3f4f6;border-radius:8px;font-size:10px;color:#999;">No img</span>`
-        }
-      </td>
       <td class="font-medium" style="color:var(--navy)">
-        <span>${escapeHtml(p.name)}</span>
+        <div class="flex items-center gap-3">
+          ${p.photo_url ? `<img src="${p.photo_url}" class="admin-thumb" alt="" />` : `<span class="admin-thumb"></span>`}
+          <span>${escapeHtml(p.name)}</span>
+        </div>
       </td>
       <td style="color:var(--grey)">${categoryLabels[p.category] || p.category}</td>
       <td>
@@ -114,7 +100,7 @@ function renderProductsTable() {
         <button class="font-mono text-xs underline" style="color:#B91C1C" data-delete-product="${p.id}">Delete</button>
       </td>
     </tr>
-  `).join('');
+  `).join('') || `<tr><td colspan="4" class="text-center text-sm py-8" style="color:var(--grey)">No products in this category yet.</td></tr>`;
 
   document.getElementById('stat-products') && (document.getElementById('stat-products').textContent = products.length);
 }
@@ -555,16 +541,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     window.location.href = 'login.html';
   });
 
-  // ============================================================
-  // Product category filter - FIXED: supports both .admin-filter-btn and .filter-btn
-  // ============================================================
-  document.querySelectorAll('.admin-filter-btn, .filter-btn').forEach(btn => {
+  // Product category filter
+  document.querySelectorAll('.admin-filter-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      document.querySelectorAll('.admin-filter-btn, .filter-btn').forEach(b => b.setAttribute('aria-pressed', 'false'));
+      document.querySelectorAll('.admin-filter-btn').forEach(b => b.setAttribute('aria-pressed', 'false'));
       btn.setAttribute('aria-pressed', 'true');
-      // Get filter value from either data-cat or data-filter
-      activeProductFilter = btn.dataset.cat || btn.dataset.filter || 'all';
-      console.log('Filter changed to:', activeProductFilter);
+      activeProductFilter = btn.dataset.cat;
       renderProductsTable();
     });
   });
