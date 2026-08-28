@@ -79,7 +79,18 @@ async function refreshAll() {
 function renderProductsTable() {
   const body = document.getElementById('products-table-body');
   if (!body) return;
-  const rows = products.filter(p => activeProductFilter === 'all' || p.category === activeProductFilter);
+  
+  // If activeProductFilter is 'all' or undefined, show all products
+  const rows = (activeProductFilter === 'all' || !activeProductFilter) 
+    ? products 
+    : products.filter(p => p.category === activeProductFilter);
+  
+  if (rows.length === 0) {
+    body.innerHTML = `<tr><td colspan="5" class="text-center text-sm py-8" style="color:var(--grey)">No products found. ${activeProductFilter !== 'all' ? 'Try selecting "All" to see all products.' : ''}</td></tr>`;
+    document.getElementById('stat-products') && (document.getElementById('stat-products').textContent = products.length);
+    return;
+  }
+  
   body.innerHTML = rows.map(p => `
     <tr data-id="${p.id}">
       <td style="width:80px; min-width:80px;">
@@ -103,7 +114,7 @@ function renderProductsTable() {
         <button class="font-mono text-xs underline" style="color:#B91C1C" data-delete-product="${p.id}">Delete</button>
       </td>
     </tr>
-  `).join('') || `<tr><td colspan="5" class="text-center text-sm py-8" style="color:var(--grey)">No products in this category yet.</td></tr>`;
+  `).join('');
 
   document.getElementById('stat-products') && (document.getElementById('stat-products').textContent = products.length);
 }
@@ -544,12 +555,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     window.location.href = 'login.html';
   });
 
-  // Product category filter
-  document.querySelectorAll('.admin-filter-btn').forEach(btn => {
+  // ============================================================
+  // Product category filter - FIXED: supports both .admin-filter-btn and .filter-btn
+  // ============================================================
+  document.querySelectorAll('.admin-filter-btn, .filter-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      document.querySelectorAll('.admin-filter-btn').forEach(b => b.setAttribute('aria-pressed', 'false'));
+      document.querySelectorAll('.admin-filter-btn, .filter-btn').forEach(b => b.setAttribute('aria-pressed', 'false'));
       btn.setAttribute('aria-pressed', 'true');
-      activeProductFilter = btn.dataset.cat;
+      // Get filter value from either data-cat or data-filter
+      activeProductFilter = btn.dataset.cat || btn.dataset.filter || 'all';
+      console.log('Filter changed to:', activeProductFilter);
       renderProductsTable();
     });
   });
