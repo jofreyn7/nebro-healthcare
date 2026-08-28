@@ -178,19 +178,19 @@
       <!-- ============ PRODUCTS VIEW ============ -->
       <section data-panel="products" class="hidden">
         <div class="flex items-center justify-between flex-wrap gap-3 mb-5">
-         <div class="flex items-center gap-2 flex-wrap">
-        <button class="admin-filter-btn font-mono text-xs px-4 py-2 rounded-full border hairline" data-cat="all" aria-pressed="true">All</button>
-        <button class="admin-filter-btn font-mono text-xs px-4 py-2 rounded-full border hairline" data-cat="diagnostic" aria-pressed="false">Diagnostic</button>
-        <button class="admin-filter-btn font-mono text-xs px-4 py-2 rounded-full border hairline" data-cat="laboratory" aria-pressed="false">Laboratory</button>
-        <button class="admin-filter-btn font-mono text-xs px-4 py-2 rounded-full border hairline" data-cat="hospital_furniture" aria-pressed="false">Hospital Furniture</button>
-        <button class="admin-filter-btn font-mono text-xs px-4 py-2 rounded-full border hairline" data-cat="surgical_sterilization" aria-pressed="false">Surgical &amp; Sterilization Equipment</button>
-        <button class="admin-filter-btn font-mono text-xs px-4 py-2 rounded-full border hairline" data-cat="biomedical_accessories" aria-pressed="false">Biomedical Accessories</button>
-        <button class="admin-filter-btn font-mono text-xs px-4 py-2 rounded-full border hairline" data-cat="imaging" aria-pressed="false">Imaging Equipment</button>
-        <button class="admin-filter-btn font-mono text-xs px-4 py-2 rounded-full border hairline" data-cat="dental" aria-pressed="false">Dental</button>
-        <button class="admin-filter-btn font-mono text-xs px-4 py-2 rounded-full border hairline" data-cat="orthopaedic_rehabilitation" aria-pressed="false">Orthopaedic &amp; Rehabilitation</button>
-        <button class="admin-filter-btn font-mono text-xs px-4 py-2 rounded-full border hairline" data-cat="consumables" aria-pressed="false">Consumables</button>
-        <button class="admin-filter-btn font-mono text-xs px-4 py-2 rounded-full border hairline" data-cat="miscellaneous" aria-pressed="false">Miscellaneous</button>
-      </div>
+          <div class="flex items-center gap-2 flex-wrap">
+            <button class="admin-filter-btn font-mono text-xs px-4 py-2 rounded-full border hairline" data-cat="all" aria-pressed="true">All</button>
+            <button class="admin-filter-btn font-mono text-xs px-4 py-2 rounded-full border hairline" data-cat="diagnostic" aria-pressed="false">Diagnostic</button>
+            <button class="admin-filter-btn font-mono text-xs px-4 py-2 rounded-full border hairline" data-cat="laboratory" aria-pressed="false">Laboratory</button>
+            <button class="admin-filter-btn font-mono text-xs px-4 py-2 rounded-full border hairline" data-cat="hospital_furniture" aria-pressed="false">Hospital Furniture</button>
+            <button class="admin-filter-btn font-mono text-xs px-4 py-2 rounded-full border hairline" data-cat="surgical_sterilization" aria-pressed="false">Surgical &amp; Sterilization Equipment</button>
+            <button class="admin-filter-btn font-mono text-xs px-4 py-2 rounded-full border hairline" data-cat="biomedical_accessories" aria-pressed="false">Biomedical Accessories</button>
+            <button class="admin-filter-btn font-mono text-xs px-4 py-2 rounded-full border hairline" data-cat="imaging" aria-pressed="false">Imaging Equipment</button>
+            <button class="admin-filter-btn font-mono text-xs px-4 py-2 rounded-full border hairline" data-cat="dental" aria-pressed="false">Dental</button>
+            <button class="admin-filter-btn font-mono text-xs px-4 py-2 rounded-full border hairline" data-cat="orthopaedic_rehabilitation" aria-pressed="false">Orthopaedic &amp; Rehabilitation</button>
+            <button class="admin-filter-btn font-mono text-xs px-4 py-2 rounded-full border hairline" data-cat="consumables" aria-pressed="false">Consumables</button>
+            <button class="admin-filter-btn font-mono text-xs px-4 py-2 rounded-full border hairline" data-cat="miscellaneous" aria-pressed="false">Miscellaneous</button>
+          </div>
           <button id="open-add-product" class="font-mono text-xs font-medium px-5 py-2.5 rounded-full text-white flex items-center gap-2" style="background:var(--navy)">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
             Add Product
@@ -199,15 +199,15 @@
 
         <div class="admin-card overflow-x-auto">
           <table class="admin-table min-w-[640px]">
-        <thead>
-        <tr>
-          <th style="width:80px; min-width:80px;">Photo</th>
-          <th>Product</th>
-          <th>Category</th>
-          <th>Status</th>
-          <th class="text-right">Actions</th>
-        </tr>
-      </thead>
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Status</th>
+                <th class="text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="products-table-body"></tbody>
           </table>
         </div>
       </section>
@@ -463,130 +463,130 @@
               </label>
             </div>
           </div>
-<p class="col-span-full font-mono text-xs uppercase tracking-widest mt-2" style="color:var(--lime-deep)">What We Supply — Diagnostic</p>
-            <div class="site-image-slot" data-image-key="spec_diagnostic_1">
-              <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
-                <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
-                <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
-                <span class="slot-label text-xs text-center" style="color:var(--grey)">Stethoscope photo</span>
-                <input type="file" accept="image/*" class="hidden slot-input" />
-              </label>
-            </div>
-            <div class="site-image-slot" data-image-key="spec_diagnostic_2">
-              <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
-                <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
-                <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
-                <span class="slot-label text-xs text-center" style="color:var(--grey)">Oximeter photo</span>
-                <input type="file" accept="image/*" class="hidden slot-input" />
-              </label>
-            </div>
-            <div class="site-image-slot" data-image-key="spec_diagnostic_3">
-              <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
-                <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
-                <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
-                <span class="slot-label text-xs text-center" style="color:var(--grey)">BP Monitor photo</span>
-                <input type="file" accept="image/*" class="hidden slot-input" />
-              </label>
-            </div>
-            <div class="site-image-slot" data-image-key="spec_diagnostic_4">
-              <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
-                <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
-                <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
-                <span class="slot-label text-xs text-center" style="color:var(--grey)">Thermometer photo</span>
-                <input type="file" accept="image/*" class="hidden slot-input" />
-              </label>
-            </div>
-<p class="col-span-full font-mono text-xs uppercase tracking-widest mt-2" style="color:var(--lime-deep)">What We Supply — Laboratory</p>
-            <div class="site-image-slot" data-image-key="spec_laboratory_1">
-              <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
-                <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
-                <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
-                <span class="slot-label text-xs text-center" style="color:var(--grey)">Laboratory photo 1</span>
-                <input type="file" accept="image/*" class="hidden slot-input" />
-              </label>
-            </div>
-            <div class="site-image-slot" data-image-key="spec_laboratory_2">
-              <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
-                <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
-                <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
-                <span class="slot-label text-xs text-center" style="color:var(--grey)">Laboratory photo 2</span>
-                <input type="file" accept="image/*" class="hidden slot-input" />
-              </label>
-            </div>
-            <div class="site-image-slot" data-image-key="spec_laboratory_3">
-              <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
-                <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
-                <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
-                <span class="slot-label text-xs text-center" style="color:var(--grey)">Laboratory photo 3</span>
-                <input type="file" accept="image/*" class="hidden slot-input" />
-              </label>
-            </div>
-            <div class="site-image-slot" data-image-key="spec_laboratory_4">
-              <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
-                <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
-                <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
-                <span class="slot-label text-xs text-center" style="color:var(--grey)">Laboratory photo 4</span>
-                <input type="file" accept="image/*" class="hidden slot-input" />
-              </label>
-            </div>
-<p class="col-span-full font-mono text-xs uppercase tracking-widest mt-2" style="color:var(--lime-deep)">What We Supply — Surgical &amp; ICU</p>
-            <div class="site-image-slot" data-image-key="spec_surgical_1">
-              <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
-                <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
-                <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
-                <span class="slot-label text-xs text-center" style="color:var(--grey)">Surgical photo 1</span>
-                <input type="file" accept="image/*" class="hidden slot-input" />
-              </label>
-            </div>
-            <div class="site-image-slot" data-image-key="spec_surgical_2">
-              <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
-                <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
-                <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
-                <span class="slot-label text-xs text-center" style="color:var(--grey)">Surgical photo 2</span>
-                <input type="file" accept="image/*" class="hidden slot-input" />
-              </label>
-            </div>
-            <div class="site-image-slot" data-image-key="spec_surgical_3">
-              <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
-                <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
-                <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
-                <span class="slot-label text-xs text-center" style="color:var(--grey)">Surgical photo 3</span>
-                <input type="file" accept="image/*" class="hidden slot-input" />
-              </label>
-            </div>
-            <div class="site-image-slot" data-image-key="spec_surgical_4">
-              <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
-                <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
-                <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
-                <span class="slot-label text-xs text-center" style="color:var(--grey)">Surgical photo 4</span>
-                <input type="file" accept="image/*" class="hidden slot-input" />
-              </label>
-            </div>
-<p class="col-span-full font-mono text-xs uppercase tracking-widest mt-2" style="color:var(--lime-deep)">Trusted By Professionals</p>
-            <div class="site-image-slot" data-image-key="trusted_tools">
-              <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
-                <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
-                <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
-                <span class="slot-label text-xs text-center" style="color:var(--grey)">Diagnostic Tools photo</span>
-                <input type="file" accept="image/*" class="hidden slot-input" />
-              </label>
-            </div>
-            <div class="site-image-slot" data-image-key="trusted_analyzers">
-              <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
-                <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
-                <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
-                <span class="slot-label text-xs text-center" style="color:var(--grey)">Laboratory Analyzers photo</span>
-                <input type="file" accept="image/*" class="hidden slot-input" />
-              </label>
-            </div>
-            <div class="site-image-slot" data-image-key="trusted_icu">
-              <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
-                <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
-                <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
-                <span class="slot-label text-xs text-center" style="color:var(--grey)">ICU Systems photo</span>
-                <input type="file" accept="image/*" class="hidden slot-input" />
-              </label>
-            </div>
+          <p class="col-span-full font-mono text-xs uppercase tracking-widest mt-2" style="color:var(--lime-deep)">What We Supply — Diagnostic</p>
+          <div class="site-image-slot" data-image-key="spec_diagnostic_1">
+            <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
+              <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
+              <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+              <span class="slot-label text-xs text-center" style="color:var(--grey)">Stethoscope photo</span>
+              <input type="file" accept="image/*" class="hidden slot-input" />
+            </label>
+          </div>
+          <div class="site-image-slot" data-image-key="spec_diagnostic_2">
+            <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
+              <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
+              <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+              <span class="slot-label text-xs text-center" style="color:var(--grey)">Oximeter photo</span>
+              <input type="file" accept="image/*" class="hidden slot-input" />
+            </label>
+          </div>
+          <div class="site-image-slot" data-image-key="spec_diagnostic_3">
+            <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
+              <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
+              <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+              <span class="slot-label text-xs text-center" style="color:var(--grey)">BP Monitor photo</span>
+              <input type="file" accept="image/*" class="hidden slot-input" />
+            </label>
+          </div>
+          <div class="site-image-slot" data-image-key="spec_diagnostic_4">
+            <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
+              <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
+              <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+              <span class="slot-label text-xs text-center" style="color:var(--grey)">Thermometer photo</span>
+              <input type="file" accept="image/*" class="hidden slot-input" />
+            </label>
+          </div>
+          <p class="col-span-full font-mono text-xs uppercase tracking-widest mt-2" style="color:var(--lime-deep)">What We Supply — Laboratory</p>
+          <div class="site-image-slot" data-image-key="spec_laboratory_1">
+            <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
+              <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
+              <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+              <span class="slot-label text-xs text-center" style="color:var(--grey)">Laboratory photo 1</span>
+              <input type="file" accept="image/*" class="hidden slot-input" />
+            </label>
+          </div>
+          <div class="site-image-slot" data-image-key="spec_laboratory_2">
+            <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
+              <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
+              <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+              <span class="slot-label text-xs text-center" style="color:var(--grey)">Laboratory photo 2</span>
+              <input type="file" accept="image/*" class="hidden slot-input" />
+            </label>
+          </div>
+          <div class="site-image-slot" data-image-key="spec_laboratory_3">
+            <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
+              <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
+              <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+              <span class="slot-label text-xs text-center" style="color:var(--grey)">Laboratory photo 3</span>
+              <input type="file" accept="image/*" class="hidden slot-input" />
+            </label>
+          </div>
+          <div class="site-image-slot" data-image-key="spec_laboratory_4">
+            <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
+              <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
+              <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+              <span class="slot-label text-xs text-center" style="color:var(--grey)">Laboratory photo 4</span>
+              <input type="file" accept="image/*" class="hidden slot-input" />
+            </label>
+          </div>
+          <p class="col-span-full font-mono text-xs uppercase tracking-widest mt-2" style="color:var(--lime-deep)">What We Supply — Surgical &amp; ICU</p>
+          <div class="site-image-slot" data-image-key="spec_surgical_1">
+            <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
+              <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
+              <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+              <span class="slot-label text-xs text-center" style="color:var(--grey)">Surgical photo 1</span>
+              <input type="file" accept="image/*" class="hidden slot-input" />
+            </label>
+          </div>
+          <div class="site-image-slot" data-image-key="spec_surgical_2">
+            <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
+              <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
+              <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+              <span class="slot-label text-xs text-center" style="color:var(--grey)">Surgical photo 2</span>
+              <input type="file" accept="image/*" class="hidden slot-input" />
+            </label>
+          </div>
+          <div class="site-image-slot" data-image-key="spec_surgical_3">
+            <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
+              <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
+              <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+              <span class="slot-label text-xs text-center" style="color:var(--grey)">Surgical photo 3</span>
+              <input type="file" accept="image/*" class="hidden slot-input" />
+            </label>
+          </div>
+          <div class="site-image-slot" data-image-key="spec_surgical_4">
+            <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
+              <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
+              <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+              <span class="slot-label text-xs text-center" style="color:var(--grey)">Surgical photo 4</span>
+              <input type="file" accept="image/*" class="hidden slot-input" />
+            </label>
+          </div>
+          <p class="col-span-full font-mono text-xs uppercase tracking-widest mt-2" style="color:var(--lime-deep)">Trusted By Professionals</p>
+          <div class="site-image-slot" data-image-key="trusted_tools">
+            <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
+              <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
+              <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+              <span class="slot-label text-xs text-center" style="color:var(--grey)">Diagnostic Tools photo</span>
+              <input type="file" accept="image/*" class="hidden slot-input" />
+            </label>
+          </div>
+          <div class="site-image-slot" data-image-key="trusted_analyzers">
+            <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
+              <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
+              <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+              <span class="slot-label text-xs text-center" style="color:var(--grey)">Laboratory Analyzers photo</span>
+              <input type="file" accept="image/*" class="hidden slot-input" />
+            </label>
+          </div>
+          <div class="site-image-slot" data-image-key="trusted_icu">
+            <label class="upload-dropzone flex flex-col items-center justify-center gap-2 relative overflow-hidden" style="aspect-ratio:1; padding:1rem">
+              <img class="slot-preview hidden absolute inset-0 w-full h-full object-cover rounded-xl" />
+              <svg class="slot-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--grey)" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+              <span class="slot-label text-xs text-center" style="color:var(--grey)">ICU Systems photo</span>
+              <input type="file" accept="image/*" class="hidden slot-input" />
+            </label>
+          </div>
           <p id="site-images-status" class="text-xs mt-4" style="color:var(--grey)"></p>
         </div>
 
@@ -598,7 +598,6 @@
 
       <!-- ============ SETTINGS VIEW ============ -->
       <section data-panel="settings" class="hidden space-y-5">
-
         <div class="admin-card p-6 sm:p-8 max-w-2xl">
           <h2 class="font-display font-semibold text-lg mb-6" style="color:var(--navy)">Company Details</h2>
           <div class="grid sm:grid-cols-2 gap-5">
@@ -618,7 +617,6 @@
           <button class="mt-6 font-mono text-xs font-medium px-6 py-3 rounded-full text-white" style="background:var(--navy)">Save Changes</button>
         </div>
 
-        <!-- Social Media Links -->
         <div class="admin-card p-6 sm:p-8 max-w-2xl">
           <h2 class="font-display font-semibold text-lg mb-6" style="color:var(--navy)">Social Media Links</h2>
           <div class="grid gap-5">
@@ -642,7 +640,6 @@
           <button class="mt-6 font-mono text-xs font-medium px-6 py-3 rounded-full text-white" style="background:var(--navy)">Save Links</button>
         </div>
 
-        <!-- Roles & Permissions -->
         <div class="admin-card p-6 sm:p-8">
           <div class="flex items-center justify-between mb-6 flex-wrap gap-3">
             <div>
@@ -663,7 +660,6 @@
           <p class="text-xs mt-4" style="color:var(--grey)">Role changes here are a design preview. Real access control needs a backend with authentication — see the roadmap notes for how this gets wired up.</p>
         </div>
 
-        <!-- Notification Preferences -->
         <div class="admin-card p-6 sm:p-8 max-w-2xl">
           <h2 class="font-display font-semibold text-lg mb-2" style="color:var(--navy)">Notification Preferences</h2>
           <p class="text-xs mb-6" style="color:var(--grey)">Controls the alerts you personally receive — each admin/staff account sets their own.</p>
@@ -914,16 +910,16 @@
       <div>
         <label class="font-mono text-xs uppercase tracking-widest" style="color:var(--grey)">Category</label>
         <select id="new-product-category" class="mt-2 w-full px-4 py-3 rounded-xl border hairline bg-white focus:outline-none focus:ring-2" style="--tw-ring-color:var(--lime)">
-        <option value="diagnostic">Diagnostic</option>
-        <option value="laboratory">Laboratory</option>
-        <option value="hospital_furniture">Hospital Furniture</option>
-        <option value="surgical_sterilization">Surgical &amp; Sterilization Equipment</option>
-        <option value="biomedical_accessories">Biomedical Accessories</option>
-        <option value="imaging">Imaging Equipment</option>
-        <option value="dental">Dental</option>
-        <option value="orthopaedic_rehabilitation">Orthopaedic &amp; Rehabilitation</option>
-        <option value="consumables">Consumables</option>
-        <option value="miscellaneous">Miscellaneous</option>
+          <option value="diagnostic">Diagnostic</option>
+          <option value="laboratory">Laboratory</option>
+          <option value="hospital_furniture">Hospital Furniture</option>
+          <option value="surgical_sterilization">Surgical &amp; Sterilization Equipment</option>
+          <option value="biomedical_accessories">Biomedical Accessories</option>
+          <option value="imaging">Imaging Equipment</option>
+          <option value="dental">Dental</option>
+          <option value="orthopaedic_rehabilitation">Orthopaedic &amp; Rehabilitation</option>
+          <option value="consumables">Consumables</option>
+          <option value="miscellaneous">Miscellaneous</option>
         </select>
       </div>
       <div>
