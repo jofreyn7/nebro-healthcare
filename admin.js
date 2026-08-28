@@ -1,5 +1,5 @@
 // ============================================================
-// Nebro Admin — wired to Supabase (see supabase-config.js for
+// Nebro Company Admin — wired to Supabase (see supabase-config.js for
 // project URL/anon key, and supabase/migrations/0001_init.sql
 // for the schema these queries assume).
 // ============================================================
@@ -9,21 +9,16 @@ let currentProfile = null; // { full_name, role }
 let products = [];
 let inquiries = [];
 let users = [];
+let teamMembers = [];
+let caseStudies = [];
+let industries = [];
 let activeProductFilter = 'all';
 let pendingImageFile = null;
+let pendingTeamPhotoFile = null;
+let pendingCaseStudyPhotoFile = null;
+let pendingIndustryPhotoFile = null;
 
-const categoryLabels = {
-  'diagnostic': 'Diagnostic',
-  'laboratory': 'Laboratory',
-  'hospital_furniture': 'Hospital Furniture',
-  'surgical_sterilization': 'Surgical & Sterilization Equipment',
-  'biomedical_accessories': 'Biomedical Accessories',
-  'imaging': 'Imaging Equipment',
-  'dental': 'Dental',
-  'orthopaedic_rehabilitation': 'Orthopaedic & Rehabilitation',
-  'consumables': 'Consumables',
-  'miscellaneous': 'Miscellaneous'
-};
+const categoryLabels = { diagnostic: 'Diagnostic', laboratory: 'Laboratory', surgical: 'Surgical & ICU' };
 const roleLabels = { developer: 'Developer', super_admin: 'Super Admin', staff: 'Staff' };
 
 // ============================================================
@@ -65,12 +60,35 @@ async function fetchProfiles() {
   return data;
 }
 
+async function fetchTeamMembers() {
+  const { data, error } = await supabaseClient.from('team_members').select('*').order('display_order', { ascending: true });
+  if (error) { console.error(error); return []; }
+  return data;
+}
+
+async function fetchCaseStudies() {
+  const { data, error } = await supabaseClient.from('case_studies').select('*').order('created_at', { ascending: false });
+  if (error) { console.error(error); return []; }
+  return data;
+}
+
+async function fetchIndustries() {
+  const { data, error } = await supabaseClient.from('industries').select('*').order('display_order', { ascending: true });
+  if (error) { console.error(error); return []; }
+  return data;
+}
+
 async function refreshAll() {
-  [products, inquiries, users] = await Promise.all([fetchProducts(), fetchInquiries(), fetchProfiles()]);
+  [products, inquiries, users, teamMembers, caseStudies, industries] = await Promise.all([
+    fetchProducts(), fetchInquiries(), fetchProfiles(), fetchTeamMembers(), fetchCaseStudies(), fetchIndustries(),
+  ]);
   renderProductsTable();
   renderCategoryBreakdown();
   renderInquiriesTable();
   renderRolesTable();
+  renderTeamTable();
+  renderCaseStudiesTable();
+  renderIndustriesTable();
 }
 
 // ============================================================
@@ -108,50 +126,20 @@ function renderProductsTable() {
 function renderCategoryBreakdown() {
   const el = document.getElementById('category-breakdown');
   if (!el) return;
-  
-  // Count ALL categories dynamically from products
-  const counts = {};
-  products.forEach(p => {
-    counts[p.category] = (counts[p.category] || 0) + 1;
-  });
-  
-  // If no products exist
-  if (Object.keys(counts).length === 0) {
-    el.innerHTML = `<div class="text-sm" style="color:var(--grey)">No products available</div>`;
-    // Update the dashboard label
-    const label = document.getElementById('category-count-label');
-    if (label) label.textContent = 'Across 0 categories';
-    return;
-  }
-  
+  const counts = { diagnostic: 0, laboratory: 0, surgical: 0 };
+  products.forEach(p => { counts[p.category] = (counts[p.category] || 0) + 1; });
   const max = Math.max(...Object.values(counts), 1);
-  
-  // Sort categories by count (descending) for better visualization
-  const sortedCats = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
-  
-  el.innerHTML = sortedCats.map(cat => {
-    const count = counts[cat];
-    const label = categoryLabels[cat] || cat; // Fallback to slug if label not found
-    const percentage = (count / max) * 100;
-    return `
-      <div>
-        <div class="flex items-center justify-between text-sm mb-1.5">
-          <span style="color:var(--navy)" class="font-medium">${label}</span>
-          <span class="font-mono text-xs" style="color:var(--grey)">${count}</span>
-        </div>
-        <div class="h-2 rounded-full bg-[var(--paper)] overflow-hidden">
-          <div class="h-full rounded-full" style="width:${percentage}%; background:var(--lime)"></div>
-        </div>
+  el.innerHTML = Object.entries(counts).map(([cat, count]) => `
+    <div>
+      <div class="flex items-center justify-between text-sm mb-1.5">
+        <span style="color:var(--navy)" class="font-medium">${categoryLabels[cat]}</span>
+        <span class="font-mono text-xs" style="color:var(--grey)">${count}</span>
       </div>
-    `;
-  }).join('');
-  
-  // Update the dashboard "Across X categories" text
-  const label = document.getElementById('category-count-label');
-  if (label) {
-    const categoryCount = Object.keys(counts).length;
-    label.textContent = `Across ${categoryCount} categories`;
-  }
+      <div class="h-2 rounded-full bg-[var(--paper)] overflow-hidden">
+        <div class="h-full rounded-full" style="width:${(count / max) * 100}%; background:var(--lime)"></div>
+      </div>
+    </div>
+  `).join('');
 }
 
 function renderInquiriesTable() {
@@ -203,6 +191,67 @@ function renderRolesTable() {
   `).join('');
 }
 
+function renderTeamTable() {
+  const body = document.getElementById('team-table-body');
+  if (!body) return;
+  body.innerHTML = teamMembers.map(m => `
+    <tr data-id="${m.id}">
+      <td>${m.photo_url ? `<img src="${m.photo_url}" class="admin-thumb" alt="" />` : `<span class="admin-thumb"></span>`}</td>
+      <td class="font-medium" style="color:var(--navy)">${escapeHtml(m.name)}</td>
+      <td style="color:var(--grey)">${escapeHtml(m.title)}</td>
+      <td style="color:var(--grey)">${m.display_order}</td>
+      <td class="text-right">
+        <button class="font-mono text-xs underline mr-3" style="color:var(--navy)" data-edit-team="${m.id}">Edit</button>
+        <button class="font-mono text-xs underline" style="color:#B91C1C" data-delete-team="${m.id}">Delete</button>
+      </td>
+    </tr>
+  `).join('') || `<tr><td colspan="5" class="text-center text-sm py-8" style="color:var(--grey)">No team members yet.</td></tr>`;
+}
+
+function renderCaseStudiesTable() {
+  const body = document.getElementById('case-studies-table-body');
+  if (!body) return;
+  body.innerHTML = caseStudies.map(c => `
+    <tr data-id="${c.id}">
+      <td>${c.photo_url ? `<img src="${c.photo_url}" class="admin-thumb" alt="" />` : `<span class="admin-thumb"></span>`}</td>
+      <td class="font-medium" style="color:var(--navy)">${escapeHtml(c.title)}</td>
+      <td style="color:var(--grey)">${escapeHtml(c.facility)}</td>
+      <td>
+        <button data-toggle-case-study="${c.id}" class="inline-flex items-center gap-1.5">
+          <span class="status-dot" style="background:${c.published ? 'var(--lime-deep)' : '#D1D5DB'}"></span>
+          <span class="text-xs" style="color:var(--grey)">${c.published ? 'Published' : 'Draft'}</span>
+        </button>
+      </td>
+      <td class="text-right">
+        <button class="font-mono text-xs underline mr-3" style="color:var(--navy)" data-edit-case-study="${c.id}">Edit</button>
+        <button class="font-mono text-xs underline" style="color:#B91C1C" data-delete-case-study="${c.id}">Delete</button>
+      </td>
+    </tr>
+  `).join('') || `<tr><td colspan="5" class="text-center text-sm py-8" style="color:var(--grey)">No case studies yet.</td></tr>`;
+}
+
+function renderIndustriesTable() {
+  const body = document.getElementById('industries-table-body');
+  if (!body) return;
+  body.innerHTML = industries.map(i => `
+    <tr data-id="${i.id}">
+      <td>${i.photo_url ? `<img src="${i.photo_url}" class="admin-thumb" alt="" />` : `<span class="admin-thumb"></span>`}</td>
+      <td class="font-medium" style="color:var(--navy)">${escapeHtml(i.title)}</td>
+      <td>
+        <button data-toggle-industry="${i.id}" class="inline-flex items-center gap-1.5">
+          <span class="status-dot" style="background:${i.published ? 'var(--lime-deep)' : '#D1D5DB'}"></span>
+          <span class="text-xs" style="color:var(--grey)">${i.published ? 'Published' : 'Draft'}</span>
+        </button>
+      </td>
+      <td style="color:var(--grey)">${i.display_order}</td>
+      <td class="text-right">
+        <button class="font-mono text-xs underline mr-3" style="color:var(--navy)" data-edit-industry="${i.id}">Edit</button>
+        <button class="font-mono text-xs underline" style="color:#B91C1C" data-delete-industry="${i.id}">Delete</button>
+      </td>
+    </tr>
+  `).join('') || `<tr><td colspan="5" class="text-center text-sm py-8" style="color:var(--grey)">No industries yet.</td></tr>`;
+}
+
 function escapeHtml(str) {
   const div = document.createElement('div');
   div.textContent = str ?? '';
@@ -249,60 +298,18 @@ async function renderReportsCharts(days) {
     });
   }
 
-// ---- Products by category ----
-const pieCtx = document.getElementById('chart-pie');
-if (pieCtx) {
-  // Count products by category dynamically
-  const catCounts = {};
-  products.forEach(p => {
-    catCounts[p.category] = (catCounts[p.category] || 0) + 1;
-  });
-  
-  // Get labels and data arrays
-  const labels = Object.keys(catCounts).map(cat => categoryLabels[cat] || cat);
-  const data = Object.values(catCounts);
-  
-  // Generate colors for all categories
-  const colorPalette = [
-    lime,           // diagnostic
-    navy,           // laboratory
-    mint,           // hospital_furniture
-    '#EF4444',      // surgical_sterilization
-    '#F59E0B',      // biomedical_accessories
-    '#06B6D4',      // imaging
-    '#EC4899',      // dental
-    '#14B8A6',      // orthopaedic_rehabilitation
-    '#F97316',      // consumables
-    '#6B7280'       // miscellaneous
-  ];
-  
-  const backgroundColor = labels.map((_, i) => colorPalette[i % colorPalette.length]);
-  
-  chartPie?.destroy();
-  chartPie = new Chart(pieCtx, {
-    type: 'pie',
-    data: { 
-      labels: labels, 
-      datasets: [{ 
-        data: data, 
-        backgroundColor: backgroundColor 
-      }] 
-    },
-    options: { 
-      responsive: true, 
-      plugins: { 
-        legend: { 
-          position: 'bottom',
-          labels: {
-            font: {
-              size: 11
-            }
-          }
-        } 
-      } 
-    },
-  });
-}
+  // ---- Products by category ----
+  const pieCtx = document.getElementById('chart-pie');
+  if (pieCtx) {
+    const catCounts = { diagnostic: 0, laboratory: 0, surgical: 0 };
+    products.forEach(p => { catCounts[p.category] = (catCounts[p.category] || 0) + 1; });
+    chartPie?.destroy();
+    chartPie = new Chart(pieCtx, {
+      type: 'pie',
+      data: { labels: ['Diagnostic', 'Laboratory', 'Surgical & ICU'], datasets: [{ data: [catCounts.diagnostic, catCounts.laboratory, catCounts.surgical], backgroundColor: [lime, navy, mint] }] },
+      options: { responsive: true, plugins: { legend: { position: 'bottom' } } },
+    });
+  }
 
   // ---- Inquiries by category ----
   const barCtx = document.getElementById('chart-bar');
@@ -326,40 +333,18 @@ function exportReportPDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
   doc.setFontSize(16);
-  doc.text('Nebro — Reports Summary', 14, 18);
+  doc.text('Nebro Company — Reports Summary', 14, 18);
   doc.setFontSize(10);
   doc.text(`Generated: ${new Date().toLocaleString()}`, 14, 25);
 
   doc.setFontSize(12);
   doc.text('Products by Category', 14, 38);
   let y = 45;
-  
-  // Define all 10 categories (to show even zeros)
-  const allCategories = [
-    'diagnostic',
-    'laboratory',
-    'hospital_furniture',
-    'surgical_sterilization',
-    'biomedical_accessories',
-    'imaging',
-    'dental',
-    'orthopaedic_rehabilitation',
-    'consumables',
-    'miscellaneous'
-  ];
-  
-  // Count products by category
-  const counts = {};
-  products.forEach(p => {
-    counts[p.category] = (counts[p.category] || 0) + 1;
-  });
-  
-  // Show all categories with counts (including zeros)
-  allCategories.forEach(cat => {
+  const counts = { diagnostic: 0, laboratory: 0, surgical: 0 };
+  products.forEach(p => { counts[p.category] = (counts[p.category] || 0) + 1; });
+  Object.entries(counts).forEach(([cat, count]) => {
     doc.setFontSize(10);
-    const label = categoryLabels[cat] || cat;
-    const count = counts[cat] || 0;
-    doc.text(`${label}: ${count}`, 14, y);
+    doc.text(`${categoryLabels[cat]}: ${count}`, 14, y);
     y += 6;
   });
 
@@ -367,65 +352,22 @@ function exportReportPDF() {
   doc.setFontSize(12);
   doc.text('Recent Inquiries', 14, y);
   y += 7;
-  
-  // Show inquiries with proper category labels
-  if (inquiries.length > 0) {
-    inquiries.slice(0, 25).forEach(i => {
-      doc.setFontSize(9);
-      const categoryLabel = categoryLabels[i.category] || i.category || 'N/A';
-      doc.text(`${i.name} — ${i.facility || 'N/A'} — ${categoryLabel} — ${i.status}`, 14, y);
-      y += 6;
-    });
-  } else {
+  inquiries.slice(0, 25).forEach(i => {
     doc.setFontSize(9);
-    doc.text('No inquiries found', 14, y);
+    doc.text(`${i.name} — ${i.facility || 'N/A'} — ${i.category || 'N/A'} — ${i.status}`, 14, y);
     y += 6;
-  }
+  });
 
   doc.save('nebro-report.pdf');
 }
+
 function exportReportExcel() {
   if (typeof XLSX === 'undefined') { alert('Excel library did not load.'); return; }
   const wb = XLSX.utils.book_new();
-  
-  // Products sheet - dynamically map categories
-  const productSheet = XLSX.utils.json_to_sheet(
-    products.map(p => ({ 
-      Name: p.name, 
-      Category: categoryLabels[p.category] || p.category || 'Uncategorized', 
-      Status: p.status 
-    }))
-  );
+  const productSheet = XLSX.utils.json_to_sheet(products.map(p => ({ Name: p.name, Category: categoryLabels[p.category] || p.category, Status: p.status })));
   XLSX.utils.book_append_sheet(wb, productSheet, 'Products');
-  
-  // Inquiries sheet - dynamically map categories
-  const inquirySheet = XLSX.utils.json_to_sheet(
-    inquiries.map(i => ({ 
-      Name: i.name, 
-      Email: i.email, 
-      Facility: i.facility, 
-      Category: categoryLabels[i.category] || i.category || 'Uncategorized',
-      Message: i.message, 
-      Status: i.status, 
-      Date: i.created_at 
-    }))
-  );
+  const inquirySheet = XLSX.utils.json_to_sheet(inquiries.map(i => ({ Name: i.name, Email: i.email, Facility: i.facility, Category: i.category, Message: i.message, Status: i.status, Date: i.created_at })));
   XLSX.utils.book_append_sheet(wb, inquirySheet, 'Inquiries');
-  
-  // Optional: Add a summary sheet with category counts
-  const counts = {};
-  products.forEach(p => {
-    counts[p.category] = (counts[p.category] || 0) + 1;
-  });
-  const summaryData = Object.keys(counts).sort().map(cat => ({
-    Category: categoryLabels[cat] || cat,
-    'Product Count': counts[cat]
-  }));
-  if (summaryData.length > 0) {
-    const summarySheet = XLSX.utils.json_to_sheet(summaryData);
-    XLSX.utils.book_append_sheet(wb, summarySheet, 'Category Summary');
-  }
-  
   XLSX.writeFile(wb, 'nebro-report.xlsx');
 }
 
@@ -444,6 +386,9 @@ function showView(view) {
   }
   if (view === 'content') {
     loadContentIntoForms();
+  }
+  if (view === 'settings') {
+    loadNotificationPreferences();
   }
 }
 
@@ -499,6 +444,19 @@ function populateHeroForm(key) {
   document.getElementById('hero-heading-field').value = hero.heading || '';
   document.getElementById('hero-subtext-field').value = hero.subtext || '';
   document.getElementById('hero-accent-words').value = hero.accent_words ?? 3;
+}
+
+async function loadNotificationPreferences() {
+  const { data } = await supabaseClient
+    .from('notification_preferences')
+    .select('*')
+    .eq('user_id', currentUser.id)
+    .maybeSingle();
+  if (data) {
+    document.getElementById('notif-email-enabled').checked = data.email_enabled;
+    document.getElementById('notif-frequency').value = data.new_inquiry_frequency;
+    document.getElementById('notif-stale-days').value = data.stale_reminder_days;
+  }
 }
 
 // ============================================================
@@ -703,6 +661,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   });
 
+  // Notification Preferences (per signed-in user)
+  document.getElementById('notification-form')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const statusEl = document.getElementById('notif-status');
+    const value = {
+      user_id: currentUser.id,
+      email_enabled: document.getElementById('notif-email-enabled').checked,
+      new_inquiry_frequency: document.getElementById('notif-frequency').value,
+      stale_reminder_days: parseInt(document.getElementById('notif-stale-days').value, 10) || 1,
+    };
+    const { error } = await supabaseClient.from('notification_preferences').upsert(value);
+    statusEl.textContent = error ? 'Could not save: ' + error.message : 'Saved ✓';
+    setTimeout(() => (statusEl.textContent = ''), 3000);
+  });
+
   // Add product modal
   const modal = document.getElementById('add-product-modal');
   document.getElementById('open-add-product')?.addEventListener('click', () => modal.classList.add('is-open'));
@@ -764,6 +737,394 @@ document.addEventListener('DOMContentLoaded', async () => {
     uploadLabel.textContent = 'Click to upload a photo';
     modal.classList.remove('is-open');
     showView('products');
+  });
+
+  // Team member modal (add/edit) + photo upload
+  const teamModal = document.getElementById('team-member-modal');
+  const teamForm = document.getElementById('team-member-form');
+  const teamPreview = document.getElementById('team-upload-preview');
+  const teamIcon = document.getElementById('team-upload-icon');
+  const teamLabel = document.getElementById('team-upload-label');
+  const teamRemoveBtn = document.getElementById('team-remove-photo');
+  let teamExistingPhotoUrl = null;
+
+  function resetTeamModal() {
+    teamForm.reset();
+    document.getElementById('team-member-id').value = '';
+    document.getElementById('team-modal-title').textContent = 'Add Team Member';
+    document.getElementById('team-member-submit').textContent = 'Add Team Member';
+    pendingTeamPhotoFile = null;
+    teamExistingPhotoUrl = null;
+    teamPreview.classList.add('hidden');
+    teamIcon.classList.remove('hidden');
+    teamLabel.textContent = 'Click to upload a photo';
+    teamRemoveBtn.classList.add('hidden');
+  }
+
+  document.getElementById('open-add-team-member')?.addEventListener('click', () => {
+    resetTeamModal();
+    teamModal.classList.add('is-open');
+  });
+  teamModal?.querySelectorAll('[data-close-modal]').forEach(el => el.addEventListener('click', () => teamModal.classList.remove('is-open')));
+  teamModal?.addEventListener('click', (e) => { if (e.target === teamModal) teamModal.classList.remove('is-open'); });
+
+  document.getElementById('team-member-photo')?.addEventListener('change', (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    pendingTeamPhotoFile = file;
+    const reader = new FileReader();
+    reader.onload = () => {
+      teamPreview.src = reader.result;
+      teamPreview.classList.remove('hidden');
+      teamIcon.classList.add('hidden');
+      teamLabel.textContent = file.name;
+      teamRemoveBtn.classList.remove('hidden');
+    };
+    reader.readAsDataURL(file);
+  });
+
+  teamRemoveBtn?.addEventListener('click', () => {
+    pendingTeamPhotoFile = null;
+    teamExistingPhotoUrl = null;
+    teamPreview.classList.add('hidden');
+    teamIcon.classList.remove('hidden');
+    teamLabel.textContent = 'Click to upload a photo';
+    teamRemoveBtn.classList.add('hidden');
+    document.getElementById('team-member-photo').value = '';
+  });
+
+  document.getElementById('team-table-body')?.addEventListener('click', (e) => {
+    const editId = e.target.closest('[data-edit-team]')?.dataset.editTeam;
+    const deleteId = e.target.closest('[data-delete-team]')?.dataset.deleteTeam;
+
+    if (editId) {
+      const m = teamMembers.find(m => m.id == editId);
+      if (!m) return;
+      resetTeamModal();
+      document.getElementById('team-member-id').value = m.id;
+      document.getElementById('team-member-name').value = m.name;
+      document.getElementById('team-member-title').value = m.title;
+      document.getElementById('team-member-order').value = m.display_order;
+      document.getElementById('team-modal-title').textContent = 'Edit Team Member';
+      document.getElementById('team-member-submit').textContent = 'Save Changes';
+      if (m.photo_url) {
+        teamExistingPhotoUrl = m.photo_url;
+        teamPreview.src = m.photo_url;
+        teamPreview.classList.remove('hidden');
+        teamIcon.classList.add('hidden');
+        teamLabel.textContent = 'Click to replace photo';
+        teamRemoveBtn.classList.remove('hidden');
+      }
+      teamModal.classList.add('is-open');
+    }
+
+    if (deleteId) {
+      if (!confirm('Remove this team member from the About page?')) return;
+      supabaseClient.from('team_members').delete().eq('id', deleteId).then(({ error }) => {
+        if (!error) { teamMembers = teamMembers.filter(m => m.id != deleteId); renderTeamTable(); }
+        else alert('Could not delete: ' + error.message);
+      });
+    }
+  });
+
+  teamForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const id = document.getElementById('team-member-id').value;
+    const name = document.getElementById('team-member-name').value.trim();
+    const title = document.getElementById('team-member-title').value.trim();
+    const display_order = parseInt(document.getElementById('team-member-order').value, 10) || 0;
+    if (!name || !title) return;
+
+    let photo_url = teamExistingPhotoUrl;
+    if (pendingTeamPhotoFile) {
+      const ext = pendingTeamPhotoFile.name.split('.').pop();
+      const path = `team-${Date.now()}.${ext}`;
+      const { error: uploadError } = await supabaseClient.storage.from('site-images').upload(path, pendingTeamPhotoFile, { upsert: true });
+      if (!uploadError) {
+        photo_url = supabaseClient.storage.from('site-images').getPublicUrl(path).data.publicUrl;
+      } else {
+        alert('Photo upload failed: ' + uploadError.message);
+      }
+    } else if (pendingTeamPhotoFile === null && teamExistingPhotoUrl === null && id) {
+      photo_url = null; // photo was explicitly removed on an existing member
+    }
+
+    if (id) {
+      const { error } = await supabaseClient.from('team_members').update({ name, title, display_order, photo_url }).eq('id', id);
+      if (error) { alert('Could not save: ' + error.message); return; }
+      const m = teamMembers.find(m => m.id == id);
+      if (m) Object.assign(m, { name, title, display_order, photo_url });
+    } else {
+      const { data, error } = await supabaseClient.from('team_members')
+        .insert({ name, title, display_order, photo_url, created_by: currentUser.id })
+        .select().single();
+      if (error) { alert('Could not add: ' + error.message); return; }
+      teamMembers.push(data);
+    }
+
+    teamMembers.sort((a, b) => a.display_order - b.display_order);
+    renderTeamTable();
+    teamModal.classList.remove('is-open');
+  });
+
+  // Case Study modal (add/edit) + photo upload
+  const csModal = document.getElementById('case-study-modal');
+  const csForm = document.getElementById('case-study-form');
+  const csPreview = document.getElementById('case-study-upload-preview');
+  const csIcon = document.getElementById('case-study-upload-icon');
+  const csLabel = document.getElementById('case-study-upload-label');
+  const csRemoveBtn = document.getElementById('case-study-remove-photo');
+  let csExistingPhotoUrl = null;
+
+  function resetCaseStudyModal() {
+    csForm.reset();
+    document.getElementById('case-study-id').value = '';
+    document.getElementById('case-study-modal-title').textContent = 'Add Case Study';
+    document.getElementById('case-study-submit').textContent = 'Add Case Study';
+    pendingCaseStudyPhotoFile = null;
+    csExistingPhotoUrl = null;
+    csPreview.classList.add('hidden');
+    csIcon.classList.remove('hidden');
+    csLabel.textContent = 'Click to upload a photo';
+    csRemoveBtn.classList.add('hidden');
+  }
+
+  document.getElementById('open-add-case-study')?.addEventListener('click', () => {
+    resetCaseStudyModal();
+    csModal.classList.add('is-open');
+  });
+  csModal?.querySelectorAll('[data-close-modal]').forEach(el => el.addEventListener('click', () => csModal.classList.remove('is-open')));
+  csModal?.addEventListener('click', (e) => { if (e.target === csModal) csModal.classList.remove('is-open'); });
+
+  document.getElementById('case-study-photo')?.addEventListener('change', (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    pendingCaseStudyPhotoFile = file;
+    const reader = new FileReader();
+    reader.onload = () => {
+      csPreview.src = reader.result;
+      csPreview.classList.remove('hidden');
+      csIcon.classList.add('hidden');
+      csLabel.textContent = file.name;
+      csRemoveBtn.classList.remove('hidden');
+    };
+    reader.readAsDataURL(file);
+  });
+
+  csRemoveBtn?.addEventListener('click', () => {
+    pendingCaseStudyPhotoFile = null;
+    csExistingPhotoUrl = null;
+    csPreview.classList.add('hidden');
+    csIcon.classList.remove('hidden');
+    csLabel.textContent = 'Click to upload a photo';
+    csRemoveBtn.classList.add('hidden');
+    document.getElementById('case-study-photo').value = '';
+  });
+
+  document.getElementById('case-studies-table-body')?.addEventListener('click', async (e) => {
+    const editId = e.target.closest('[data-edit-case-study]')?.dataset.editCaseStudy;
+    const deleteId = e.target.closest('[data-delete-case-study]')?.dataset.deleteCaseStudy;
+    const toggleId = e.target.closest('[data-toggle-case-study]')?.dataset.toggleCaseStudy;
+
+    if (editId) {
+      const c = caseStudies.find(c => c.id == editId);
+      if (!c) return;
+      resetCaseStudyModal();
+      document.getElementById('case-study-id').value = c.id;
+      document.getElementById('case-study-title').value = c.title;
+      document.getElementById('case-study-facility').value = c.facility;
+      document.getElementById('case-study-summary').value = c.summary || '';
+      document.getElementById('case-study-published').checked = c.published;
+      document.getElementById('case-study-modal-title').textContent = 'Edit Case Study';
+      document.getElementById('case-study-submit').textContent = 'Save Changes';
+      if (c.photo_url) {
+        csExistingPhotoUrl = c.photo_url;
+        csPreview.src = c.photo_url;
+        csPreview.classList.remove('hidden');
+        csIcon.classList.add('hidden');
+        csLabel.textContent = 'Click to replace photo';
+        csRemoveBtn.classList.remove('hidden');
+      }
+      csModal.classList.add('is-open');
+    }
+
+    if (deleteId) {
+      if (!confirm('Delete this case study?')) return;
+      const { error } = await supabaseClient.from('case_studies').delete().eq('id', deleteId);
+      if (!error) { caseStudies = caseStudies.filter(c => c.id != deleteId); renderCaseStudiesTable(); }
+      else alert('Could not delete: ' + error.message);
+    }
+
+    if (toggleId) {
+      const c = caseStudies.find(c => c.id == toggleId);
+      const { error } = await supabaseClient.from('case_studies').update({ published: !c.published }).eq('id', toggleId);
+      if (!error) { c.published = !c.published; renderCaseStudiesTable(); }
+    }
+  });
+
+  csForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const id = document.getElementById('case-study-id').value;
+    const title = document.getElementById('case-study-title').value.trim();
+    const facility = document.getElementById('case-study-facility').value.trim();
+    const summary = document.getElementById('case-study-summary').value.trim();
+    const published = document.getElementById('case-study-published').checked;
+    if (!title || !facility) return;
+
+    let photo_url = csExistingPhotoUrl;
+    if (pendingCaseStudyPhotoFile) {
+      const ext = pendingCaseStudyPhotoFile.name.split('.').pop();
+      const path = `case-study-${Date.now()}.${ext}`;
+      const { error: uploadError } = await supabaseClient.storage.from('site-images').upload(path, pendingCaseStudyPhotoFile, { upsert: true });
+      if (!uploadError) photo_url = supabaseClient.storage.from('site-images').getPublicUrl(path).data.publicUrl;
+      else alert('Photo upload failed: ' + uploadError.message);
+    }
+
+    if (id) {
+      const { error } = await supabaseClient.from('case_studies').update({ title, facility, summary, published, photo_url }).eq('id', id);
+      if (error) { alert('Could not save: ' + error.message); return; }
+      const c = caseStudies.find(c => c.id == id);
+      if (c) Object.assign(c, { title, facility, summary, published, photo_url });
+    } else {
+      const { data, error } = await supabaseClient.from('case_studies')
+        .insert({ title, facility, summary, published, photo_url, created_by: currentUser.id })
+        .select().single();
+      if (error) { alert('Could not add: ' + error.message); return; }
+      caseStudies.unshift(data);
+    }
+    renderCaseStudiesTable();
+    csModal.classList.remove('is-open');
+  });
+
+  // Industry modal (add/edit) + photo upload
+  const indModal = document.getElementById('industry-modal');
+  const indForm = document.getElementById('industry-form');
+  const indPreview = document.getElementById('industry-upload-preview');
+  const indIcon = document.getElementById('industry-upload-icon');
+  const indLabel = document.getElementById('industry-upload-label');
+  const indRemoveBtn = document.getElementById('industry-remove-photo');
+  let indExistingPhotoUrl = null;
+
+  function resetIndustryModal() {
+    indForm.reset();
+    document.getElementById('industry-id').value = '';
+    document.getElementById('industry-published').checked = true;
+    document.getElementById('industry-modal-title').textContent = 'Add Industry';
+    document.getElementById('industry-submit').textContent = 'Add Industry';
+    pendingIndustryPhotoFile = null;
+    indExistingPhotoUrl = null;
+    indPreview.classList.add('hidden');
+    indIcon.classList.remove('hidden');
+    indLabel.textContent = 'Click to upload a photo';
+    indRemoveBtn.classList.add('hidden');
+  }
+
+  document.getElementById('open-add-industry')?.addEventListener('click', () => {
+    resetIndustryModal();
+    indModal.classList.add('is-open');
+  });
+  indModal?.querySelectorAll('[data-close-modal]').forEach(el => el.addEventListener('click', () => indModal.classList.remove('is-open')));
+  indModal?.addEventListener('click', (e) => { if (e.target === indModal) indModal.classList.remove('is-open'); });
+
+  document.getElementById('industry-photo')?.addEventListener('change', (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    pendingIndustryPhotoFile = file;
+    const reader = new FileReader();
+    reader.onload = () => {
+      indPreview.src = reader.result;
+      indPreview.classList.remove('hidden');
+      indIcon.classList.add('hidden');
+      indLabel.textContent = file.name;
+      indRemoveBtn.classList.remove('hidden');
+    };
+    reader.readAsDataURL(file);
+  });
+
+  indRemoveBtn?.addEventListener('click', () => {
+    pendingIndustryPhotoFile = null;
+    indExistingPhotoUrl = null;
+    indPreview.classList.add('hidden');
+    indIcon.classList.remove('hidden');
+    indLabel.textContent = 'Click to upload a photo';
+    indRemoveBtn.classList.add('hidden');
+    document.getElementById('industry-photo').value = '';
+  });
+
+  document.getElementById('industries-table-body')?.addEventListener('click', async (e) => {
+    const editId = e.target.closest('[data-edit-industry]')?.dataset.editIndustry;
+    const deleteId = e.target.closest('[data-delete-industry]')?.dataset.deleteIndustry;
+    const toggleId = e.target.closest('[data-toggle-industry]')?.dataset.toggleIndustry;
+
+    if (editId) {
+      const i = industries.find(i => i.id == editId);
+      if (!i) return;
+      resetIndustryModal();
+      document.getElementById('industry-id').value = i.id;
+      document.getElementById('industry-title').value = i.title;
+      document.getElementById('industry-description').value = i.description || '';
+      document.getElementById('industry-order').value = i.display_order;
+      document.getElementById('industry-published').checked = i.published;
+      document.getElementById('industry-modal-title').textContent = 'Edit Industry';
+      document.getElementById('industry-submit').textContent = 'Save Changes';
+      if (i.photo_url) {
+        indExistingPhotoUrl = i.photo_url;
+        indPreview.src = i.photo_url;
+        indPreview.classList.remove('hidden');
+        indIcon.classList.add('hidden');
+        indLabel.textContent = 'Click to replace photo';
+        indRemoveBtn.classList.remove('hidden');
+      }
+      indModal.classList.add('is-open');
+    }
+
+    if (deleteId) {
+      if (!confirm('Delete this industry?')) return;
+      const { error } = await supabaseClient.from('industries').delete().eq('id', deleteId);
+      if (!error) { industries = industries.filter(i => i.id != deleteId); renderIndustriesTable(); }
+      else alert('Could not delete: ' + error.message);
+    }
+
+    if (toggleId) {
+      const i = industries.find(i => i.id == toggleId);
+      const { error } = await supabaseClient.from('industries').update({ published: !i.published }).eq('id', toggleId);
+      if (!error) { i.published = !i.published; renderIndustriesTable(); }
+    }
+  });
+
+  indForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const id = document.getElementById('industry-id').value;
+    const title = document.getElementById('industry-title').value.trim();
+    const description = document.getElementById('industry-description').value.trim();
+    const display_order = parseInt(document.getElementById('industry-order').value, 10) || 0;
+    const published = document.getElementById('industry-published').checked;
+    if (!title) return;
+
+    let photo_url = indExistingPhotoUrl;
+    if (pendingIndustryPhotoFile) {
+      const ext = pendingIndustryPhotoFile.name.split('.').pop();
+      const path = `industry-${Date.now()}.${ext}`;
+      const { error: uploadError } = await supabaseClient.storage.from('site-images').upload(path, pendingIndustryPhotoFile, { upsert: true });
+      if (!uploadError) photo_url = supabaseClient.storage.from('site-images').getPublicUrl(path).data.publicUrl;
+      else alert('Photo upload failed: ' + uploadError.message);
+    }
+
+    if (id) {
+      const { error } = await supabaseClient.from('industries').update({ title, description, display_order, published, photo_url }).eq('id', id);
+      if (error) { alert('Could not save: ' + error.message); return; }
+      const i = industries.find(i => i.id == id);
+      if (i) Object.assign(i, { title, description, display_order, published, photo_url });
+    } else {
+      const { data, error } = await supabaseClient.from('industries')
+        .insert({ title, description, display_order, published, photo_url, created_by: currentUser.id })
+        .select().single();
+      if (error) { alert('Could not add: ' + error.message); return; }
+      industries.push(data);
+    }
+    industries.sort((a, b) => a.display_order - b.display_order);
+    renderIndustriesTable();
+    indModal.classList.remove('is-open');
   });
 
   // Invite user modal
