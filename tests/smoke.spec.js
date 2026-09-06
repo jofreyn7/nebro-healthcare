@@ -27,10 +27,8 @@ for (const { path, title } of pages) {
 
 test("dark mode toggle persists across reload", async ({ page }) => {
   await page.goto("/index.html");
-  const toggle = page.locator("[data-theme-toggle], #theme-toggle, .theme-toggle").first();
-  if (await toggle.count() === 0) {
-    test.skip(true, "Theme toggle selector not found — update selector to match markup");
-  }
+  const toggle = page.locator("#theme-toggle");
+  await expect(toggle).toBeVisible();
   await toggle.click();
   const themeBefore = await page.evaluate(() => localStorage.getItem("theme"));
   await page.reload();
@@ -38,20 +36,19 @@ test("dark mode toggle persists across reload", async ({ page }) => {
   expect(themeAfter).toBe(themeBefore);
 });
 
-test("contact form shows a response after submission attempt", async ({ page }) => {
+test("contact form shows feedback after submission attempt", async ({ page }) => {
   await page.goto("/contact.html");
-  const form = page.locator("form").first();
-  if (await form.count() === 0) {
-    test.skip(true, "No <form> element found on contact page — update selector");
-  }
-  // Fill required fields defensively; adjust selectors to match actual field names/ids.
-  const nameInput = page.locator('input[name="name"], input#name').first();
-  const emailInput = page.locator('input[name="email"], input#email').first();
-  if ((await nameInput.count()) && (await emailInput.count())) {
-    await nameInput.fill("Test User");
-    await emailInput.fill("test@example.com");
-  }
-  await form.locator('button[type="submit"], input[type="submit"]').first().click();
-  // Expect some success/error message element to appear — adjust selector to match markup.
-  await expect(page.locator("text=/success|error|thank you/i").first()).toBeVisible({ timeout: 5000 });
+
+  await page.locator("#quote-name").fill("Test User");
+  await page.locator("#quote-email").fill("test@example.com");
+  await page.locator("#quote-facility").fill("Test Hospital");
+  await page.locator("#quote-message").fill("This is a smoke test submission.");
+
+  await page.locator("#form-submit-btn").click();
+
+  // #form-feedback starts with class="hidden" and is revealed by script.js
+  // after the Supabase insert attempt (success or graceful failure).
+  const feedback = page.locator("#form-feedback");
+  await expect(feedback).toBeVisible({ timeout: 8000 });
+  await expect(feedback).not.toHaveText("");
 });
