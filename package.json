@@ -1,0 +1,17 @@
+{
+  "name": "nebro-healthcare",
+  "version": "1.0.0",
+  "description": "Website for Nebro Company Limited, a Tanzania-based medical equipment supplier.",
+  "scripts": {
+    "lint": "eslint script.js admin.js supabase-config.js",
+    "serve": "http-server . -p 8080 -s",
+    "test": "start-server-and-test serve http://localhost:8080 playwright:test",
+    "playwright:test": "playwright test"
+  },
+  "devDependencies": {
+    "eslint": "^9.9.0",
+    "@playwright/test": "^1.47.0",
+    "http-server": "^14.1.1",
+    "start-server-and-test": "^2.0.5"
+  }
+}
