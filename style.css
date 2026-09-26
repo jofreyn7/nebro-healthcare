@@ -165,18 +165,32 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 
 /* ---- Simple fade for filtered-out cards ---- */
-.product-card{ transition: opacity .25s ease, transform .25s ease; }
+.product-card{
+  position:relative; display:flex; flex-direction:column;
+  transition: opacity .25s ease, transform .25s ease;
+}
 .product-card.hidden-card{ display:none; }
+.product-card-box{ display:flex; flex-direction:column; flex:1; }
 
-/* ---- Product photo placeholder (duotone illustration style) ---- */
+/* ---- Product photo (full image, never cropped) ---- */
 .product-photo{
-  position:relative; overflow:hidden;
+  position:relative; overflow:hidden; width:100%;
   background:linear-gradient(150deg, var(--navy) 0%, #24406b 55%, var(--mint) 130%);
 }
-.product-photo img{ width:100%; height:100%; object-fit:cover; }
+.product-photo.has-photo{ background:#fff; }
+.product-photo img{
+  width:100%; height:100%;
+  object-fit:contain;
+  object-position:center;
+  display:block;
+}
 .product-photo .photo-fallback{
   position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
 }
+
+/* ---- Request-a-Quote bar: sits below the bordered card box, not inside it ---- */
+.product-quote-bar{ margin-top:.75rem; }
+.product-quote-bar a{ width:100%; }
 
 /* ---- Header scroll state ---- */
 #site-header{ transition: box-shadow .25s ease, background-color .25s ease; }
@@ -328,15 +342,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   transition: border-color .2s ease, background .2s ease; cursor:pointer;
 }
 .upload-dropzone:hover, .upload-dropzone.is-dragover{ border-color:var(--lime); background:#A3C23910; }
-
-/* ---- Product card hover "Request a Quote" overlay ---- */
-.product-card{ position:relative; }
-.product-quote-overlay{
-  position:absolute; inset:0; background:rgba(29,48,78,0.88); border-radius:1rem;
-  display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none;
-  transition:opacity .25s ease; z-index:5;
-}
-.product-card:hover .product-quote-overlay{ opacity:1; pointer-events:auto; }
 
 /* ---- Overlapping hero photo composition ---- */
 .hero-photo-stack{ position:relative; }
