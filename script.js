@@ -315,23 +315,25 @@ document.addEventListener('DOMContentLoaded', () => {
       };
 
       grid.innerHTML = data.map(p => `
-        <div class="product-card reveal is-visible card-hover rounded-2xl border hairline overflow-hidden bg-white" data-category="${p.category}">
-          <div class="product-quote-overlay">
-            <a href="contact.html" class="font-mono text-xs font-medium px-5 py-2.5 rounded-full text-white flex items-center gap-2 btn-glow" style="background:var(--lime); color:var(--navy)!important">
+        <div class="product-card reveal is-visible card-hover" data-category="${p.category}">
+          <div class="product-card-box rounded-2xl border hairline overflow-hidden bg-white">
+            <div class="product-photo${p.photo_url ? ' has-photo' : ''} h-48 flex items-center justify-center" style="${p.photo_url ? '' : `background:${gradients[p.category] || gradients.diagnostic}`}">
+              ${p.photo_url
+                ? `<img src="${p.photo_url}" alt="${escapeHtmlPublic(p.name)}" />`
+                : `<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="1.5">${categoryIcons[p.category] || categoryIcons.diagnostic}</svg>`
+              }
+            </div>
+            <div class="p-6">
+              <p class="font-mono text-[11px] uppercase tracking-widest" style="color:var(--lime-deep)">${categoryLabels[p.category] || p.category}</p>
+              <h3 class="font-display font-semibold mt-2">${escapeHtmlPublic(p.name)}</h3>
+              <p class="text-sm mt-2" style="color:var(--grey)">${escapeHtmlPublic(p.description || '')}</p>
+            </div>
+          </div>
+          <div class="product-quote-bar">
+            <a href="contact.html" class="font-mono text-xs font-medium px-5 py-2.5 rounded-full text-white flex items-center justify-center gap-2 btn-glow w-full" style="background:var(--lime); color:var(--navy)!important">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2.2"><path d="m22 2-7 20-4-9-9-4Z"/></svg>
               Request a Quote
             </a>
-          </div>
-          <div class="h-40 flex items-center justify-center" style="${p.photo_url ? '' : `background:${gradients[p.category] || gradients.diagnostic}`}">
-            ${p.photo_url
-              ? `<img src="${p.photo_url}" class="w-full h-full object-cover" alt="${p.name}" />`
-              : `<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="1.5">${categoryIcons[p.category] || categoryIcons.diagnostic}</svg>`
-            }
-          </div>
-          <div class="p-6">
-            <p class="font-mono text-[11px] uppercase tracking-widest" style="color:var(--lime-deep)">${categoryLabels[p.category] || p.category}</p>
-            <h3 class="font-display font-semibold mt-2">${p.name}</h3>
-            <p class="text-sm mt-2" style="color:var(--grey)">${p.description || ''}</p>
           </div>
         </div>
       `).join('');
